@@ -2,13 +2,13 @@ Here’s a **clean “copy-paste prompt”** you can reuse anytime to continue y
 
 ---
 
-# 📌 MASTER CONTEXT PROMPT (Handwerk SaaS AI App)
+# MASTER CONTEXT PROMPT ( SaaS AI App)
 
 Use this whenever you want to continue development:
 
 ---
 
-## 🧠 Project Overview
+## Project Overview
 
 I am building a SaaS web app for small Handwerk businesses (Germany/EU market), targeting solo workers and small teams (1–50 employees) like electricians, plumbers, and carpenters.
 
@@ -21,7 +21,7 @@ The goal is to reduce administrative work after physical jobs by digitizing:
 
 ---
 
-## 🎯 Core Product Idea
+## Core Product Idea
 
 A mobile-first web app (PWA) where craftsmen can:
 
@@ -53,7 +53,7 @@ A mobile-first web app (PWA) where craftsmen can:
 
 ---
 
-## 🏗️ Current Tech Stack
+## Current Tech Stack
 
 ### Frontend
 
@@ -80,7 +80,7 @@ A mobile-first web app (PWA) where craftsmen can:
 
 ---
 
-## 🐳 Current Architecture
+## Current Architecture
 
 ```
 Frontend (Next.js PWA)
@@ -96,7 +96,7 @@ All services communicate via Docker internal networking.
 
 ---
 
-## ⚙️ Dev Setup Status
+## Dev Setup Status
 
 - Frontend already initialized
 - Backend services being set up
@@ -105,7 +105,7 @@ All services communicate via Docker internal networking.
 
 ---
 
-## 🎯 My Goals for This Project
+## My Goals for This Project
 
 - Build a strong portfolio project for Fullstack AI Engineer roles in Germany
 - Learn real-world microservices architecture
@@ -115,7 +115,7 @@ All services communicate via Docker internal networking.
 
 ---
 
-## 💡 Constraints / Preferences
+## Constraints / Preferences
 
 - Prefer simple but scalable architecture
 - Avoid overengineering (no Kubernetes yet)
@@ -125,7 +125,7 @@ All services communicate via Docker internal networking.
 
 ---
 
-## 🚀 What I want help with
+## What I want help with
 
 When I ask questions, help me with:
 
@@ -139,23 +139,10 @@ When I ask questions, help me with:
 
 ---
 
-If you want, I can also make you a **“Day 1 → MVP roadmap (step-by-step tasks)”** so you always know exactly what to build next without thinking about architecture too much.
-
-Here’s a **clean, production-style folder structure** for your Handwerk SaaS (Next.js + NestJS + FastAPI + Docker microservices).
-
-This is designed to:
-
-- look like a real startup codebase
-- scale later without rewrites
-- stay understandable for a solo dev
-- match German fullstack AI job expectations
-
----
-
-# 🧱 ROOT STRUCTURE
+# ROOT STRUCTURE
 
 ```text id="root1"
-handwerk-ai/
+Kraftmeister/
 │
 ├── frontend/                # Next.js PWA (mobile-first app)
 ├── api-gateway/            # NestJS main backend
@@ -200,8 +187,6 @@ frontend/
 │   │   └── ai/
 │   │
 │   ├── lib/               # helpers (api client, utils)
-│   ├── hooks/
-│   ├── types/
 │   ├── store/             # state management (if needed)
 │   └── styles/
 │
@@ -334,63 +319,3 @@ services/
 ├── file-service/           # uploads/images
 └── analytics-service/      # usage tracking
 ```
-
-ONLY add these later when needed.
-
----
-
-# 🚀 WHY THIS STRUCTURE WORKS
-
-This setup gives you:
-
-### ✔ Real SaaS architecture
-
-Not toy project structure
-
-### ✔ Clean domain separation
-
-Jobs, customers, invoices are clear modules
-
-### ✔ Microservices readiness
-
-But not overengineered
-
-### ✔ Strong portfolio signal
-
-German companies will recognize:
-
-- NestJS architecture
-- FastAPI AI service
-- Docker Compose setup
-- domain-driven design
-
----
-
-# ⚠️ IMPORTANT RULE (DON’T BREAK THIS)
-
-Start simple inside each service:
-
-- NO Kafka
-- NO Kubernetes
-- NO event sourcing
-- NO 10 microservices
-
-Only:
-
-> frontend + gateway + AI service + DB
-
-Everything else grows later.
-
----
-
-# If you want next step
-
-I can help you set up:
-
-1. 🔐 Auth system (JWT + roles)
-2. 📦 Docker Compose fully working
-3. 🔌 API structure (jobs/customers/invoices)
-4. 🤖 First AI feature (voice → job)
-5. 📱 PWA mobile UX setup
-
-Just tell me 👍
