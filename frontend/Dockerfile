@@ -1,5 +1,6 @@
 FROM node:22-alpine
 
+# do multistage build
 WORKDIR /app
 
 COPY package*.json ./
