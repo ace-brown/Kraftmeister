@@ -1,5 +1,10 @@
 import "./globals.css";
 import type { Metadata } from "next";
+import { Inter } from "next/font/google";
+
+const inter = Inter({
+  subsets: ["latin"],
+});
 
 export const metadata: Metadata = {
   title: "Kraftmeister",
@@ -13,7 +18,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="dark">
-      <body className="min-h-screen bg-zinc-950 text-white antialiased">
+      <body
+        className={`${inter.className} min-h-screen bg-zinc-950 text-white antialiased`}
+      >
         {children}
       </body>
     </html>
