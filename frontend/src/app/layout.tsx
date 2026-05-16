@@ -1,8 +1,9 @@
 import "./globals.css";
+import type { Metadata } from "next";
 
-export const metadata = {
-  title: "Handwerk AI",
-  description: "SaaS for craftsmen",
+export const metadata: Metadata = {
+  title: "Kraftmeister",
+  description: "SaaS for Handwerk businesses",
 };
 
 export default function RootLayout({
@@ -11,17 +12,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className="h-screen w-full bg-gray-900">
-        <div className="flex h-screen">
-          {/* Sidebar placeholder (desktop) */}
-          <aside className="hidden md:flex w-64 bg-gray-900 border-r p-4">
-            <div className="font-bold text-lg">Kraftmeister</div>
-          </aside>
-
-          {/* Main content */}
-          <main className="flex-1 overflow-auto">{children}</main>
-        </div>
+    <html lang="en" className="dark">
+      <body className="min-h-screen bg-zinc-950 text-white antialiased">
+        {children}
       </body>
     </html>
   );
