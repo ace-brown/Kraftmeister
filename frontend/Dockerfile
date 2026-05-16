@@ -1,4 +1,4 @@
-FROM node:22-alpine
+FROM node:22-bullseye-slim
 
 # do multistage build
 WORKDIR /app
@@ -13,4 +13,4 @@ RUN npm run build
 
 EXPOSE 3000
 
-CMD ["npm", "start"]
+CMD ["npm", "run", "dev"]

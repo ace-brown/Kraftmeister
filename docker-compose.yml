@@ -5,6 +5,7 @@ services:
     build: ./frontend
     volumes:
       - ./frontend:/app
+      - /app/node_modules
     container_name: frontend
     ports:
       - "3000:3000"
@@ -15,8 +16,6 @@ services:
 
   api-gateway:
     build: ./api-gateway
-    volumes:
-      - ./api-gateway:/app
     container_name: api-gateway
     ports:
       - "4000:4000"

@@ -12,10 +12,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="h-screen w-full bg-gray-50">
+      <body className="h-screen w-full bg-gray-900">
         <div className="flex h-screen">
           {/* Sidebar placeholder (desktop) */}
-          <aside className="hidden md:flex w-64 bg-white border-r p-4">
+          <aside className="hidden md:flex w-64 bg-gray-900 border-r p-4">
             <div className="font-bold text-lg">Kraftmeister</div>
           </aside>
 

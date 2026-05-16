@@ -1,13 +1,3 @@
-Here’s a **clean “copy-paste prompt”** you can reuse anytime to continue your project with ChatGPT or another AI.
-
----
-
-# MASTER CONTEXT PROMPT ( SaaS AI App)
-
-Use this whenever you want to continue development:
-
----
-
 ## Project Overview
 
 I am building a SaaS web app for small Handwerk businesses (Germany/EU market), targeting solo workers and small teams (1–50 employees) like electricians, plumbers, and carpenters.
