@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import * as z from "zod";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -12,7 +11,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import {
   Field,
   FieldError,
@@ -35,9 +34,7 @@ const formSchema = z.object({
 });
 
 export function JobForm() {
-  const { register, handleSubmit, control } = useForm<
-    z.infer<typeof formSchema>
-  >({
+  const { handleSubmit, control, reset } = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       title: "",
@@ -45,161 +42,100 @@ export function JobForm() {
       status: "open",
     },
   });
+
+  const onSubmit = (data: z.infer<typeof formSchema>) => {
+    console.log(data);
+    // later: API call to NestJS
+  };
+
   return (
     <Card>
-      <CardContent>
-        <form id="form-create-new-job">
+      <form id="form-create-new-job" onSubmit={handleSubmit(onSubmit)}>
+        <CardContent>
           <FieldGroup>
             {/* ========== Title Field ==========*/}
             <Controller
               name="title"
               control={control}
-              render={({ field, fieldState }) => {
-                return (
-                  <Field data-invalid={fieldState.invalid}>
-                    <FieldLabel htmlFor="create-job-title">Title</FieldLabel>
-                    <Input
-                      {...field}
-                      id="create-job-title"
-                      placeholder="e.g. Kitchen sink repair"
-                      aria-invalid={fieldState.invalid}
-                      autoComplete="off"
-                    />
-                    {fieldState.invalid && (
-                      <FieldError errors={[fieldState.error]} />
-                    )}
-                  </Field>
-                );
-              }}
+              render={({ field, fieldState }) => (
+                <Field data-invalid={fieldState.invalid}>
+                  <FieldLabel htmlFor="create-job-title">Title</FieldLabel>
+                  <Input
+                    {...field}
+                    id="create-job-title"
+                    placeholder="e.g. Kitchen sink repair"
+                    aria-invalid={fieldState.invalid}
+                    autoComplete="off"
+                  />
+                  {fieldState.invalid && (
+                    <FieldError errors={[fieldState.error]} />
+                  )}
+                </Field>
+              )}
             />
+
             {/* ========== Description Field ========== */}
             <Controller
               name="description"
               control={control}
-              render={({ field, fieldState }) => {
-                return (
-                  <Field data-invalid={fieldState.invalid}>
-                    <FieldLabel htmlFor="create-job-description">
-                      Description
-                    </FieldLabel>
-                    <Textarea
-                      {...field}
-                      id="create-job-description"
-                      placeholder="Job details..."
-                      aria-invalid={fieldState.invalid}
-                    />
-                    {fieldState.invalid && (
-                      <FieldError errors={[fieldState.error]} />
-                    )}
-                  </Field>
-                );
-              }}
+              render={({ field, fieldState }) => (
+                <Field data-invalid={fieldState.invalid}>
+                  <FieldLabel htmlFor="create-job-description">
+                    Description
+                  </FieldLabel>
+                  <Textarea
+                    {...field}
+                    id="create-job-description"
+                    placeholder="Job details..."
+                    aria-invalid={fieldState.invalid}
+                  />
+                  {fieldState.invalid && (
+                    <FieldError errors={[fieldState.error]} />
+                  )}
+                </Field>
+              )}
             />
+
             {/* ========== Status Field ========== */}
             <Controller
               name="status"
               control={control}
-              render={({ field, fieldState }) => {
-                return (
-                  <Field data-invalid={fieldState.invalid}>
-                    <FieldLabel htmlFor="create-job-status">Status</FieldLabel>
-                    <Select>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select status" />
-                      </SelectTrigger>
-
-                      <SelectContent>
-                        <SelectItem value="open">Open</SelectItem>
-                        <SelectItem value="in-progress">In Progress</SelectItem>
-                        <SelectItem value="done">Done</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </Field>
-                );
-              }}
+              render={({ field, fieldState }) => (
+                <Field data-invalid={fieldState.invalid}>
+                  <FieldLabel htmlFor="create-job-status">Status</FieldLabel>
+                  <Select
+                    value={field.value}
+                    onValueChange={field.onChange}
+                    aria-invalid={fieldState.invalid}
+                  >
+                    <SelectTrigger id="create-job-status">
+                      <SelectValue placeholder="Select status" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="open">Open</SelectItem>
+                      <SelectItem value="in-progress">In Progress</SelectItem>
+                      <SelectItem value="done">Done</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  {fieldState.invalid && (
+                    <FieldError errors={[fieldState.error]} />
+                  )}
+                </Field>
+              )}
             />
           </FieldGroup>
-        </form>
-      </CardContent>
+        </CardContent>
+      </form>
+      <CardFooter>
+        <Field orientation="horizontal">
+          <Button type="button" variant="outline" onClick={() => reset()}>
+            Reset
+          </Button>
+          <Button type="submit" form="form-create-new-job">
+            Submit
+          </Button>
+        </Field>
+      </CardFooter>
     </Card>
   );
 }
-
-// "use client";
-
-// import { useState } from "react";
-
-// import { Input } from "@/components/ui/input";
-// import { Textarea } from "@/components/ui/textarea";
-// import { Button } from "@/components/ui/button";
-// import {
-//   Select,
-//   SelectContent,
-//   SelectItem,
-//   SelectTrigger,
-//   SelectValue,
-// } from "@/components/ui/select";
-
-// export function JobForm() {
-//   const [title, setTitle] = useState("");
-//   const [description, setDescription] = useState("");
-//   const [status, setStatus] = useState("open");
-
-//   function handleSubmit(e: React.FormEvent) {
-//     e.preventDefault();
-
-//     console.log({
-//       title,
-//       description,
-//       status,
-//     });
-
-//     // later: API call to NestJS
-//   }
-
-//   return (
-//     <form onSubmit={handleSubmit} className="space-y-4 max-w-xl">
-//       {/* Title */}
-//       <div>
-//         <label className="text-sm text-zinc-300">Title</label>
-//         <Input
-//           value={title}
-//           onChange={(e) => setTitle(e.target.value)}
-//           placeholder="e.g. Kitchen sink repair"
-//         />
-//       </div>
-
-//       {/* Description */}
-//       <div>
-//         <label className="text-sm text-zinc-300">Description</label>
-//         <Textarea
-//           value={description}
-//           onChange={(e) => setDescription(e.target.value)}
-//           placeholder="Job details..."
-//         />
-//       </div>
-
-//       {/* Status */}
-//       <div>
-//         <label className="text-sm text-zinc-300">Status</label>
-
-//         <Select value={status} onValueChange={setStatus}>
-//           <SelectTrigger>
-//             <SelectValue placeholder="Select status" />
-//           </SelectTrigger>
-
-//           <SelectContent>
-//             <SelectItem value="open">Open</SelectItem>
-//             <SelectItem value="in-progress">In Progress</SelectItem>
-//             <SelectItem value="done">Done</SelectItem>
-//           </SelectContent>
-//         </Select>
-//       </div>
-
-//       {/* Submit */}
-//       <Button type="submit" className="w-full">
-//         Create Job
-//       </Button>
-//     </form>
-//   );
-// }
