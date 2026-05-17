@@ -1,0 +1,23 @@
+### Find all jobs
+GET http://localhost:3001/jobs
+
+### Find job by ID
+GET http://localhost:3001/jobs/1
+
+### Create a new job
+POST http://localhost:3001/jobs
+Content-Type: application/json
+
+{
+  "title": "Software Engineer",
+  "description": "We are looking for a skilled software engineer to join our team."
+}
+
+### Update a job
+PUT http://localhost:3001/jobs/1
+Content-Type: application/json  
+
+{
+  "title": "Senior Software Engineer",
+  "description": "We are looking for a skilled senior software engineer to join our team."
+}       
