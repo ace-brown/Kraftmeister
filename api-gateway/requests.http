@@ -2,7 +2,7 @@
 GET http://localhost:3001/jobs
 
 ### Find job by ID
-GET http://localhost:3001/jobs/1
+GET http://localhost:3001/jobs/jj
 
 ### Create a new job
 POST http://localhost:3001/jobs
@@ -10,7 +10,8 @@ Content-Type: application/json
 
 {
   "title": "Software Engineer",
-  "description": "We are looking for a skilled software engineer to join our team."
+  "description": "We are looking for a skilled software engineer to join our team.",
+  "status": "ystus"
 }
 
 ### Update a job

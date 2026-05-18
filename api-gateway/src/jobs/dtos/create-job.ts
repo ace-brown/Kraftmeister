@@ -6,5 +6,5 @@ export class CreateJobDto {
   @IsString()
   description: string | undefined;
   @IsString()
-  status: string | undefined;
+  status: 'open' | 'in-progress' | 'done' | undefined;
 }

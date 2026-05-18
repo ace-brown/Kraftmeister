@@ -1,22 +1,34 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  NotFoundException,
+  Param,
+  Post,
+} from '@nestjs/common';
 import { CreateJobDto } from './dtos/create-job';
+import { JobsService } from './jobs.service';
 
 @Controller('jobs')
 export class JobsController {
+  constructor(public jobs: JobsService) {}
+
   @Get()
   findAllJobs() {
-    return 'This action returns all jobs';
+    return this.jobs.findAll();
   }
 
   @Post()
   createJob(@Body() body: CreateJobDto) {
-    console.log('body: ', body);
-    return 'This action creates a new job';
+    return this.jobs.create(body);
   }
 
   @Get('/:id')
-  findJobById(@Param('id') id: string) {
-    console.log('id: ', id);
-    return `This action returns a job with id ${id}`;
+  async findJobById(@Param('id') id: string) {
+    const job = await this.jobs.findById(id);
+
+    if (!job) throw new NotFoundException('Job not found');
+
+    return job;
   }
 }
