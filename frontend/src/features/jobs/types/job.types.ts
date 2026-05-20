@@ -8,3 +8,10 @@ export interface Job {
   address?: string;
   createdAt: string;
 }
+
+export type CreateJobPayload = {
+  title: string;
+  description?: string;
+  status?: string;
+  address?: string;
+};

@@ -1,5 +1,5 @@
 import { PageHeader } from "@/components/ui/page-header";
-import { JobForm } from "@/features/jobs/components/JobForm";
+import { JobForm } from "@/features/jobs/components/jobs-form/JobForm";
 
 export default function NewJobPage() {
   return (

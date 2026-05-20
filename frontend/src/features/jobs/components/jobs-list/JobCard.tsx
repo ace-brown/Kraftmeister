@@ -1,4 +1,4 @@
-import { Job } from "../types/job.types";
+import { Job } from "../../types/job.types";
 import { StatusBadge } from "@/components/ui/status-badge";
 import { Card } from "@/components/ui/card";
 

@@ -26,6 +26,10 @@ const formSchema = z.object({
     .string()
     .min(5, "Title must be at least 5 characters.")
     .max(32, "Title must be at most 32 characters."),
+  address: z
+    .string()
+    .min(5, "Address must be at least 5 Characters")
+    .max(32, "Address must be at most 32 characters."),
   description: z
     .string()
     .min(20, "Description must be at least 20 characters.")
@@ -38,6 +42,7 @@ export function JobForm() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       title: "",
+      address: "",
       description: "",
       status: "open",
     },
@@ -63,6 +68,7 @@ export function JobForm() {
                   <Input
                     {...field}
                     id="create-job-title"
+                    required
                     placeholder="e.g. Kitchen sink repair"
                     aria-invalid={fieldState.invalid}
                     autoComplete="off"
@@ -95,7 +101,26 @@ export function JobForm() {
                 </Field>
               )}
             />
-
+            {/* ========== Address Field ========== */}
+            <Controller
+              name="address"
+              control={control}
+              render={({ field, fieldState }) => (
+                <Field data-invalid={fieldState.invalid}>
+                  <FieldLabel htmlFor="create-job-address">Address</FieldLabel>
+                  <Input
+                    {...field}
+                    id="create-job-address"
+                    placeholder="e.g. Stuttgart"
+                    aria-invalid={fieldState.invalid}
+                    autoComplete="off"
+                  />
+                  {fieldState.invalid && (
+                    <FieldError errors={[fieldState.error]} />
+                  )}
+                </Field>
+              )}
+            />
             {/* ========== Status Field ========== */}
             <Controller
               name="status"

@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../prisma/prisma.service';
+import { CreateJobDto } from './dtos/create-job.dto';
 
 @Injectable()
 export class JobsService {
@@ -11,5 +12,9 @@ export class JobsService {
         createdAt: 'desc',
       },
     });
+  }
+
+  create(data: CreateJobDto) {
+    this.prisma.job.create({ data });
   }
 }

@@ -1,6 +1,13 @@
 import { apiClient } from "@/lib/api/client";
-import { Job } from "../types/job.types";
+import { CreateJobPayload, Job } from "../types/job.types";
 
 export async function getJobs(): Promise<Job[]> {
   return apiClient("/jobs");
+}
+
+export async function createJob(data: CreateJobPayload): Promise<Job> {
+  return apiClient("/jobs", {
+    method: "POST",
+    body: JSON.stringify(data),
+  });
 }
