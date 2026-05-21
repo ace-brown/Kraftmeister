@@ -6,3 +6,4 @@ venv
 __pycache__
 *.pyc
 ROADMAP.md
+react_best_practices.md

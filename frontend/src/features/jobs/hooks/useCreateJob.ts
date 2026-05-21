@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createJob } from "../api/jobs.api";
+import { jobKeys } from "@/lib/query-client";
 
 export function useCreateJob() {
   const queryClient = useQueryClient();
@@ -8,7 +9,7 @@ export function useCreateJob() {
     mutationFn: createJob,
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ["jobs"],
+        queryKey: jobKeys.all,
       });
     },
   });

@@ -1,6 +1,7 @@
 "use client";
 
 import * as z from "zod";
+import { useRouter } from "next/navigation";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
@@ -20,24 +21,12 @@ import {
 } from "@/components/ui/field";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-
-const formSchema = z.object({
-  title: z
-    .string()
-    .min(5, "Title must be at least 5 characters.")
-    .max(32, "Title must be at most 32 characters."),
-  address: z
-    .string()
-    .min(5, "Address must be at least 5 Characters")
-    .max(32, "Address must be at most 32 characters."),
-  description: z
-    .string()
-    .min(20, "Description must be at least 20 characters.")
-    .max(100, "Description must be at most 100 characters."),
-  status: z.enum(["open", "in-progress", "done"]),
-});
+import { formSchema } from "../../schemas/create-job.schema";
+import { useCreateJob } from "../../hooks/useCreateJob";
 
 export function JobForm() {
+  const router = useRouter();
+  const { mutate, isPending } = useCreateJob();
   const { handleSubmit, control, reset } = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -49,8 +38,17 @@ export function JobForm() {
   });
 
   const onSubmit = (data: z.infer<typeof formSchema>) => {
-    console.log(data);
-    // later: API call to NestJS
+    mutate(
+      {
+        title: data.title,
+        address: data.address,
+        description: data.description,
+        status: data.status,
+      },
+      {
+        onSuccess: () => router.push("/jobs"),
+      },
+    );
   };
 
   return (
