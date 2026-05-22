@@ -26,7 +26,9 @@ import { useCreateJob } from "../../hooks/useCreateJob";
 
 export function JobForm() {
   const router = useRouter();
-  const { mutate, isPending } = useCreateJob();
+  const { mutate, isPending } = useCreateJob({
+    onSuccess: () => router.push("/jobs"),
+  });
   const { handleSubmit, control, reset } = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -38,17 +40,12 @@ export function JobForm() {
   });
 
   const onSubmit = (data: z.infer<typeof formSchema>) => {
-    mutate(
-      {
-        title: data.title,
-        address: data.address,
-        description: data.description,
-        status: data.status,
-      },
-      {
-        onSuccess: () => router.push("/jobs"),
-      },
-    );
+    mutate({
+      title: data.title,
+      address: data.address,
+      description: data.description,
+      status: data.status,
+    });
   };
 
   return (

@@ -1,11 +1,4 @@
-import {
-  Body,
-  Controller,
-  Get,
-  NotFoundException,
-  Param,
-  Post,
-} from '@nestjs/common';
+import { Body, Controller, Get, Post } from '@nestjs/common';
 import { JobsService } from './jobs.service';
 import { CreateJobDto } from './dtos/create-job.dto';
 
@@ -20,6 +13,6 @@ export class JobsController {
 
   @Post()
   createJob(@Body() jobDto: CreateJobDto) {
-    this.jobService.create(jobDto);
+    return this.jobService.create(jobDto);
   }
 }

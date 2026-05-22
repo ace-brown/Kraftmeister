@@ -15,6 +15,6 @@ export class JobsService {
   }
 
   create(data: CreateJobDto) {
-    this.prisma.job.create({ data });
+    return this.prisma.job.create({ data });
   }
 }
