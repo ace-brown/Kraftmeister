@@ -5,5 +5,4 @@ dist
 venv
 __pycache__
 *.pyc
-SPEC.md
-react_best_practices.md
+wiki/
