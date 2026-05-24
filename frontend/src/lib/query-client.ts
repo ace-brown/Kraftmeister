@@ -19,8 +19,8 @@ import { QueryClient } from "@tanstack/react-query";
 
 export const jobKeys = {
   all: ["jobs"] as const,
-  //   details: () => [...jobKeys.all, "detail"] as const,
-  //   detail: (id: string) => [...jobKeys.all, "detail", id] as const,
+  // details: () => [...jobKeys.all, "detail"] as const,
+  detail: (id: string) => [...jobKeys.all, "detail", id] as const,
 };
 
 export const defaultQueryClient = new QueryClient({
