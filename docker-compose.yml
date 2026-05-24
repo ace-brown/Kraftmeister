@@ -6,6 +6,7 @@ services:
     volumes:
       - ./frontend:/app
       - /app/node_modules
+    command: npm run dev
     container_name: frontend
     ports:
       - "3000:3000"
@@ -16,6 +17,10 @@ services:
 
   api-gateway:
     build: ./api-gateway
+    volumes:
+      - ./api-gateway:/app
+      - /app/node_modules
+    command: npm run start:dev
     container_name: api-gateway
     ports:
       - "4000:4000"

@@ -7,17 +7,17 @@
 
 ## Current Progress Summary
 
-| Area | Status |
-|---|---|
-| Monorepo + Docker Compose | ✅ Done |
-| PostgreSQL + Prisma (Job model only) | ✅ Done |
-| NestJS scaffolded + PrismaModule + ValidationPipe | ✅ Done |
-| `GET /jobs`, `POST /jobs` | ✅ Done |
-| `/jobs` list page + TanStack Query | ✅ Done |
-| `/jobs/new` form + React Hook Form + Zod | ✅ Done |
-| Product brief (Phase 0.1) | ✅ Done |
-| Auth, Customers, Quotes, Invoices | ⏳ Not started |
-| AI Service | ⏳ Not started |
+| Area                                              | Status         |
+| ------------------------------------------------- | -------------- |
+| Monorepo + Docker Compose + hot-reload            | ✅ Done        |
+| PostgreSQL + Prisma (Job model only)              | ✅ Done        |
+| NestJS scaffolded + PrismaModule + ValidationPipe | ✅ Done        |
+| `GET /jobs`, `POST /jobs`                         | ✅ Done        |
+| `/jobs` list page + TanStack Query                | ✅ Done        |
+| `/jobs/new` form + React Hook Form + Zod          | ✅ Done        |
+| Product brief (Phase 0.1)                         | ✅ Done        |
+| Auth, Customers, Quotes, Invoices                 | ⏳ Not started |
+| AI Service                                        | ⏳ Not started |
 
 ---
 
@@ -26,16 +26,17 @@
 > **TODO:** This phase was skipped in favor of getting something running. Come back to it before adding Customers/Quotes/Invoices.
 >
 > **Process:**
+>
 > 1. Write a one-page brief: what Kraftmeister does, who uses it, what the MVP solves.
 > 2. Sketch the user journey on paper: `Customer → Job → Quote → Invoice → PDF`.
 > 3. Draw or Figma wireframes for: Dashboard, Customer list, Job form, Quote builder, Invoice view.
 > 4. Write down what is OUT OF SCOPE for MVP so you don't gold-plate.
 
 - [x] **0.1** Write a one-page product brief. → `wiki/PRODUCT_BRIEF.md`
-- [ ] **0.2** Define the MVP user journey: `Customer → Job → Quote → Invoice → PDF`.
+- [x] **0.2** Define the MVP user journey: `Customer → Job → Quote → Invoice → PDF`. → `wiki/USER_JOURNEY.md`
 - [ ] **0.3** List the 5 core database entities: `companies`, `users`, `customers`, `jobs`, `quotes`, `invoices`, `invoice_items`.
-- [ ] **0.4** Sketch wireframes for: Dashboard, Customer list, Job form, Quote builder, Invoice view.
-- [ ] **0.5** Document what is explicitly OUT OF SCOPE for MVP.
+- [x] **0.4** Sketch wireframes for: Dashboard, Customer list, Job form, Quote builder, Invoice view. → `wiki/WIREFRAMES.md`
+- [x] **0.5** Document what is explicitly OUT OF SCOPE for MVP. → `wiki/OUT_OF_SCOPE.md`
 
 ---
 
@@ -48,14 +49,14 @@
 ### 1.1 Repository Structure
 
 - [x] Initialize Git monorepo with `frontend/`, `api-gateway/`, `ai-service/`, `docker-compose.yml`.
-- [ ] Add `.gitignore`, `.env.example`, `README.md`.
+- [x] Add `.gitignore`, `.env.example`, `README.md`.
 - [ ] Add `infrastructure/` for Nginx config + SSL env templates.
 - [ ] Add `scripts/` for DB seed and migration helpers.
 
 ### 1.2 Docker Compose
 
 - [x] `docker-compose.yml` with services: `frontend`, `api-gateway`, `postgres`, `redis`, `ai-service`.
-- [ ] Configure hot-reload via bind mounts for `api-gateway` in dev mode (frontend already has it).
+- [x] Configure hot-reload via bind mounts for `api-gateway` in dev mode (frontend already has it).
 - [ ] Add health checks for `postgres` and `redis`.
 - [ ] Add `depends_on` with `condition: service_healthy` for dependent services.
 - [ ] Create `.env.dev` and `.env.prod` templates. Never commit secrets.
@@ -385,22 +386,22 @@ Before sharing with employers:
 
 ## Skills This Project Demonstrates (German Job Market 2024–2025)
 
-| Skill | Where shown |
-|---|---|
-| LLM API integration (OpenAI) | Phase 8 |
-| LangChain / prompt engineering | Phase 8 |
-| Structured output from LLMs | Phase 8 |
-| NestJS / TypeScript backend | Phases 2–5 |
-| FastAPI / Python backend | Phase 8 |
-| PostgreSQL + Prisma ORM | Phase 4.1 |
-| REST API design | Phases 2–5 |
-| Docker + Docker Compose | Phase 1 |
-| CI/CD with GitHub Actions | Phase 11 |
-| Multi-tenant SaaS architecture | Phase 4.2 |
-| JWT authentication | Phase 4.2 |
-| Next.js App Router | Phases 2–5 |
-| PDF generation | Phase 7 |
-| File uploads + S3 | Phase 7 |
-| Testing (Jest, Pytest, RTL) | Phase 9 |
-| Production observability (Sentry, Pino) | Phase 10 |
-| Deployment (Nginx, VPS, SSL) | Phase 11 |
+| Skill                                   | Where shown |
+| --------------------------------------- | ----------- |
+| LLM API integration (OpenAI)            | Phase 8     |
+| LangChain / prompt engineering          | Phase 8     |
+| Structured output from LLMs             | Phase 8     |
+| NestJS / TypeScript backend             | Phases 2–5  |
+| FastAPI / Python backend                | Phase 8     |
+| PostgreSQL + Prisma ORM                 | Phase 4.1   |
+| REST API design                         | Phases 2–5  |
+| Docker + Docker Compose                 | Phase 1     |
+| CI/CD with GitHub Actions               | Phase 11    |
+| Multi-tenant SaaS architecture          | Phase 4.2   |
+| JWT authentication                      | Phase 4.2   |
+| Next.js App Router                      | Phases 2–5  |
+| PDF generation                          | Phase 7     |
+| File uploads + S3                       | Phase 7     |
+| Testing (Jest, Pytest, RTL)             | Phase 9     |
+| Production observability (Sentry, Pino) | Phase 10    |
+| Deployment (Nginx, VPS, SSL)            | Phase 11    |
