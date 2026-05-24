@@ -34,7 +34,7 @@
 
 - [x] **0.1** Write a one-page product brief. → `wiki/PRODUCT_BRIEF.md`
 - [x] **0.2** Define the MVP user journey: `Customer → Job → Quote → Invoice → PDF`. → `wiki/USER_JOURNEY.md`
-- [ ] **0.3** List the 5 core database entities: `companies`, `users`, `customers`, `jobs`, `quotes`, `invoices`, `invoice_items`.
+- [x] **0.3** List the 5 core database entities: `companies`, `users`, `customers`, `jobs`, `quotes`, `invoices`, `invoice_items`.
 - [x] **0.4** Sketch wireframes for: Dashboard, Customer list, Job form, Quote builder, Invoice view. → `wiki/WIREFRAMES.md`
 - [x] **0.5** Document what is explicitly OUT OF SCOPE for MVP. → `wiki/OUT_OF_SCOPE.md`
 
@@ -50,8 +50,6 @@
 
 - [x] Initialize Git monorepo with `frontend/`, `api-gateway/`, `ai-service/`, `docker-compose.yml`.
 - [x] Add `.gitignore`, `.env.example`, `README.md`.
-- [ ] Add `infrastructure/` for Nginx config + SSL env templates.
-- [ ] Add `scripts/` for DB seed and migration helpers.
 
 ### 1.2 Docker Compose
 
@@ -68,11 +66,6 @@
 - [x] Initial migration with `Job` model.
 - [ ] Expand schema to full set of models — see Phase 2.2 (deferred until after CRUD is working).
 - [ ] Add a seed script (`scripts/seed.ts`) with demo company, user, and customers.
-
-### 1.4 Redis Setup
-
-- [ ] Connect Redis to NestJS via `@nestjs/cache-manager` and `cache-manager-redis-store`.
-- [ ] Use Redis for: refresh token store, rate limiting.
 
 ---
 
@@ -159,7 +152,13 @@ InvoiceItem   — id, invoiceId, description, quantity, unitPrice, vatRate
 - [ ] Add indexes on all `companyId` foreign keys.
 - [ ] Run `prisma migrate dev --name expand-schema`.
 
-### 4.2 NestJS Auth Module
+### 4.2 Redis Setup
+
+- [ ] Connect Redis to NestJS via `@nestjs/cache-manager` and `cache-manager-redis-store`.
+- [ ] Use Redis for: refresh token store, rate limiting.
+
+### 4.3 NestJS Auth Module
+
 
 - [ ] Install: `@nestjs/config`, `@nestjs/jwt`, `@nestjs/passport`, `passport-jwt`, `bcrypt`.
 - [ ] Set up `ConfigModule` as global.
@@ -171,7 +170,7 @@ InvoiceItem   — id, invoiceId, description, quantity, unitPrice, vatRate
 - [ ] Hash passwords with `bcrypt` (12 rounds).
 - [ ] Scope **all** DB queries to `companyId` from the JWT — this is multi-tenancy.
 
-### 4.3 Frontend Auth
+### 4.4 Frontend Auth
 
 - [ ] `/login` — email + password form, store tokens, redirect to dashboard.
 - [ ] Middleware: protect all routes; redirect unauthenticated users to `/login`.
@@ -349,6 +348,7 @@ InvoiceItem   — id, invoiceId, description, quantity, unitPrice, vatRate
 - [ ] On tag `v*.*.*`: deploy to production via SSH.
 - [ ] Single VPS (Hetzner CX21 ~6€/month).
 - [ ] `docker-compose.prod.yml` with `restart: always`, no bind mounts, production env vars.
+- [ ] Add `infrastructure/` folder with Nginx config + SSL env templates.
 - [ ] Nginx: reverse proxy frontend (:80/:443 → :3000), API (:443/api → :4000). FastAPI internal only.
 - [ ] Certbot for Let's Encrypt SSL with auto-renew via cron.
 - [ ] Three environments: `development` (local Docker), `staging` (VPS subdomain), `production` (main domain).
