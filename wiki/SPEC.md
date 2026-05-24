@@ -55,8 +55,8 @@
 
 - [x] `docker-compose.yml` with services: `frontend`, `api-gateway`, `postgres`, `redis`, `ai-service`.
 - [x] Configure hot-reload via bind mounts for `api-gateway` in dev mode (frontend already has it).
-- [ ] Add health checks for `postgres` and `redis`.
-- [ ] Add `depends_on` with `condition: service_healthy` for dependent services.
+- [x] Add health checks for `postgres` and `redis`.
+- [x] Add `depends_on` with `condition: service_healthy` for dependent services.
 - [ ] Create `.env.dev` and `.env.prod` templates. Never commit secrets.
 
 ### 1.3 PostgreSQL + Prisma
@@ -158,7 +158,6 @@ InvoiceItem   — id, invoiceId, description, quantity, unitPrice, vatRate
 - [ ] Use Redis for: refresh token store, rate limiting.
 
 ### 4.3 NestJS Auth Module
-
 
 - [ ] Install: `@nestjs/config`, `@nestjs/jwt`, `@nestjs/passport`, `passport-jwt`, `bcrypt`.
 - [ ] Set up `ConfigModule` as global.

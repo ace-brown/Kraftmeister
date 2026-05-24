@@ -11,10 +11,13 @@ See `SPEC.md` for the full roadmap and build order.
 
 ```bash
 docker compose up           # start everything
-docker compose up --build   # after changing source files in api-gateway (needs recompile)
+docker compose up --build   # rebuild images (needed after Dockerfile changes)
 docker compose up -d        # detached (background)
 docker compose logs -f <service>   # stream logs for a specific service
 docker compose up -d --build api-gateway   # rebuild + restart one service
+
+# Prisma migrations (run inside the container — never from host)
+docker compose exec api-gateway npx prisma migrate dev
 ```
 
 ---
@@ -29,8 +32,9 @@ docker compose up -d --build api-gateway   # rebuild + restart one service
 | redis | 6379 | 6379 | not yet wired to NestJS |
 | ai-service | 8000 | 8000 | FastAPI — has no main.py yet, exits on start |
 
-**Important:** `NEXT_PUBLIC_API_URL=http://localhost:4000` is set in docker-compose.
-The frontend `apiClient` in `src/lib/api/client.ts` defaults to `http://localhost:3001` if the env var is missing — always set it.
+**Env files:** All environment variables live in `.env.dev` (dev) and `.env.prod` (prod) at the project root. Both are gitignored. Copy `.env.dev.example` to get started. Docker Compose loads them via `env_file: .env.dev`.
+
+**Important:** The frontend `apiClient` in `src/lib/api/client.ts` defaults to `http://localhost:3001` if `NEXT_PUBLIC_API_URL` is missing — always ensure `.env.dev` is present.
 
 ---
 
@@ -45,13 +49,13 @@ The frontend `apiClient` in `src/lib/api/client.ts` defaults to `http://localhos
 ### Prisma 7
 - Version 7.8.0 — breaking change: `PrismaClient` requires a driver adapter, it no longer reads `DATABASE_URL` automatically.
 - Must use `@prisma/adapter-pg` with `pg`. See `api-gateway/src/prisma/prisma.service.ts`.
-- `prisma.config.ts` at the project root handles the `DATABASE_URL` for CLI commands (migrations, etc.).
+- Prisma CLI must be run inside the Docker container (`docker compose exec api-gateway npx prisma migrate dev`) — not from the host — so it uses the Docker network URL (`postgres:5432`).
 - Schema has no `url` in the datasource block — the adapter provides the connection at runtime.
 
 ### NestJS (api-gateway)
 - Compiled output goes to `dist/src/main.js` (not `dist/main.js`) because `rootDir` is not set in tsconfig.
-- Dockerfile CMD is `node dist/src/main`.
-- Changing TypeScript source requires `docker compose up -d --build api-gateway` to recompile.
+- Dockerfile CMD is `node dist/src/main` (prod). Docker Compose overrides with `npm run start:dev` (hot-reload watcher).
+- Hot-reload is active in dev — editing any `.ts` file triggers automatic recompile and restart.
 - `PORT` env var not set in docker-compose — app defaults to 4000 in `main.ts`.
 
 ### TanStack Query v5 (5.100+)
