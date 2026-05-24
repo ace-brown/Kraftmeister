@@ -57,15 +57,13 @@
 - [x] Configure hot-reload via bind mounts for `api-gateway` in dev mode (frontend already has it).
 - [x] Add health checks for `postgres` and `redis`.
 - [x] Add `depends_on` with `condition: service_healthy` for dependent services.
-- [ ] Create `.env.dev` and `.env.prod` templates. Never commit secrets.
+- [x] Create `.env.dev` and `.env.prod` templates. Never commit secrets.
 
 ### 1.3 PostgreSQL + Prisma
 
 - [x] Prisma initialized in `api-gateway/`.
 - [x] `DATABASE_URL` via environment variable (using `@prisma/adapter-pg` for Prisma 7).
 - [x] Initial migration with `Job` model.
-- [ ] Expand schema to full set of models — see Phase 2.2 (deferred until after CRUD is working).
-- [ ] Add a seed script (`scripts/seed.ts`) with demo company, user, and customers.
 
 ---
 
@@ -151,6 +149,7 @@ InvoiceItem   — id, invoiceId, description, quantity, unitPrice, vatRate
 
 - [ ] Add indexes on all `companyId` foreign keys.
 - [ ] Run `prisma migrate dev --name expand-schema`.
+- [ ] Add a seed script (`scripts/seed.ts`) with demo company, user, and customers.
 
 ### 4.2 Redis Setup
 
