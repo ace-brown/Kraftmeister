@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../../prisma/prisma.service';
 import { CreateJobDto } from './dtos/create-job.dto';
+import { UpdateJobDto } from './dtos/update-job.dto';
 
 @Injectable()
 export class JobsService {
@@ -26,5 +27,12 @@ export class JobsService {
 
   create(data: CreateJobDto) {
     return this.prisma.job.create({ data });
+  }
+
+  update(data: UpdateJobDto, id: string) {
+    return this.prisma.job.update({
+      where: { id },
+      data,
+    });
   }
 }

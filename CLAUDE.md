@@ -59,10 +59,11 @@ docker compose exec api-gateway npx prisma migrate dev
 - `PORT` env var not set in docker-compose — app defaults to 4000 in `main.ts`.
 
 ### TanStack Query v5 (5.100+)
-- `onSuccess` callback has 4 params: `(data, variables, onMutateResult, context)` — not 3.
-- Hook-level `onSuccess` overrides the one passed to `mutate()`. Pattern used in this project:
-  accept `options?: UseMutationOptions<TData, TError, TVariables>` in the hook, spread it, then
-  override `onSuccess` to run cache invalidation first then call `options?.onSuccess?.()`.
+- Mutation hooks handle cache invalidation in `onSuccess`. Callers pass their own callback to `mutate()`:
+  ```ts
+  mutate(payload, { onSuccess: () => router.push('/jobs') });
+  ```
+- Both the hook-level and `mutate()`-level `onSuccess` fire — hook runs cache invalidation, caller handles navigation/UI.
 
 ---
 

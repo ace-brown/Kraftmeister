@@ -19,3 +19,8 @@ export type CreateJobPayload = {
   status?: string;
   address?: string;
 };
+
+export type UpdateJobPayload = {
+  id: string;
+  data: Partial<CreateJobPayload>;
+};

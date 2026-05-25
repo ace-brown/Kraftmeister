@@ -1,16 +1,17 @@
 "use client";
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createJob } from "../api/jobs.api";
+import { updateJob } from "../api";
 import { jobKeys } from "@/lib/query-client";
 
-export function useCreateJob() {
+export function useUpdateJob() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: createJob,
-    onSuccess: () => {
+    mutationFn: updateJob,
+    onSuccess: (_, variables) => {
       queryClient.invalidateQueries({ queryKey: jobKeys.all });
+      queryClient.invalidateQueries({ queryKey: jobKeys.detail(variables.id) });
     },
   });
 }

@@ -15,10 +15,12 @@ Content-Type: application/json
 }
 
 ### Update a job
-PUT http://localhost:4000/jobs/1
+PATCH http://localhost:4000/jobs/cmph7jzv8000001qwn3laltv1
 Content-Type: application/json  
 
 {
-  "title": "Senior Software Engineer",
-  "description": "We are looking for a skilled senior software engineer to join our team."
-}       
+    "title": "Update job",
+    "description": "jfs f skfj sfj s sdfjdsf ds ksfjdslf s fkdsjf",
+    "status": "open",
+    "address": "jdsjfkdsf"
+  }
