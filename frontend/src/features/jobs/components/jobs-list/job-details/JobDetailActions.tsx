@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { JobDetailActionsProps } from "@/features/jobs/types";
 
-export function JobDetailActions() {
+export function JobDetailActions({ onEdit }: JobDetailActionsProps) {
   return (
     <div className="flex items-center justify-between mb-6">
       <Link
@@ -11,7 +12,7 @@ export function JobDetailActions() {
         ← Back to Jobs
       </Link>
       <div className="flex gap-2">
-        <Button variant="outline" size="sm" disabled>
+        <Button variant="outline" size="sm" onClick={onEdit}>
           Edit
         </Button>
         <Button size="sm" disabled>

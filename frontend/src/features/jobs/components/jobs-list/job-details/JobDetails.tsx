@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { PageContainer } from "@/components/layout/page-container";
 import { TypographyP } from "@/components/ui/Typography";
 import { useJob } from "../../../hooks";
@@ -8,9 +9,11 @@ import { JobDetailDescription } from "./JobDetailDescription";
 import { JobDetailHeader } from "./JobDetailHeader";
 import { JobDetailPhotos } from "./JobDetailPhotos";
 import { JobDetailStatus } from "./JobDetailStatus";
+import { JobEditDialog } from "./JobEditDialog";
 
 export default function JobDetails({ id }: { id: string }) {
   const { data: job, error, isLoading } = useJob(id);
+  const [editOpen, setEditOpen] = useState(false);
 
   if (isLoading) {
     return (
@@ -30,7 +33,7 @@ export default function JobDetails({ id }: { id: string }) {
 
   return (
     <PageContainer>
-      <JobDetailActions />
+      <JobDetailActions onEdit={() => setEditOpen(true)} />
       <JobDetailHeader job={job} />
       <div className="h-px bg-zinc-800 mb-6" />
       {job.description && <JobDetailDescription description={job.description} />}
@@ -38,6 +41,8 @@ export default function JobDetails({ id }: { id: string }) {
       <JobDetailStatus status={job.status} />
       <div className="h-px bg-zinc-800 mb-6" />
       <JobDetailPhotos />
+
+      <JobEditDialog job={job} open={editOpen} onOpenChange={setEditOpen} />
     </PageContainer>
   );
 }

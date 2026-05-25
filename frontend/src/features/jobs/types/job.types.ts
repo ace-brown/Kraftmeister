@@ -13,6 +13,16 @@ export interface JobDetailStatusProps {
   status: JobStatus;
 }
 
+export interface JobDetailActionsProps {
+  onEdit: () => void;
+}
+
+export interface JobEditDialogProps {
+  job: Job;
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+}
+
 export type CreateJobPayload = {
   title: string;
   description?: string;
