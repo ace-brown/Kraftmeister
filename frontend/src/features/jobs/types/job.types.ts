@@ -9,6 +9,10 @@ export interface Job {
   createdAt: string;
 }
 
+export interface JobDetailStatusProps {
+  status: JobStatus;
+}
+
 export type CreateJobPayload = {
   title: string;
   description?: string;

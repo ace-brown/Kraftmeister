@@ -171,3 +171,5 @@ src/
 - Use `PageContainer` from `src/components/layout/page-container.tsx` to wrap every page body.
 - Use `PageHeader` from `src/components/ui/page-header.tsx` for page titles + action buttons.
 - **Split components aggressively** — if a component has distinct visual sections (header, description, status, photos), each section gets its own file. The parent component should only handle data fetching and composing the pieces, with no UI logic buried in it. Group related sub-components in a dedicated subfolder (e.g. `job-details/`).
+- **Never use raw `<button>` or `<div>` where a shadcn component exists.** Always use `Button` from `src/components/ui/button.tsx` for any clickable action, and `Card` from `src/components/ui/card.tsx` for any card-like container. Raw HTML elements are only acceptable when no shadcn equivalent exists.
+- **Never define types inside a component file.** All types and interfaces belong in `src/features/<feature>/types/`. Import them from there. Inline `interface Props` or `type X` in a component file is not allowed.

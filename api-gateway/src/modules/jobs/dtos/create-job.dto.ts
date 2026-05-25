@@ -1,6 +1,6 @@
 import { IsString, IsOptional, IsIn } from 'class-validator';
-
-type JobStatus = 'open' | 'in-progress' | 'done';
+import { JOB_STATUSES } from '../entities/job.entity';
+import type { JobStatus } from '../entities/job.entity';
 
 export class CreateJobDto {
   @IsString()
@@ -11,7 +11,7 @@ export class CreateJobDto {
   description?: string;
 
   @IsOptional()
-  @IsIn(['open', 'in-progress', 'done'])
+  @IsIn(JOB_STATUSES)
   status?: JobStatus;
 
   @IsOptional()
