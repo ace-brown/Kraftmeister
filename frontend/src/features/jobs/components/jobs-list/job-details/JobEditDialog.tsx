@@ -29,7 +29,11 @@ import {
 } from "@/components/ui/field";
 import { formSchema } from "../../../schemas/create-job.schema";
 import { useUpdateJob } from "../../../hooks";
-import { JobEditDialogProps } from "@/features/jobs/types";
+import {
+  JobEditDialogProps,
+  JOB_STATUSES,
+  JOB_STATUS_LABELS,
+} from "@/features/jobs/types";
 
 type FormValues = z.infer<typeof formSchema>;
 
@@ -117,9 +121,11 @@ export function JobEditDialog({ job, open, onOpenChange }: JobEditDialogProps) {
                       <SelectValue placeholder="Select status" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="open">Open</SelectItem>
-                      <SelectItem value="in-progress">In Progress</SelectItem>
-                      <SelectItem value="done">Done</SelectItem>
+                      {JOB_STATUSES.map((s) => (
+                        <SelectItem key={s} value={s}>
+                          {JOB_STATUS_LABELS[s]}
+                        </SelectItem>
+                      ))}
                     </SelectContent>
                   </Select>
                   {fieldState.invalid && (

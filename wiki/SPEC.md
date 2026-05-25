@@ -84,7 +84,7 @@
 
 - [x] `/jobs` — list page with TanStack Query.
 - [x] `/jobs/new` — create form with React Hook Form + Zod + redirect on success.
-- [ ] `/jobs/[id]` — detail page: show all job fields, status change button.
+- [x] `/jobs/[id]` — detail page: show all job fields, status change button.
 - [ ] `/jobs` — filter bar: status dropdown + date picker; updates `useJobs(filters)` and reflects in URL query params.
 
 ---
