@@ -1,4 +1,4 @@
-import JobDetails from "@/features/jobs/components/jobs-list/JobDetails";
+import JobDetails from "@/features/jobs/components/jobs-list/job-details/JobDetails";
 
 export default async function JobDetailsPage({
   params,
