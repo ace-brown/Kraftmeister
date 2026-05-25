@@ -163,3 +163,11 @@ src/
 3. Add TanStack Query hooks to `src/features/<feature>/hooks/`
 4. Build components in `src/features/<feature>/components/`
 5. Wire into `src/app/(dashboard)/<feature>/` pages
+
+**Frontend UI Rules (always follow):**
+- **Always use shadcn/ui components** from `src/components/ui/` — `Button`, `Card`, `Input`, `Select`, `Badge`, `Separator`, etc. Never use raw HTML elements when a shadcn component exists.
+- **Always use Typography components** from `src/components/ui/Typography/` for all text — `TypographyH1` for page titles, `TypographyH2` for section headers, `TypographyP` for body text. Never use raw `<h1>`, `<h2>`, `<p>` tags directly.
+- Typography components accept a `className` prop for overrides (e.g. smaller size, custom color) — use it instead of reaching for raw elements.
+- Use `PageContainer` from `src/components/layout/page-container.tsx` to wrap every page body.
+- Use `PageHeader` from `src/components/ui/page-header.tsx` for page titles + action buttons.
+- **Split components aggressively** — if a component has distinct visual sections (header, description, status, photos), each section gets its own file. The parent component should only handle data fetching and composing the pieces, with no UI logic buried in it. Group related sub-components in a dedicated subfolder (e.g. `job-details/`).
