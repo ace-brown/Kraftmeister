@@ -34,3 +34,8 @@ export type UpdateJobPayload = {
   id: string;
   data: Partial<CreateJobPayload>;
 };
+
+export type JobFilters = {
+  status?: JobStatus;
+  date?: string;
+};

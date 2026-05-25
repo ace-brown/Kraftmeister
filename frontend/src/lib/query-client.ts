@@ -1,3 +1,4 @@
+import { JobFilters } from "@/features/jobs";
 import { QueryClient } from "@tanstack/react-query";
 
 /**
@@ -14,12 +15,10 @@ import { QueryClient } from "@tanstack/react-query";
         '123': { total: 100 }                    // ← ['orders', '123'] points here
     }
     }
-   
  */
-
 export const jobKeys = {
   all: ["jobs"] as const,
-  // details: () => [...jobKeys.all, "detail"] as const,
+  list: (filters?: JobFilters) => [...jobKeys.all, "list", filters] as const,
   detail: (id: string) => [...jobKeys.all, "detail", id] as const,
 };
 

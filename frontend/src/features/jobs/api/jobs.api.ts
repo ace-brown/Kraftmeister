@@ -1,8 +1,21 @@
 import { apiClient } from "@/lib/api/client";
-import { CreateJobPayload, Job, UpdateJobPayload } from "../types/job.types";
+import {
+  CreateJobPayload,
+  Job,
+  JobFilters,
+  UpdateJobPayload,
+} from "../types/job.types";
 
-export async function getJobs(): Promise<Job[]> {
-  return apiClient("/jobs");
+export async function getJobs(filters?: JobFilters): Promise<Job[]> {
+  const params = new URLSearchParams();
+  if (filters?.status) params.append("status", filters.status);
+  if (filters?.date) params.append("date", filters.date);
+
+  const query = params.toString();
+
+  const url = query ? `/jobs?${query}` : "/jobs";
+
+  return apiClient(url);
 }
 
 export async function getJob(id: string): Promise<Job> {

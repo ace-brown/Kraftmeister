@@ -75,8 +75,8 @@
 
 - [x] `GET /jobs` — list all jobs.
 - [x] `POST /jobs` — create a job.
-- [ ] `GET /jobs/:id` — single job with all fields.
-- [ ] `PATCH /jobs/:id` — update fields including status transitions.
+- [x] `GET /jobs/:id` — single job with all fields.
+- [x] `PATCH /jobs/:id` — update fields including status transitions.
 - [ ] Add query param filters to `GET /jobs`: `status`, `date`.
 - [ ] Status enum in Prisma: `OPEN | IN_PROGRESS | DONE | CANCELLED` (currently stored as plain string).
 
@@ -85,6 +85,7 @@
 - [x] `/jobs` — list page with TanStack Query.
 - [x] `/jobs/new` — create form with React Hook Form + Zod + redirect on success.
 - [ ] `/jobs/[id]` — detail page: show all job fields, status change button.
+- [ ] `/jobs` — filter bar: status dropdown + date picker; updates `useJobs(filters)` and reflects in URL query params.
 
 ---
 

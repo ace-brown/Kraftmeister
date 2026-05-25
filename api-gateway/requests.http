@@ -1,6 +1,5 @@
 ### Find all jobs
-GET http://localhost:4000/jobs
-
+GET http://localhost:4000/jobs?date=2026-05-24
 ### Find job by ID
 GET http://localhost:4000/jobs/cmpj8xdi100001kn8a8qyh3f3
 
