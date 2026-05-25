@@ -24,6 +24,16 @@ export interface Job {
 
 export interface JobDetailStatusProps {
   status: JobStatus;
+  onStatusChange: (status: JobStatus) => void;
+}
+
+export interface JobsFilterBarProps {
+  filters: JobFilters;
+  onChange: (filters: JobFilters) => void;
+}
+
+export interface JobsListProps {
+  filters?: JobFilters;
 }
 
 export interface JobDetailActionsProps {

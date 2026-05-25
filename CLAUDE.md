@@ -64,6 +64,30 @@ docker compose exec api-gateway npx prisma migrate dev
   mutate(payload, { onSuccess: () => router.push('/jobs') });
   ```
 - Both the hook-level and `mutate()`-level `onSuccess` fire — hook runs cache invalidation, caller handles navigation/UI.
+- **Query keys must include filters.** `useJobs(filters)` uses `jobKeys.list(filters)` so each filter combination gets its own cache slot. Invalidating `jobKeys.all` (`["jobs"]`) still clears all of them via prefix matching.
+- `jobKeys` lives in `src/lib/query-client.ts`: `all`, `list(filters?)`, `detail(id)`.
+
+### CORS (NestJS `main.ts`)
+- `enableCors` methods array must include `'PATCH'`. Missing it silently blocks all PATCH requests with a CORS error in the browser — no server-side log, `status: null` in DevTools.
+- Current allowed methods: `GET, POST, PUT, PATCH, DELETE, OPTIONS`.
+
+### Prisma CLI in Docker
+- Use `-T` flag when piping stdin: `docker compose exec -T api-gateway npx prisma db execute --stdin <<< "SQL"`.
+- Without `-T`, Docker throws "cannot attach stdin to a TTY-enabled container".
+
+### Status enums
+- `JobStatus` enum values are uppercase (`OPEN`, `IN_PROGRESS`, `DONE`, `CANCELLED`) — both in Prisma and on the frontend.
+- Single source of truth: `JOB_STATUSES` const array in `job.types.ts`. `JobStatus` type is derived from it. Zod schema uses `z.enum(JOB_STATUSES)`. Never hardcode status strings elsewhere.
+- `JOB_STATUS_LABELS` (also in `job.types.ts`) maps enum values to display strings (`IN_PROGRESS` → `"In Progress"`).
+
+### Radix UI / shadcn Dialog
+- `DialogContent` requires either `<DialogDescription>` inside it or `aria-describedby={undefined}` to suppress the accessibility warning.
+- Always include `<DialogDescription>` inside `<DialogHeader>` — even a short one-liner is fine.
+
+### Button `disabled` vs `pointer-events-none`
+- shadcn `Button` with `disabled` applies `opacity-50` — this washes out all styling including active/highlight states.
+- For non-interactive display buttons that still need to show colour, use `className="pointer-events-none"` instead of the `disabled` prop.
+- Use `disabled` only on the active item in a set (e.g. current status chip) where the faded look is intentional.
 
 ---
 
@@ -87,13 +111,20 @@ ai-service (:8000) — FastAPI, currently has no main.py
 Only one model exists so far (`api-gateway/prisma/schema.prisma`):
 
 ```prisma
+enum JobStatus {
+  OPEN
+  IN_PROGRESS
+  DONE
+  CANCELLED
+}
+
 model Job {
-  id          String   @id @default(cuid())
+  id          String    @id @default(cuid())
   title       String
   description String?
-  status      String   @default("open")
+  status      JobStatus @default(OPEN)
   address     String?
-  createdAt   DateTime @default(now())
+  createdAt   DateTime  @default(now())
 }
 ```
 
@@ -104,12 +135,12 @@ No `companyId`, `customerId`, or auth yet — intentionally deferred (see SPEC.m
 ## API Endpoints (What Exists Today)
 
 ### Jobs
-| Method | Path | Status |
+| Method | Path | Notes |
 |---|---|---|
-| GET | /jobs | ✅ Working |
+| GET | /jobs | ✅ Working. Supports `?status=OPEN&date=YYYY-MM-DD` query params |
 | POST | /jobs | ✅ Working |
-| GET | /jobs/:id | ❌ Not built |
-| PATCH | /jobs/:id | ❌ Not built |
+| GET | /jobs/:id | ✅ Working |
+| PATCH | /jobs/:id | ✅ Working |
 
 ---
 
@@ -126,7 +157,7 @@ src/
 │       ├── jobs/
 │       │   ├── page.tsx       — ✅ list page, fetches GET /jobs
 │       │   ├── new/page.tsx   — ✅ create form, posts to POST /jobs, redirects on success
-│       │   └── [id]/page.tsx  — page exists, no logic yet
+│       │   └── [id]/page.tsx  — ✅ detail page with status change + edit dialog
 │       ├── customers/         — pages exist, no logic yet
 │       ├── quotes/            — pages exist, no logic yet
 │       └── invoices/          — pages exist, no logic yet
@@ -135,12 +166,20 @@ src/
 │   └── layout/                — sidebar, topbar, mobile-nav, page-container
 ├── features/
 │   └── jobs/                  — the only fully wired feature
-│       ├── api/jobs.api.ts    — getJobs(), createJob()
-│       ├── hooks/useJobs.ts   — TanStack Query GET hook
-│       ├── hooks/useCreateJob.ts — TanStack Query mutation hook (accepts options for onSuccess)
-│       ├── schemas/           — Zod validation schema
-│       ├── types/job.types.ts — Job, CreateJobPayload types
-│       └── components/        — JobForm, JobList, JobCard, JobsView
+│       ├── api/jobs.api.ts    — getJobs(filters?), getJob(id), createJob(), updateJob()
+│       ├── hooks/useJobs.ts   — TanStack Query list hook, accepts optional JobFilters
+│       ├── hooks/useJob.ts    — TanStack Query single job hook
+│       ├── hooks/useCreateJob.ts — mutation hook (accepts options for onSuccess)
+│       ├── hooks/useUpdateJob.ts — mutation hook, invalidates list + detail cache on success
+│       ├── schemas/           — Zod validation schema (status enum uses JOB_STATUSES constant)
+│       ├── types/job.types.ts — Job, JobStatus, JOB_STATUSES, JOB_STATUS_LABELS, JobFilters, all prop types
+│       └── components/
+│           ├── JobsView.tsx         — reads/writes filters from URL via useSearchParams + router.replace
+│           └── jobs-list/
+│               ├── JobList.tsx      — accepts filters prop, passes to useJobs
+│               ├── JobCard.tsx      — renders StatusBadge
+│               ├── JobsFilterBar.tsx — status dropdown + date picker, calls onChange
+│               └── job-details/     — detail page sub-components (header, description, status, photos, edit dialog)
 ├── lib/
 │   ├── api/client.ts          — fetch wrapper, throws on !response.ok, calls response.json()
 │   ├── query-client.ts        — QueryClient config + jobKeys cache key factory

@@ -5,9 +5,10 @@ import { EmptyState } from "@/components/ui/empty-state";
 
 import { JobCard } from "@/features/jobs/components/jobs-list/JobCard";
 import { useJobs } from "@/features/jobs/hooks/useJobs";
+import { JobsListProps } from "@/features/jobs/types/job.types";
 
-export default function JobsList() {
-  const { data: jobs, isLoading, error } = useJobs();
+export default function JobsList({ filters }: JobsListProps) {
+  const { data: jobs, isLoading, error } = useJobs(filters);
 
   if (isLoading) {
     return <LoadingSpinner />;
