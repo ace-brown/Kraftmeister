@@ -77,8 +77,8 @@
 - [x] `POST /jobs` — create a job.
 - [x] `GET /jobs/:id` — single job with all fields.
 - [x] `PATCH /jobs/:id` — update fields including status transitions.
-- [ ] Add query param filters to `GET /jobs`: `status`, `date`.
-- [ ] Status enum in Prisma: `OPEN | IN_PROGRESS | DONE | CANCELLED` (currently stored as plain string).
+- [x] Add query param filters to `GET /jobs`: `status`, `date`.
+- [x] Status enum in Prisma: `OPEN | IN_PROGRESS | DONE | CANCELLED` (currently stored as plain string).
 
 ### 2.2 Frontend — Finish Jobs Pages
 

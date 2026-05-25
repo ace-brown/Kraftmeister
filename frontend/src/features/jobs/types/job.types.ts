@@ -1,4 +1,17 @@
-export type JobStatus = "open" | "in-progress" | "done";
+export const JOB_STATUSES = [
+  "OPEN",
+  "IN_PROGRESS",
+  "DONE",
+  "CANCELLED",
+] as const;
+export type JobStatus = (typeof JOB_STATUSES)[number];
+
+export const JOB_STATUS_LABELS: Record<JobStatus, string> = {
+  OPEN: "Open",
+  IN_PROGRESS: "In Progress",
+  DONE: "Done",
+  CANCELLED: "Cancelled",
+};
 
 export interface Job {
   id: string;
@@ -26,7 +39,7 @@ export interface JobEditDialogProps {
 export type CreateJobPayload = {
   title: string;
   description?: string;
-  status?: string;
+  status?: JobStatus;
   address?: string;
 };
 

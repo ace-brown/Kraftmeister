@@ -23,6 +23,7 @@ import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { formSchema } from "../../schemas/create-job.schema";
 import { useCreateJob } from "../../hooks/useCreateJob";
+import { JOB_STATUSES, JOB_STATUS_LABELS } from "../../types/job.types";
 
 export function JobForm() {
   const router = useRouter();
@@ -33,7 +34,7 @@ export function JobForm() {
       title: "",
       address: "",
       description: "",
-      status: "open",
+      status: "OPEN",
     },
   });
 
@@ -133,9 +134,11 @@ export function JobForm() {
                       <SelectValue placeholder="Select status" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="open">Open</SelectItem>
-                      <SelectItem value="in-progress">In Progress</SelectItem>
-                      <SelectItem value="done">Done</SelectItem>
+                      {JOB_STATUSES.map((s) => (
+                        <SelectItem key={s} value={s}>
+                          {JOB_STATUS_LABELS[s]}
+                        </SelectItem>
+                      ))}
                     </SelectContent>
                   </Select>
                   {fieldState.invalid && (

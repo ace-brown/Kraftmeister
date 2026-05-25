@@ -6,11 +6,19 @@ datasource db {
   provider = "postgresql"
 }
 
+enum JobStatus {
+  OPEN
+  IN_PROGRESS
+  DONE
+  CANCELLED
+}
+
+
 model Job {
   id          String   @id @default(cuid())
   title       String
   description String?
-  status      String   @default("open")
+  status  JobStatus  @default(OPEN)
   address     String?
   createdAt   DateTime @default(now())
 }

@@ -16,11 +16,17 @@ import {
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Field, FieldError, FieldGroup, FieldLabel } from "@/components/ui/field";
+import {
+  Field,
+  FieldError,
+  FieldGroup,
+  FieldLabel,
+} from "@/components/ui/field";
 import { formSchema } from "../../../schemas/create-job.schema";
 import { useUpdateJob } from "../../../hooks";
 import { JobEditDialogProps } from "@/features/jobs/types";
@@ -41,10 +47,7 @@ export function JobEditDialog({ job, open, onOpenChange }: JobEditDialogProps) {
   });
 
   const onSubmit = (data: FormValues) => {
-    mutate(
-      { id: job.id, data },
-      { onSuccess: () => onOpenChange(false) },
-    );
+    mutate({ id: job.id, data }, { onSuccess: () => onOpenChange(false) });
   };
 
   return (
@@ -52,6 +55,9 @@ export function JobEditDialog({ job, open, onOpenChange }: JobEditDialogProps) {
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Edit Job</DialogTitle>
+          <DialogDescription>
+            Update the details for this job.
+          </DialogDescription>
         </DialogHeader>
 
         <form id="form-edit-job" onSubmit={handleSubmit(onSubmit)}>
@@ -63,7 +69,9 @@ export function JobEditDialog({ job, open, onOpenChange }: JobEditDialogProps) {
                 <Field data-invalid={fieldState.invalid}>
                   <FieldLabel htmlFor="edit-job-title">Title</FieldLabel>
                   <Input {...field} id="edit-job-title" autoComplete="off" />
-                  {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+                  {fieldState.invalid && (
+                    <FieldError errors={[fieldState.error]} />
+                  )}
                 </Field>
               )}
             />
@@ -73,9 +81,13 @@ export function JobEditDialog({ job, open, onOpenChange }: JobEditDialogProps) {
               control={control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor="edit-job-description">Description</FieldLabel>
+                  <FieldLabel htmlFor="edit-job-description">
+                    Description
+                  </FieldLabel>
                   <Textarea {...field} id="edit-job-description" />
-                  {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+                  {fieldState.invalid && (
+                    <FieldError errors={[fieldState.error]} />
+                  )}
                 </Field>
               )}
             />
@@ -87,7 +99,9 @@ export function JobEditDialog({ job, open, onOpenChange }: JobEditDialogProps) {
                 <Field data-invalid={fieldState.invalid}>
                   <FieldLabel htmlFor="edit-job-address">Address</FieldLabel>
                   <Input {...field} id="edit-job-address" autoComplete="off" />
-                  {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+                  {fieldState.invalid && (
+                    <FieldError errors={[fieldState.error]} />
+                  )}
                 </Field>
               )}
             />
@@ -108,7 +122,9 @@ export function JobEditDialog({ job, open, onOpenChange }: JobEditDialogProps) {
                       <SelectItem value="done">Done</SelectItem>
                     </SelectContent>
                   </Select>
-                  {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+                  {fieldState.invalid && (
+                    <FieldError errors={[fieldState.error]} />
+                  )}
                 </Field>
               )}
             />

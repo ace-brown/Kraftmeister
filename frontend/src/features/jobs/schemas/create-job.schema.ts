@@ -1,4 +1,5 @@
 import * as z from "zod";
+import { JOB_STATUSES } from "../types";
 
 export const formSchema = z.object({
   title: z
@@ -13,5 +14,5 @@ export const formSchema = z.object({
     .string()
     .min(20, "Description must be at least 20 characters.")
     .max(100, "Description must be at most 100 characters."),
-  status: z.enum(["open", "in-progress", "done"]),
+  status: z.enum(JOB_STATUSES),
 });
