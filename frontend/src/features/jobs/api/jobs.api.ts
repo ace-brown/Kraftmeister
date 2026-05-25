@@ -35,3 +35,7 @@ export async function updateJob({ id, data }: UpdateJobPayload): Promise<Job> {
     body: JSON.stringify(data),
   });
 }
+
+export async function deleteJob(id: string): Promise<void> {
+  return apiClient(`/jobs/${id}`, { method: "DELETE" });
+}

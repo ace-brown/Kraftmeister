@@ -3,8 +3,8 @@
 import { useState } from "react";
 import { PageContainer } from "@/components/layout/page-container";
 import { TypographyP } from "@/components/ui/Typography";
-import { useJob, useUpdateJob } from "../../../hooks";
-import { JobStatus } from "../../../types/job.types";
+import { useJob, useUpdateJob } from "../../hooks";
+import { JobStatus } from "../../types/job.types";
 import { JobDetailActions } from "./JobDetailActions";
 import { JobDetailDescription } from "./JobDetailDescription";
 import { JobDetailHeader } from "./JobDetailHeader";
@@ -24,7 +24,9 @@ export default function JobDetails({ id }: { id: string }) {
   if (isLoading) {
     return (
       <PageContainer>
-        <TypographyP className="text-zinc-400 text-sm">Loading job...</TypographyP>
+        <TypographyP className="text-zinc-400 text-sm">
+          Loading job...
+        </TypographyP>
       </PageContainer>
     );
   }
@@ -32,7 +34,9 @@ export default function JobDetails({ id }: { id: string }) {
   if (error || !job) {
     return (
       <PageContainer>
-        <TypographyP className="text-red-400 text-sm">Job not found.</TypographyP>
+        <TypographyP className="text-red-400 text-sm">
+          Job not found.
+        </TypographyP>
       </PageContainer>
     );
   }
@@ -42,9 +46,14 @@ export default function JobDetails({ id }: { id: string }) {
       <JobDetailActions onEdit={() => setEditOpen(true)} />
       <JobDetailHeader job={job} />
       <div className="h-px bg-zinc-800 mb-6" />
-      {job.description && <JobDetailDescription description={job.description} />}
+      {job.description && (
+        <JobDetailDescription description={job.description} />
+      )}
       <div className="h-px bg-zinc-800 mb-6" />
-      <JobDetailStatus status={job.status} onStatusChange={handleStatusChange} />
+      <JobDetailStatus
+        status={job.status}
+        onStatusChange={handleStatusChange}
+      />
       <div className="h-px bg-zinc-800 mb-6" />
       <JobDetailPhotos />
 

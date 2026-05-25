@@ -77,6 +77,7 @@
 - [x] `POST /jobs` — create a job.
 - [x] `GET /jobs/:id` — single job with all fields.
 - [x] `PATCH /jobs/:id` — update fields including status transitions.
+- [x] `DELETE /jobs/:id` — delete a job (returns 204 No Content).
 - [x] Add query param filters to `GET /jobs`: `status`, `date`.
 - [x] Status enum in Prisma: `OPEN | IN_PROGRESS | DONE | CANCELLED` (currently stored as plain string).
 
@@ -85,7 +86,7 @@
 - [x] `/jobs` — list page with TanStack Query.
 - [x] `/jobs/new` — create form with React Hook Form + Zod + redirect on success.
 - [x] `/jobs/[id]` — detail page: show all job fields, status change button.
-- [ ] `/jobs` — filter bar: status dropdown + date picker; updates `useJobs(filters)` and reflects in URL query params.
+- [x] `/jobs` — filter bar: status dropdown + date picker; updates `useJobs(filters)` and reflects in URL query params.
 
 ---
 
@@ -124,9 +125,8 @@ modules/customers/
 
 ---
 
-## Phase 4 — Expand Schema + Auth (Deferred)
+## Phase 4 — Expand Schema + Auth
 
-> **Note:** Auth is intentionally deferred until Jobs and Customers CRUD works without it.
 > Add this phase before building Quotes and Invoices since those need `companyId` scoping.
 
 **Goal:** Multi-tenancy and secure auth. Every query becomes scoped to a company.

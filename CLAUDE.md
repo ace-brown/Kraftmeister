@@ -141,6 +141,7 @@ No `companyId`, `customerId`, or auth yet — intentionally deferred (see SPEC.m
 | POST | /jobs | ✅ Working |
 | GET | /jobs/:id | ✅ Working |
 | PATCH | /jobs/:id | ✅ Working |
+| DELETE | /jobs/:id | ✅ Working — returns 204 No Content |
 
 ---
 

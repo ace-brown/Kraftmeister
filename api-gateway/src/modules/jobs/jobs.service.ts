@@ -50,4 +50,10 @@ export class JobsService {
       data,
     });
   }
+
+  delete(id: string) {
+    return this.prisma.job.delete({
+      where: { id },
+    });
+  }
 }

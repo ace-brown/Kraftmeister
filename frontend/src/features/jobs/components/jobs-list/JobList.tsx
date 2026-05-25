@@ -3,7 +3,7 @@
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
 import { EmptyState } from "@/components/ui/empty-state";
 
-import { JobCard } from "@/features/jobs/components/jobs-list/JobCard";
+import { JobCard } from "@/features/jobs/components/jobs-list/job-card/JobCard";
 import { useJobs } from "@/features/jobs/hooks/useJobs";
 import { JobsListProps } from "@/features/jobs/types/job.types";
 

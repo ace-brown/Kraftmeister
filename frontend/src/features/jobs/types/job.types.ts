@@ -36,6 +36,18 @@ export interface JobsListProps {
   filters?: JobFilters;
 }
 
+export interface JobCardProps {
+  job: Job;
+}
+
+export interface JobDeleteDialogProps {
+  job: Job;
+  open: boolean;
+  isPending: boolean;
+  onConfirm: () => void;
+  onCancel: () => void;
+}
+
 export interface JobDetailActionsProps {
   onEdit: () => void;
 }

@@ -27,8 +27,8 @@ import {
   FieldGroup,
   FieldLabel,
 } from "@/components/ui/field";
-import { formSchema } from "../../../schemas/create-job.schema";
-import { useUpdateJob } from "../../../hooks";
+import { formSchema } from "../../schemas/create-job.schema";
+import { useUpdateJob } from "../../hooks";
 import {
   JobEditDialogProps,
   JOB_STATUSES,

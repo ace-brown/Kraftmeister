@@ -1,7 +1,9 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
+  HttpCode,
   Param,
   Patch,
   Post,
@@ -34,5 +36,11 @@ export class JobsController {
   @Patch(':id')
   updateJob(@Body() jobDto: UpdateJobDto, @Param('id') id: string) {
     return this.jobService.update(jobDto, id);
+  }
+
+  @Delete(':id')
+  @HttpCode(204)
+  deleteJob(@Param('id') id: string) {
+    return this.jobService.delete(id);
   }
 }
