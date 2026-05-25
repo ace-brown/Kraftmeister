@@ -5,7 +5,7 @@ export async function getJobs(): Promise<Job[]> {
   return apiClient("/jobs");
 }
 
-export async function getJob(id: string) {
+export async function getJob(id: string): Promise<Job> {
   return apiClient(`/jobs/${id}`);
 }
 
