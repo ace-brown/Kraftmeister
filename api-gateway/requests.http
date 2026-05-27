@@ -1,3 +1,4 @@
+##############################################################
 ### Find all jobs
 GET http://localhost:4000/jobs?date=2026-05-24
 ### Find job by ID
@@ -23,3 +24,35 @@ Content-Type: application/json
     "status": "open",
     "address": "jdsjfkdsf"
   }
+
+##############################################################
+### Find all customers
+GET http://localhost:4000/customers
+### Find customer by ID
+GET http://localhost:4000/customers/cmpo82h8pfdd00006bpexhp1iqpv
+
+### Create a new customer
+POST http://localhost:4000/customers
+Content-Type: application/json
+
+{
+  "name": "Adam Sandler",
+  "email": "adem-senadler@example.de",
+  "phone": "+49 170 853583",
+  "address": "Konigstrasse 31, 80331 Stuttgart"
+}
+
+### Update a customer
+PATCH http://localhost:4000/customers/cmpo82h8p00006bpexhp1iqpv
+Content-Type: application/json
+
+{
+  "name": "Updated Adam Sandler",
+  "email": "adem-senadler@example.de"
+}
+
+### Delete a customer
+DELETE http://localhost:4000/customers/cmpo6nuhi000037peb0864odc
+
+### Search customers
+GET http://localhost:4000/customers?search=Hans
