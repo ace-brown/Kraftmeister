@@ -14,11 +14,21 @@ enum JobStatus {
 }
 
 
+model Customer {
+  id        String    @id @default(cuid())
+  name      String
+  email     String?
+  phone     String?
+  address   String?
+  createdAt DateTime  @default(now())
+  deletedAt DateTime?
+}
+
 model Job {
-  id          String   @id @default(cuid())
+  id          String    @id @default(cuid())
   title       String
   description String?
-  status  JobStatus  @default(OPEN)
+  status      JobStatus @default(OPEN)
   address     String?
-  createdAt   DateTime @default(now())
+  createdAt   DateTime  @default(now())
 }
