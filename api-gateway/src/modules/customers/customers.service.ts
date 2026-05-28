@@ -7,9 +7,19 @@ import { UpdateCustomerDto } from './dtos/update-customer.dto';
 export class CustomersService {
   constructor(private prisma: PrismaService) {}
 
-  findAll() {
+  findAll(search?: string) {
+    const where: any = { deletedAt: null };
+
+    if (search) {
+      where.OR = [
+        { name: { contains: search, mode: 'insensitive' } },
+        { email: { contains: search, mode: 'insensitive' } },
+        { phone: { contains: search, mode: 'insensitive' } },
+      ];
+    }
+
     return this.prisma.customer.findMany({
-      where: { deletedAt: null },
+      where,
       orderBy: { createdAt: 'desc' },
     });
   }

@@ -108,13 +108,13 @@ modules/customers/
     └── update-customer.dto.ts
 ```
 
-- [ ] Add `Customer` model to Prisma schema: `id, name, email, phone, address, createdAt`.
-- [ ] Run `prisma migrate dev`.
-- [ ] `GET /customers` — list all, with optional `search` query param.
-- [ ] `GET /customers/:id` — single customer + their job history.
-- [ ] `POST /customers` — create with validation.
-- [ ] `PATCH /customers/:id` — partial update.
-- [ ] `DELETE /customers/:id` — soft delete (add `deletedAt` field).
+- [x] Add `Customer` model to Prisma schema: `id, name, email, phone, address, createdAt`.
+- [x] Run `prisma migrate dev`.
+- [x] `GET /customers` — list all, with optional `search` query param.
+- [x] `GET /customers/:id` — single customer + their job history.
+- [x] `POST /customers` — create with validation.
+- [x] `PATCH /customers/:id` — partial update.
+- [x] `DELETE /customers/:id` — soft delete (add `deletedAt` field).
 
 ### 3.2 Frontend — Customers Pages
 

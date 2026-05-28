@@ -18,8 +18,8 @@ export class CustomersController {
   constructor(private readonly customersService: CustomersService) {}
 
   @Get()
-  findAllCustomers() {
-    return this.customersService.findAll();
+  findAllCustomers(@Query('search') search?: string) {
+    return this.customersService.findAll(search);
   }
 
   @Get(':id')
