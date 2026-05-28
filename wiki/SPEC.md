@@ -111,7 +111,7 @@ modules/customers/
 - [x] Add `Customer` model to Prisma schema: `id, name, email, phone, address, createdAt`.
 - [x] Run `prisma migrate dev`.
 - [x] `GET /customers` — list all, with optional `search` query param.
-- [x] `GET /customers/:id` — single customer + their job history.
+- [x] `GET /customers/:id` — single customer (job history deferred to Phase 4 — requires `customerId` FK on `Job`).
 - [x] `POST /customers` — create with validation.
 - [x] `PATCH /customers/:id` — partial update.
 - [x] `DELETE /customers/:id` — soft delete (add `deletedAt` field).
@@ -120,7 +120,7 @@ modules/customers/
 
 - [ ] `/customers` — searchable table with Name, Phone, Email, Actions columns.
 - [ ] `/customers/new` — form with React Hook Form + Zod validation.
-- [ ] `/customers/[id]` — detail view with job history list.
+- [ ] `/customers/[id]` — detail view (job history list deferred to Phase 4).
 - [ ] `/customers/[id]/edit` — prefilled edit form.
 
 ---

@@ -36,10 +36,10 @@ POST http://localhost:4000/customers
 Content-Type: application/json
 
 {
-  "name": "Adam Sandler",
-  "email": "adem-senadler@example.de",
-  "phone": "+49 170 853583",
-  "address": "Konigstrasse 31, 80331 Stuttgart"
+  "name": "John Smith",
+  "email": "john-smith@example.de",
+  "phone": "+25 150 849u432",
+  "address": "Some street 31, 80331 middle of nowhre"
 }
 
 ### Update a customer

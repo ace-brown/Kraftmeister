@@ -16,6 +16,12 @@ import { QueryClient } from "@tanstack/react-query";
     }
     }
  */
+export const customerKeys = {
+  all: ["customers"] as const,
+  list: (search?: string) => [...customerKeys.all, "list", search] as const,
+  detail: (id: string) => [...customerKeys.all, "detail", id] as const,
+};
+
 export const jobKeys = {
   all: ["jobs"] as const,
   list: (filters?: JobFilters) => [...jobKeys.all, "list", filters] as const,
