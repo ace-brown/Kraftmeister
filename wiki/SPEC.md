@@ -118,8 +118,8 @@ modules/customers/
 
 ### 3.2 Frontend — Customers Pages
 
-- [ ] `/customers` — searchable table with Name, Phone, Email, Actions columns.
-- [ ] `/customers/new` — form with React Hook Form + Zod validation.
+- [x] `/customers` — searchable table with Name, Phone, Email, Actions columns.
+- [x] `/customers/new` — form with React Hook Form + Zod validation.
 - [ ] `/customers/[id]` — detail view (job history list deferred to Phase 4).
 - [ ] `/customers/[id]/edit` — prefilled edit form.
 

@@ -1,7 +1,7 @@
 import * as z from "zod";
 import { JOB_STATUSES } from "../types";
 
-export const formSchema = z.object({
+export const jobFormSchema = z.object({
   title: z
     .string()
     .min(5, "Title must be at least 5 characters.")

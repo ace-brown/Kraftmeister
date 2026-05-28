@@ -21,15 +21,17 @@ import {
 } from "@/components/ui/field";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { formSchema } from "../../schemas/create-job.schema";
+import { jobFormSchema } from "../../schemas/create-job.schema";
 import { useCreateJob } from "../../hooks/useCreateJob";
 import { JOB_STATUSES, JOB_STATUS_LABELS } from "../../types/job.types";
 
 export function JobForm() {
   const router = useRouter();
   const { mutate, isPending } = useCreateJob();
-  const { handleSubmit, control, reset } = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const { handleSubmit, control, reset } = useForm<
+    z.infer<typeof jobFormSchema>
+  >({
+    resolver: zodResolver(jobFormSchema),
     defaultValues: {
       title: "",
       address: "",
@@ -38,7 +40,7 @@ export function JobForm() {
     },
   });
 
-  const onSubmit = (data: z.infer<typeof formSchema>) => {
+  const onSubmit = (data: z.infer<typeof jobFormSchema>) => {
     mutate(
       {
         title: data.title,
