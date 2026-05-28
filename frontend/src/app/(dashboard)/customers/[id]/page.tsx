@@ -1,3 +1,11 @@
-export default function CustomerPage({ params }: { params: { id: string } }) {
-  return <div>Customer Page: {params.id}</div>;
+import CustomerDetail from "@/features/customers/components/CustomerDetail";
+
+export default async function CustomerPage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const { id } = await params;
+
+  return <CustomerDetail id={id} />;
 }
