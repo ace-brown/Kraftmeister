@@ -40,8 +40,10 @@ export class JobsService {
     return job;
   }
 
-  create(data: CreateJobDto) {
-    return this.prisma.job.create({ data });
+  async create(data: CreateJobDto) {
+    // TODO Phase 4.3: replace with companyId from JWT
+    const company = await this.prisma.company.findFirstOrThrow();
+    return this.prisma.job.create({ data: { ...data, companyId: company.id } });
   }
 
   update(data: UpdateJobDto, id: string) {

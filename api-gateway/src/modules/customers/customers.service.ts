@@ -34,8 +34,10 @@ export class CustomersService {
     return customer;
   }
 
-  create(data: CreateCustomerDto) {
-    return this.prisma.customer.create({ data });
+  async create(data: CreateCustomerDto) {
+    // TODO Phase 4.3: replace with companyId from JWT
+    const company = await this.prisma.company.findFirstOrThrow();
+    return this.prisma.customer.create({ data: { ...data, companyId: company.id } });
   }
 
   update(data: UpdateCustomerDto, id: string) {

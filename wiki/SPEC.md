@@ -135,7 +135,7 @@ modules/customers/
 
 ### 4.1 Expand Prisma Schema
 
-- [ ] Add remaining models to `schema.prisma`:
+- [x] Add remaining models to `schema.prisma`:
 
 ```
 Company       — id, name, address, vatId, createdAt
