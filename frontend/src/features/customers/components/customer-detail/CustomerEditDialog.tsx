@@ -5,14 +5,6 @@ import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import {
   Dialog,
   DialogContent,
@@ -27,52 +19,63 @@ import {
   FieldGroup,
   FieldLabel,
 } from "@/components/ui/field";
-import { jobFormSchema } from "../../schemas/create-job.schema";
-import { useUpdateJob } from "../../hooks";
-import {
-  JobEditDialogProps,
-  JOB_STATUSES,
-  JOB_STATUS_LABELS,
-} from "@/features/jobs/types";
+import { CustomerFormSchema } from "../../schemas/create-customer.schema";
+import { useUpdateCustomer } from "../../hooks";
+import { CustomerEditDialogProps } from "../../types";
 
-type FormValues = z.infer<typeof jobFormSchema>;
+type FormValues = z.infer<typeof CustomerFormSchema>;
 
-export function JobEditDialog({ job, open, onOpenChange }: JobEditDialogProps) {
-  const { mutate, isPending } = useUpdateJob();
+export function CustomerEditDialog({
+  customer,
+  open,
+  onOpenChange,
+}: CustomerEditDialogProps) {
+  const { mutate, isPending } = useUpdateCustomer();
 
   const { handleSubmit, control } = useForm<FormValues>({
-    resolver: zodResolver(jobFormSchema),
+    resolver: zodResolver(CustomerFormSchema),
     defaultValues: {
-      title: job.title,
-      description: job.description ?? "",
-      address: job.address ?? "",
-      status: job.status,
+      name: customer.name,
+      email: customer.email ?? "",
+      phone: customer.phone ?? "",
+      address: customer.address ?? "",
     },
   });
 
   const onSubmit = (data: FormValues) => {
-    mutate({ id: job.id, data }, { onSuccess: () => onOpenChange(false) });
+    mutate(
+      {
+        id: customer.id,
+        data: {
+          name: data.name,
+          email: data.email || undefined,
+          phone: data.phone || undefined,
+          address: data.address || undefined,
+        },
+      },
+      { onSuccess: () => onOpenChange(false) }
+    );
   };
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Edit Job</DialogTitle>
+          <DialogTitle>Kunde bearbeiten</DialogTitle>
           <DialogDescription>
-            Update the details for this job.
+            Kundendaten aktualisieren.
           </DialogDescription>
         </DialogHeader>
 
-        <form id="form-edit-job" onSubmit={handleSubmit(onSubmit)}>
+        <form id="form-edit-customer" onSubmit={handleSubmit(onSubmit)}>
           <FieldGroup>
             <Controller
-              name="title"
+              name="name"
               control={control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor="edit-job-title">Title</FieldLabel>
-                  <Input {...field} id="edit-job-title" autoComplete="off" />
+                  <FieldLabel htmlFor="edit-customer-name">Name *</FieldLabel>
+                  <Input {...field} id="edit-customer-name" autoComplete="off" />
                   {fieldState.invalid && (
                     <FieldError errors={[fieldState.error]} />
                   )}
@@ -81,14 +84,36 @@ export function JobEditDialog({ job, open, onOpenChange }: JobEditDialogProps) {
             />
 
             <Controller
-              name="description"
+              name="email"
               control={control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor="edit-job-description">
-                    Description
-                  </FieldLabel>
-                  <Textarea {...field} id="edit-job-description" />
+                  <FieldLabel htmlFor="edit-customer-email">E-Mail</FieldLabel>
+                  <Input
+                    {...field}
+                    id="edit-customer-email"
+                    type="email"
+                    autoComplete="off"
+                  />
+                  {fieldState.invalid && (
+                    <FieldError errors={[fieldState.error]} />
+                  )}
+                </Field>
+              )}
+            />
+
+            <Controller
+              name="phone"
+              control={control}
+              render={({ field, fieldState }) => (
+                <Field data-invalid={fieldState.invalid}>
+                  <FieldLabel htmlFor="edit-customer-phone">Telefon</FieldLabel>
+                  <Input
+                    {...field}
+                    id="edit-customer-phone"
+                    type="tel"
+                    autoComplete="off"
+                  />
                   {fieldState.invalid && (
                     <FieldError errors={[fieldState.error]} />
                   )}
@@ -101,33 +126,12 @@ export function JobEditDialog({ job, open, onOpenChange }: JobEditDialogProps) {
               control={control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor="edit-job-address">Address</FieldLabel>
-                  <Input {...field} id="edit-job-address" autoComplete="off" />
-                  {fieldState.invalid && (
-                    <FieldError errors={[fieldState.error]} />
-                  )}
-                </Field>
-              )}
-            />
-
-            <Controller
-              name="status"
-              control={control}
-              render={({ field, fieldState }) => (
-                <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor="edit-job-status">Status</FieldLabel>
-                  <Select value={field.value} onValueChange={field.onChange}>
-                    <SelectTrigger id="edit-job-status">
-                      <SelectValue placeholder="Select status" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {JOB_STATUSES.map((s) => (
-                        <SelectItem key={s} value={s}>
-                          {JOB_STATUS_LABELS[s]}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+                  <FieldLabel htmlFor="edit-customer-address">Adresse</FieldLabel>
+                  <Input
+                    {...field}
+                    id="edit-customer-address"
+                    autoComplete="off"
+                  />
                   {fieldState.invalid && (
                     <FieldError errors={[fieldState.error]} />
                   )}
@@ -138,8 +142,8 @@ export function JobEditDialog({ job, open, onOpenChange }: JobEditDialogProps) {
         </form>
 
         <DialogFooter showCloseButton>
-          <Button type="submit" form="form-edit-job" disabled={isPending}>
-            {isPending ? "Saving..." : "Save"}
+          <Button type="submit" form="form-edit-customer" disabled={isPending}>
+            {isPending ? "Speichern..." : "Speichern"}
           </Button>
         </DialogFooter>
       </DialogContent>

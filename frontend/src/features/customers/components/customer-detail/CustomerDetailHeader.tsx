@@ -1,13 +1,13 @@
-import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { TypographyH1, TypographyP } from "@/components/ui/Typography";
 import { Customer } from "../../types";
 
 interface Props {
   customer: Customer;
+  onEdit: () => void;
 }
 
-export function CustomerDetailHeader({ customer }: Props) {
+export function CustomerDetailHeader({ customer, onEdit }: Props) {
   const formattedDate = new Date(customer.createdAt).toLocaleDateString(
     "de-DE",
     { day: "2-digit", month: "2-digit", year: "numeric" }
@@ -34,9 +34,7 @@ export function CustomerDetailHeader({ customer }: Props) {
         )}
         <p className="text-xs text-zinc-500 mt-2">Erstellt: {formattedDate}</p>
       </div>
-      <Link href={`/customers/${customer.id}/edit`}>
-        <Button variant="outline">Bearbeiten</Button>
-      </Link>
+      <Button variant="outline" onClick={onEdit}>Bearbeiten</Button>
     </div>
   );
 }

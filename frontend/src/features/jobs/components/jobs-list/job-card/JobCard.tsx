@@ -26,29 +26,32 @@ export function JobCard({ job }: JobCardProps) {
 
   return (
     <>
-      <Link href={`/jobs/${job.id}`}>
-        <Card className="p-4 hover:border-zinc-600 transition-colors">
-          <div className="flex items-start justify-between gap-4">
-            <div className="min-w-0">
+      <Card className="p-4">
+        <div className="flex items-start justify-between gap-4">
+          <div className="min-w-0">
+            <div className="flex items-center gap-2 mb-1">
               <h3 className="text-white font-medium truncate">{job.title}</h3>
-              {job.address && (
-                <p className="text-sm text-zinc-400 truncate">{job.address}</p>
-              )}
-            </div>
-            <div className="flex items-center gap-2 shrink-0">
               <StatusBadge status={job.status} />
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={handleDeleteClick}
-                className="text-zinc-500 hover:text-red-400 hover:bg-transparent px-1"
-              >
-                <Trash2 size={14} />
-              </Button>
             </div>
+            {job.address && (
+              <p className="text-sm text-zinc-400 truncate">{job.address}</p>
+            )}
           </div>
-        </Card>
-      </Link>
+          <div className="flex items-center gap-2 shrink-0">
+            <Link href={`/jobs/${job.id}`}>
+              <Button variant="outline" size="sm">Ansehen</Button>
+            </Link>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={handleDeleteClick}
+              className="text-zinc-500 hover:text-red-400 hover:bg-transparent px-1"
+            >
+              <Trash2 size={14} />
+            </Button>
+          </div>
+        </div>
+      </Card>
 
       <JobDeleteDialog
         job={job}

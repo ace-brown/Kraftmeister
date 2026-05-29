@@ -32,3 +32,9 @@ export interface CustomersSearchBarProps {
   value: string;
   onChange: (value: string) => void;
 }
+
+export interface CustomerEditDialogProps {
+  customer: Customer;
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+}

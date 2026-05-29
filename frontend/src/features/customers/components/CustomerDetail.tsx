@@ -1,13 +1,16 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { PageContainer } from "@/components/layout/page-container";
 import { TypographyP } from "@/components/ui/Typography";
 import { useCustomer } from "../hooks";
-import { CustomerDetailHeader } from "./customer-detail";
+import { CustomerDetailHeader } from "./customer-detail/CustomerDetailHeader";
+import { CustomerEditDialog } from "./customer-detail/CustomerEditDialog";
 
 export default function CustomerDetail({ id }: { id: string }) {
   const { data: customer, isLoading, error } = useCustomer(id);
+  const [editOpen, setEditOpen] = useState(false);
 
   if (isLoading) {
     return (
@@ -35,11 +38,17 @@ export default function CustomerDetail({ id }: { id: string }) {
       >
         ← Zurück zu Kunden
       </Link>
-      <CustomerDetailHeader customer={customer} />
+      <CustomerDetailHeader customer={customer} onEdit={() => setEditOpen(true)} />
       <div className="h-px bg-zinc-800 mb-6" />
       <TypographyP className="text-sm text-zinc-500">
         Auftragsverlauf folgt in Phase 4.
       </TypographyP>
+
+      <CustomerEditDialog
+        customer={customer}
+        open={editOpen}
+        onOpenChange={setEditOpen}
+      />
     </PageContainer>
   );
 }
