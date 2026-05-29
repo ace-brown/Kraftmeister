@@ -154,8 +154,8 @@ InvoiceItem   — id, invoiceId, description, quantity, unitPrice, vatRate
 
 ### 4.2 Redis Setup
 
-- [ ] Connect Redis to NestJS via `@nestjs/cache-manager` and `cache-manager-redis-store`.
-- [ ] Use Redis for: refresh token store, rate limiting.
+- [x] Connect Redis to NestJS via `@nestjs/cache-manager` and `cache-manager-redis-store`.
+- [x] Use Redis for: refresh token store, rate limiting.
 
 ### 4.3 NestJS Auth Module
 
