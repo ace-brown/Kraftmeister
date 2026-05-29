@@ -148,9 +148,9 @@ Invoice       — id, companyId, customerId, quoteId, invoiceNumber, status, due
 InvoiceItem   — id, invoiceId, description, quantity, unitPrice, vatRate
 ```
 
-- [ ] Add indexes on all `companyId` foreign keys.
-- [ ] Run `prisma migrate dev --name expand-schema`.
-- [ ] Add a seed script (`scripts/seed.ts`) with demo company, user, and customers.
+- [x] Add indexes on all `companyId` foreign keys.
+- [x] Run `prisma migrate dev --name expand-schema`.
+- [x] Add a seed script (`scripts/seed.ts`) with demo company, user, and customers.
 
 ### 4.2 Redis Setup
 

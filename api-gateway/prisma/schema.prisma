@@ -42,8 +42,6 @@ model Company {
   address   String?
   vatId     String?
   createdAt DateTime @default(now())
-
-  // Back-relations (virtual — no DB columns)
   users     User[]
   customers Customer[]
   jobs      Job[]
@@ -58,10 +56,7 @@ model User {
   passwordHash String
   role         Role     @default(ADMIN)
   createdAt    DateTime @default(now())
-
-  // Relation: companyId (FK) → Company.id
   company Company @relation(fields: [companyId], references: [id])
-
   @@index([companyId])
 }
 
@@ -74,14 +69,10 @@ model Customer {
   address   String?
   createdAt DateTime  @default(now())
   deletedAt DateTime?
-
-  // Relation: companyId (FK) → Company.id
   company  Company   @relation(fields: [companyId], references: [id])
-  // Back-relations
   jobs     Job[]
   quotes   Quote[]
   invoices Invoice[]
-
   @@index([companyId])
 }
 
@@ -95,13 +86,9 @@ model Job {
   address     String?
   photos      String[]
   createdAt   DateTime  @default(now())
-
-  // Relations: companyId → Company.id, customerId → Customer.id
   company  Company   @relation(fields: [companyId], references: [id])
   customer Customer? @relation(fields: [customerId], references: [id])
-  // Back-relation
   quotes   Quote[]
-
   @@index([companyId])
 }
 
@@ -114,15 +101,11 @@ model Quote {
   vatRate    Float       @default(19)
   total      Float       @default(0)
   createdAt  DateTime    @default(now())
-
-  // Relations
   company  Company    @relation(fields: [companyId], references: [id])
   customer Customer   @relation(fields: [customerId], references: [id])
   job      Job?       @relation(fields: [jobId], references: [id])
-  // Back-relations
   items    QuoteItem[]
   invoice  Invoice?
-
   @@index([companyId])
 }
 
@@ -132,8 +115,6 @@ model QuoteItem {
   description String
   quantity    Float
   unitPrice   Float
-
-  // Relation: quoteId (FK) → Quote.id
   quote Quote @relation(fields: [quoteId], references: [id])
 }
 
@@ -146,14 +127,10 @@ model Invoice {
   status        InvoiceStatus @default(DRAFT)
   dueDate       DateTime?
   createdAt     DateTime      @default(now())
-
-  // Relations
   company  Company       @relation(fields: [companyId], references: [id])
   customer Customer      @relation(fields: [customerId], references: [id])
   quote    Quote?        @relation(fields: [quoteId], references: [id])
-  // Back-relation
   items    InvoiceItem[]
-
   @@index([companyId])
 }
 
@@ -164,7 +141,5 @@ model InvoiceItem {
   quantity    Float
   unitPrice   Float
   vatRate     Float   @default(19)
-
-  // Relation: invoiceId (FK) → Invoice.id
   invoice Invoice @relation(fields: [invoiceId], references: [id])
 }
