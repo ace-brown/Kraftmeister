@@ -84,7 +84,7 @@ export function JobEditDialog({ job, open, onOpenChange }: JobEditDialogProps) {
               name="description"
               control={control}
               render={({ field, fieldState }) => (
-                <Field data-invalid={fieldState.invalid}>
+                <Field data-invalid={fieldState.invalid} className="md:col-span-2">
                   <FieldLabel htmlFor="edit-job-description">
                     Description
                   </FieldLabel>

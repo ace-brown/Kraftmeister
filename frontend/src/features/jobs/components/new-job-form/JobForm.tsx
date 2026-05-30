@@ -84,7 +84,7 @@ export function JobForm() {
               name="description"
               control={control}
               render={({ field, fieldState }) => (
-                <Field data-invalid={fieldState.invalid}>
+                <Field data-invalid={fieldState.invalid} className="md:col-span-2">
                   <FieldLabel htmlFor="create-job-description">
                     Description
                   </FieldLabel>

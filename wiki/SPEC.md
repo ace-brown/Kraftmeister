@@ -159,22 +159,22 @@ InvoiceItem   — id, invoiceId, description, quantity, unitPrice, vatRate
 
 ### 4.3 NestJS Auth Module
 
-- [ ] Install: `@nestjs/config`, `@nestjs/jwt`, `@nestjs/passport`, `passport-jwt`, `bcrypt`.
-- [ ] Set up `ConfigModule` as global.
-- [ ] `POST /auth/register` — create company + admin user.
-- [ ] `POST /auth/login` — return `accessToken` (15min) + `refreshToken` (7d) stored in Redis.
-- [ ] `POST /auth/refresh` — validate refresh token in Redis, issue new pair.
-- [ ] `POST /auth/logout` — delete refresh token from Redis.
-- [ ] Implement `JwtAuthGuard` and `CurrentUser` decorator.
-- [ ] Hash passwords with `bcrypt` (12 rounds).
-- [ ] Scope **all** DB queries to `companyId` from the JWT — this is multi-tenancy.
+- [x] Install: `@nestjs/config`, `@nestjs/jwt`, `@nestjs/passport`, `passport-jwt`, `bcrypt`.
+- [x] Set up `ConfigModule` as global.
+- [x] `POST /auth/register` — create company + admin user.
+- [x] `POST /auth/login` — return `accessToken` (15min) + `refreshToken` (7d) stored in Redis.
+- [x] `POST /auth/refresh` — validate refresh token in Redis, issue new pair.
+- [x] `POST /auth/logout` — delete refresh token from Redis.
+- [x] Implement `JwtAuthGuard` and `CurrentUser` decorator.
+- [x] Hash passwords with `bcrypt` (12 rounds).
+- [x] Scope **all** DB queries to `companyId` from the JWT — this is multi-tenancy.
 
 ### 4.4 Frontend Auth
 
-- [ ] `/login` — email + password form, store tokens, redirect to dashboard.
-- [ ] Middleware: protect all routes; redirect unauthenticated users to `/login`.
-- [ ] Set up `axios` (or `fetch`) instance with JWT interceptor (auto-attach token, auto-refresh on 401).
-- [ ] Create `AuthContext` for session state.
+- [x] `/login` — email + password form, store tokens, redirect to dashboard.
+- [x] Middleware: protect all routes; redirect unauthenticated users to `/login`.
+- [x] Set up `axios` (or `fetch`) instance with JWT interceptor (auto-attach token, auto-refresh on 401).
+- [x] Create `AuthContext` for session state.
 
 ---
 
@@ -184,33 +184,33 @@ InvoiceItem   — id, invoiceId, description, quantity, unitPrice, vatRate
 
 ### 5.1 Backend — Quotes Module
 
-- [ ] `GET /quotes`, `GET /quotes/:id`.
-- [ ] `POST /quotes` — create with `QuoteItem[]` in request body.
-- [ ] `PATCH /quotes/:id` — update items and status.
-- [ ] `POST /quotes/:id/convert-to-invoice` — create Invoice from Quote, copy items.
-- [ ] Auto-calculate `subtotal`, `vatAmount`, `total` in service layer (not frontend).
+- [x] `GET /quotes`, `GET /quotes/:id`.
+- [x] `POST /quotes` — create with `QuoteItem[]` in request body.
+- [x] `PATCH /quotes/:id` — update items and status.
+- [x] `POST /quotes/:id/convert-to-invoice` — create Invoice from Quote, copy items.
+- [x] Auto-calculate `subtotal`, `vatAmount`, `total` in service layer (not frontend).
 
 ### 5.2 Backend — Invoices Module
 
-- [ ] `GET /invoices`, `GET /invoices/:id`.
-- [ ] `POST /invoices` — manual creation (or via quote conversion).
-- [ ] `PATCH /invoices/:id/status` — mark as PAID / SENT / CANCELLED.
-- [ ] Auto-generate `invoiceNumber` in format: `KM-2024-0001` (sequential per company).
+- [x] `GET /invoices`, `GET /invoices/:id`.
+- [x] `POST /invoices` — manual creation (or via quote conversion).
+- [x] `PATCH /invoices/:id/status` — mark as PAID / SENT / CANCELLED.
+- [x] Auto-generate `invoiceNumber` in format: `KM-2024-0001` (sequential per company).
 
 ### 5.3 Frontend — Quotes Pages
 
-- [ ] `/quotes/new` — line item builder: add/remove rows, description, qty, unit price; auto-compute VAT (19%) and total.
-- [ ] `/quotes/[id]` — view with "Convert to Invoice" button + PDF download button.
+- [x] `/quotes/new` — line item builder: add/remove rows, description, qty, unit price; auto-compute VAT (19%) and total.
+- [x] `/quotes/[id]` — view with "Convert to Invoice" button + PDF download button.
 
 ### 5.4 Frontend — Invoices Pages
 
-- [ ] `/invoices` — list with status badges (DRAFT / SENT / PAID / CANCELLED).
-- [ ] `/invoices/[id]` — view with PDF download + "Mark as Paid" button.
+- [x] `/invoices` — list with status badges (DRAFT / SENT / PAID / CANCELLED).
+- [x] `/invoices/[id]` — view with PDF download + "Mark as Paid" button.
 
 ### 5.5 Dashboard Page
 
-- [ ] Show: today's open jobs (count + list), unpaid invoices (count + total), last 5 customers.
-- [ ] Fetch via TanStack Query with `staleTime: 60_000`.
+- [x] Show: today's open jobs (count + list), unpaid invoices (count + total), last 5 customers.
+- [x] Fetch via TanStack Query with `staleTime: 60_000`.
 
 ---
 
@@ -220,17 +220,17 @@ InvoiceItem   — id, invoiceId, description, quantity, unitPrice, vatRate
 
 ### 6.1 Error Handling & Logging
 
-- [ ] Global `HttpExceptionFilter` returning `{ statusCode, message, timestamp, path }`.
-- [ ] `LoggingInterceptor` to log all requests with method, path, duration, userId.
-- [ ] Use `Pino` for structured JSON logging (`nestjs-pino`).
-- [ ] Add request IDs via `X-Request-ID` header.
+- [x] Global `HttpExceptionFilter` returning `{ statusCode, message, timestamp, path }`.
+- [x] `LoggingInterceptor` to log all requests with method, path, duration, userId.
+- [x] Use `Pino` for structured JSON logging (`nestjs-pino`).
+- [x] Add request IDs via `X-Request-ID` header.
 
 ### 6.2 Mobile-First UI Rules
 
-- [ ] All buttons minimum `h-12` (48px tap target).
-- [ ] Bottom navigation bar on mobile (Dashboard, Jobs, Customers, Invoices).
-- [ ] Forms single-column on mobile, two-column on `md+`.
-- [ ] Test at 390px width (iPhone 14 viewport) throughout.
+- [x] All buttons minimum `h-12` (48px tap target).
+- [x] Bottom navigation bar on mobile (Dashboard, Jobs, Customers, Invoices).
+- [x] Forms single-column on mobile, two-column on `md+`.
+- [x] Test at 390px width (iPhone 14 viewport) throughout.
 
 ---
 
@@ -242,19 +242,19 @@ InvoiceItem   — id, invoiceId, description, quantity, unitPrice, vatRate
 
 ### 7.1 File Upload Service
 
-- [ ] Run MinIO in Docker Compose on port 9000.
-- [ ] Add `@aws-sdk/client-s3` to `api-gateway`.
-- [ ] `POST /files/upload` endpoint (multipart/form-data).
-- [ ] Store file references in a `files` table linked to `jobId`.
-- [ ] Validate file types (JPEG, PNG, WEBP only) and max size (10MB).
-- [ ] Use `sharp` to resize uploaded photos to max 1600px; thumbnails at 400px.
+- [x] Run MinIO in Docker Compose on port 9000.
+- [x] Add `@aws-sdk/client-s3` to `api-gateway`.
+- [x] `POST /files/upload` endpoint (multipart/form-data).
+- [x] Store file references in a `files` table linked to `jobId`.
+- [x] Validate file types (JPEG, PNG, WEBP only) and max size (10MB).
+- [x] Use `sharp` to resize uploaded photos to max 1600px; thumbnails at 400px.
 
 ### 7.2 PDF Generation
 
-- [ ] `GET /invoices/:id/pdf` — generate and stream PDF as `application/pdf`.
-- [ ] `GET /quotes/:id/pdf` — same for quotes.
-- [ ] PDF must include: company logo placeholder, invoice number, customer data, line items, totals, VAT breakdown.
-- [ ] German legal requirements: `Rechnungsnummer`, `Leistungsdatum`, `Steuernummer` / `USt-IdNr`, VAT shown separately.
+- [x] `GET /invoices/:id/pdf` — generate and stream PDF as `application/pdf`.
+- [x] `GET /quotes/:id/pdf` — same for quotes.
+- [x] PDF must include: company logo placeholder, invoice number, customer data, line items, totals, VAT breakdown.
+- [x] German legal requirements: `Rechnungsnummer`, `Leistungsdatum`, `Steuernummer` / `USt-IdNr`, VAT shown separately.
 
 ---
 
