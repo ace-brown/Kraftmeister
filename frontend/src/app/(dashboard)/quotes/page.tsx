@@ -1,3 +1,12 @@
+"use client";
+
+import { PageContainer } from "@/components/layout/page-container";
+import QuotesView from "@/features/quotes/components/QuotesView";
+
 export default function QuotesPage() {
-  return <div>Quotes Page</div>;
+  return (
+    <PageContainer>
+      <QuotesView />
+    </PageContainer>
+  );
 }

@@ -28,6 +28,18 @@ export const jobKeys = {
   detail: (id: string) => [...jobKeys.all, "detail", id] as const,
 };
 
+export const quoteKeys = {
+  all: ["quotes"] as const,
+  list: () => [...quoteKeys.all, "list"] as const,
+  detail: (id: string) => [...quoteKeys.all, "detail", id] as const,
+};
+
+export const invoiceKeys = {
+  all: ["invoices"] as const,
+  list: () => [...invoiceKeys.all, "list"] as const,
+  detail: (id: string) => [...invoiceKeys.all, "detail", id] as const,
+};
+
 export const defaultQueryClient = new QueryClient({
   defaultOptions: {
     queries: {
