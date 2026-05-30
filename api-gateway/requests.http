@@ -56,3 +56,71 @@ DELETE http://localhost:4000/customers/cmpo6nuhi000037peb0864odc
 
 ### Search customers
 GET http://localhost:4000/customers?search=Hans
+
+##############################################################
+### Register (creates company + admin user, returns tokens)
+POST http://localhost:4000/auth/register
+Content-Type: application/json
+
+{
+  "companyName": "Muster GmbH",
+  "email": "admin2@muster.de",
+  "password": "password123"
+}
+
+###
+
+### Login
+POST http://localhost:4000/auth/login
+Content-Type: application/json
+
+{
+  "email": "admin2@muster.de",
+  "password": "password123"
+}
+
+###
+
+### Refresh tokens (paste refreshToken from login/register response)
+POST http://localhost:4000/auth/refresh
+Content-Type: application/json
+
+{
+  "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjbXBzZjlqb24wMDAzMm1wbnFmanR2NDZsIiwiY29tcGFueUlkIjoiY21wc2Y5am5tMDAwMjJtcG5lcG5sZmFnOSIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTc4MDE0OTg2MSwiZXhwIjoxNzgwNzU0NjYxfQ.NrYV5N22eJ3PdNOQbm0-6-hd9LBwmjwGntsWZLayKvg"
+}
+
+###
+
+### Logout (requires accessToken in Authorization header)
+POST http://localhost:4000/auth/logout
+Authorization: Bearer PASTE_ACCESS_TOKEN_HERE
+
+##############################################################
+### Get all users
+GET http://localhost:4000/users
+
+### Get user by ID
+GET http://localhost:4000/users/PASTE_USER_ID_HERE
+
+### Create user (password must be pre-hashed by caller — use auth/register instead for real signups)
+POST http://localhost:4000/users
+Content-Type: application/json
+
+{
+  "companyId": "PASTE_COMPANY_ID_HERE",
+  "email": "worker@muster.de",
+  "password": "password123",
+  "role": "WORKER"
+}
+
+### Update user
+PATCH http://localhost:4000/users/PASTE_USER_ID_HERE
+Content-Type: application/json
+
+{
+  "email": "newemail@muster.de",
+  "role": "WORKER"
+}
+
+### Delete user
+DELETE http://localhost:4000/users/PASTE_USER_ID_HERE
