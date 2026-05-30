@@ -143,6 +143,23 @@ No `companyId`, `customerId`, or auth yet — intentionally deferred (see SPEC.m
 | PATCH | /jobs/:id | ✅ Working |
 | DELETE | /jobs/:id | ✅ Working — returns 204 No Content |
 
+### Quotes
+| Method | Path | Notes |
+|---|---|---|
+| GET | /quotes | ✅ Working. Returns items + customer + computed subtotal/vatAmount/total |
+| POST | /quotes | ✅ Working. Body: `{ customerId, jobId?, vatRate?, items: [{description, quantity, unitPrice}] }` |
+| GET | /quotes/:id | ✅ Working. Includes items, customer, job, invoice |
+| PATCH | /quotes/:id | ✅ Working. Partial update: status, vatRate, items (replaces all items if provided) |
+| POST | /quotes/:id/convert-to-invoice | ✅ Working. Creates Invoice from Quote, copies items, auto-generates invoiceNumber |
+
+### Invoices
+| Method | Path | Notes |
+|---|---|---|
+| GET | /invoices | ✅ Working. Returns items + customer + computed subtotal/vatAmount/total |
+| POST | /invoices | ✅ Working. Manual creation with items |
+| GET | /invoices/:id | ✅ Working. Includes items, customer, quote |
+| PATCH | /invoices/:id/status | ✅ Working. Body: `{ status: "DRAFT" \| "SENT" \| "PAID" \| "CANCELLED" }` |
+
 ---
 
 ## Frontend Structure
@@ -159,31 +176,40 @@ src/
 │       │   ├── page.tsx       — ✅ list page, fetches GET /jobs
 │       │   ├── new/page.tsx   — ✅ create form, posts to POST /jobs, redirects on success
 │       │   └── [id]/page.tsx  — ✅ detail page with status change + edit dialog
-│       ├── customers/         — pages exist, no logic yet
-│       ├── quotes/            — pages exist, no logic yet
-│       └── invoices/          — pages exist, no logic yet
+│       ├── customers/         — ✅ fully wired (list, new, detail, edit)
+│       ├── quotes/
+│       │   ├── page.tsx       — ✅ list page with status badges + totals
+│       │   ├── new/page.tsx   — ✅ line item builder form (dynamic rows, VAT calc, customer/job select)
+│       │   └── [id]/page.tsx  — ✅ detail with status change + "Convert to Invoice" button
+│       ├── invoices/
+│       │   ├── page.tsx       — ✅ list with status badges + totals
+│       │   └── [id]/page.tsx  — ✅ detail with Mark as Sent/Paid/Cancelled actions
+│       └── dashboard/         — ✅ stats (open jobs, unpaid invoices, recent customers)
 ├── components/
 │   ├── ui/                    — shadcn/ui components + custom (field.tsx, page-header.tsx, etc.)
 │   └── layout/                — sidebar, topbar, mobile-nav, page-container
 ├── features/
-│   └── jobs/                  — the only fully wired feature
-│       ├── api/jobs.api.ts    — getJobs(filters?), getJob(id), createJob(), updateJob()
-│       ├── hooks/useJobs.ts   — TanStack Query list hook, accepts optional JobFilters
-│       ├── hooks/useJob.ts    — TanStack Query single job hook
-│       ├── hooks/useCreateJob.ts — mutation hook (accepts options for onSuccess)
-│       ├── hooks/useUpdateJob.ts — mutation hook, invalidates list + detail cache on success
-│       ├── schemas/           — Zod validation schema (status enum uses JOB_STATUSES constant)
-│       ├── types/job.types.ts — Job, JobStatus, JOB_STATUSES, JOB_STATUS_LABELS, JobFilters, all prop types
+│   ├── jobs/                  — fully wired
+│   ├── customers/             — fully wired
+│   ├── quotes/
+│   │   ├── api/               — getQuotes, getQuote, createQuote, updateQuote, convertToInvoice
+│   │   ├── hooks/             — useQuotes, useQuote, useCreateQuote, useUpdateQuote, useConvertToInvoice
+│   │   ├── schemas/           — createQuoteSchema (Zod, with useFieldArray items)
+│   │   ├── types/quote.types.ts — Quote, QuoteItem, QuoteStatus, QUOTE_STATUSES, payload types
+│   │   └── components/
+│   │       ├── QuotesView.tsx      — list with StatusBadge
+│   │       ├── QuoteForm.tsx       — dynamic line item builder with VAT calc
+│   │       └── quote-details/      — header, items table, actions (status + convert)
+│   └── invoices/
+│       ├── api/               — getInvoices, getInvoice, updateInvoiceStatus
+│       ├── hooks/             — useInvoices, useInvoice, useUpdateInvoiceStatus
+│       ├── types/invoice.types.ts — Invoice, InvoiceItem, InvoiceStatus, INVOICE_STATUSES, payload types
 │       └── components/
-│           ├── JobsView.tsx         — reads/writes filters from URL via useSearchParams + router.replace
-│           └── jobs-list/
-│               ├── JobList.tsx      — accepts filters prop, passes to useJobs
-│               ├── JobCard.tsx      — renders StatusBadge
-│               ├── JobsFilterBar.tsx — status dropdown + date picker, calls onChange
-│               └── job-details/     — detail page sub-components (header, description, status, photos, edit dialog)
+│           ├── InvoicesView.tsx     — list with StatusBadge
+│           └── invoice-details/     — header, items table, actions (sent/paid/cancel)
 ├── lib/
 │   ├── api/client.ts          — fetch wrapper, throws on !response.ok, calls response.json()
-│   ├── query-client.ts        — QueryClient config + jobKeys cache key factory
+│   ├── query-client.ts        — QueryClient config + jobKeys, customerKeys, quoteKeys, invoiceKeys
 │   └── utils.ts
 └── providers/QueryProvider.tsx
 ```

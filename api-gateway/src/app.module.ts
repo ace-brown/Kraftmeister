@@ -6,6 +6,8 @@ import { CustomersModule } from './modules/customers/customers.module';
 import { RedisModule } from './modules/redis/redis.module';
 import { UsersModule } from './modules/users/users.module';
 import { AuthModule } from './modules/auth/auth.module';
+import { QuotesModule } from './modules/quotes/quotes.module';
+import { InvoicesModule } from './modules/invoices/invoices.module';
 
 @Module({
   imports: [
@@ -16,6 +18,8 @@ import { AuthModule } from './modules/auth/auth.module';
     UsersModule,
     JobsModule,
     CustomersModule,
+    QuotesModule,
+    InvoicesModule,
   ],
 })
 export class AppModule {}

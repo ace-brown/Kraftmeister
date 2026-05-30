@@ -39,6 +39,22 @@ This is a portfolio project built to demonstrate the full-stack + LLM engineerin
 
 ---
 
+## Who Uses This App
+
+Kraftmeister is a **B2B tool for the tradesperson**, not their clients. Only the company (e.g. a plumbing business) registers and logs in. Their customers never touch the app — they only receive PDFs by email or WhatsApp.
+
+**Example — Mr Smith's Plumbing Company:**
+
+1. A client calls about broken pipes → Mr Smith opens Kraftmeister and adds the client to his Customers list (name, phone, address)
+2. He creates a **Job**: "Fix pipes at 12 Baker St"
+3. He builds a **Quote** with line items — Labor: 3h × €50, New pipe: €30, Total: €180 + 19% VAT — downloads it as a PDF and sends it to the client
+4. Client agrees → Mr Smith clicks "Convert to Invoice" → downloads the PDF invoice → client pays
+5. Mr Smith marks the invoice as **PAID**
+
+The app replaces a paper notebook, an Excel spreadsheet, and Word invoice templates — all in one place.
+
+---
+
 ## Core User Journey
 
 ```
