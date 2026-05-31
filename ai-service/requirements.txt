@@ -15,5 +15,7 @@ openai
 anthropic
 langchain
 langchain-anthropic
+langchain-openai
+langchain-core
 python-dotenv
 httpx
