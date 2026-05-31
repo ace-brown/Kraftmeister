@@ -262,14 +262,14 @@ InvoiceItem   — id, invoiceId, description, quantity, unitPrice, vatRate
 
 **Goal:** 3 AI features that showcase LLM engineering for the portfolio.
 
-**Tech:** FastAPI, Python 3.12, LangChain, OpenAI (GPT-4o, Whisper, Vision), Pydantic v2
+**Tech:** FastAPI, Python 3.12, LangChain, OpenAI (Whisper for audio), Anthropic Claude (text + vision), Pydantic v2
 
 ### 8.1 FastAPI Service Setup
 
-- [ ] Create `ai-service/main.py` with FastAPI app.
-- [ ] Install: `fastapi`, `uvicorn`, `openai`, `langchain`, `langchain-openai`, `pydantic`, `python-dotenv`, `httpx`.
-- [ ] Add `GET /health` endpoint.
-- [ ] The AI service is stateless — no database access. NestJS owns all data.
+- [x] Create `ai-service/main.py` with FastAPI app.
+- [x] Install: `fastapi`, `uvicorn`, `openai`, `anthropic`, `langchain`, `langchain-anthropic`, `pydantic`, `python-dotenv`, `httpx`.
+- [x] Add `GET /health` endpoint.
+- [x] The AI service is stateless — no database access. NestJS owns all data.
 
 ### 8.2 NestJS AI Proxy Module
 
@@ -281,28 +281,28 @@ InvoiceItem   — id, invoiceId, description, quantity, unitPrice, vatRate
 
 - [ ] `POST /ai/voice-to-job` (NestJS) → `POST /process/voice` (FastAPI).
 - [ ] Accept: audio file (MP3/WEBM). Transcribe with OpenAI **Whisper**.
-- [ ] Pass transcript to GPT-4o to extract structured `{ title, description, tasks, materials, priority, suggestedDate }`.
-- [ ] Use LangChain `ChatOpenAI` + `JsonOutputParser` + Pydantic model.
+- [ ] Pass transcript to **Claude Sonnet** to extract structured `{ title, description, tasks, materials, priority, suggestedDate }`.
+- [ ] Use LangChain `ChatAnthropic` + `JsonOutputParser` + Pydantic model.
 - [ ] Frontend: mic button on job form → fills fields on response.
 
 ### 8.4 Feature 2 — AI Invoice Item Suggestions
 
 - [ ] `POST /ai/suggest-items` → `POST /process/suggest-items`.
 - [ ] Input: `{ jobDescription, jobType? }`. Output: line items with description, qty, unitPrice, unit.
-- [ ] GPT-4o with few-shot prompt trained on German Handwerk line items.
+- [ ] **Claude Sonnet** with few-shot prompt trained on German Handwerk line items.
 - [ ] Frontend: "Suggest Items" button on Quote builder → populates line items table.
 
 ### 8.5 Feature 3 — Photo Analysis (Vision)
 
 - [ ] `POST /ai/analyze-photo` → `POST /process/analyze-photo`.
 - [ ] Input: image URL (from MinIO) or base64.
-- [ ] GPT-4o Vision returns `{ summary, detectedIssues, suggestedTasks, estimatedComplexity }`.
+- [ ] **Claude Sonnet** (vision-capable) returns `{ summary, detectedIssues, suggestedTasks, estimatedComplexity }`.
 - [ ] Frontend: per-photo "Analyze" button on Job detail page.
 
 ### 8.6 AI Engineering Best Practices
 
 - [ ] Log all AI requests: model, tokens, latency, feature — store in `ai_logs` table.
-- [ ] Retry logic in FastAPI with exponential backoff for OpenAI rate limits.
+- [ ] Retry logic in FastAPI with exponential backoff for OpenAI (Whisper) and Anthropic (Claude) rate limits.
 - [ ] All prompts wrapped in typed Pydantic models.
 - [ ] `POST /ai/feedback` — thumbs-up/down on AI results, stored for future fine-tuning signal.
 
@@ -385,22 +385,22 @@ Before sharing with employers:
 
 ## Skills This Project Demonstrates (German Job Market 2024–2025)
 
-| Skill                                   | Where shown |
-| --------------------------------------- | ----------- |
-| LLM API integration (OpenAI)            | Phase 8     |
-| LangChain / prompt engineering          | Phase 8     |
-| Structured output from LLMs             | Phase 8     |
-| NestJS / TypeScript backend             | Phases 2–5  |
-| FastAPI / Python backend                | Phase 8     |
-| PostgreSQL + Prisma ORM                 | Phase 4.1   |
-| REST API design                         | Phases 2–5  |
-| Docker + Docker Compose                 | Phase 1     |
-| CI/CD with GitHub Actions               | Phase 11    |
-| Multi-tenant SaaS architecture          | Phase 4.2   |
-| JWT authentication                      | Phase 4.2   |
-| Next.js App Router                      | Phases 2–5  |
-| PDF generation                          | Phase 7     |
-| File uploads + S3                       | Phase 7     |
-| Testing (Jest, Pytest, RTL)             | Phase 9     |
-| Production observability (Sentry, Pino) | Phase 10    |
-| Deployment (Nginx, VPS, SSL)            | Phase 11    |
+| Skill                                    | Where shown |
+| ---------------------------------------- | ----------- |
+| LLM API integration (OpenAI + Anthropic) | Phase 8     |
+| LangChain / prompt engineering           | Phase 8     |
+| Structured output from LLMs              | Phase 8     |
+| NestJS / TypeScript backend              | Phases 2–5  |
+| FastAPI / Python backend                 | Phase 8     |
+| PostgreSQL + Prisma ORM                  | Phase 4.1   |
+| REST API design                          | Phases 2–5  |
+| Docker + Docker Compose                  | Phase 1     |
+| CI/CD with GitHub Actions                | Phase 11    |
+| Multi-tenant SaaS architecture           | Phase 4.2   |
+| JWT authentication                       | Phase 4.2   |
+| Next.js App Router                       | Phases 2–5  |
+| PDF generation                           | Phase 7     |
+| File uploads + S3                        | Phase 7     |
+| Testing (Jest, Pytest, RTL)              | Phase 9     |
+| Production observability (Sentry, Pino)  | Phase 10    |
+| Deployment (Nginx, VPS, SSL)             | Phase 11    |
