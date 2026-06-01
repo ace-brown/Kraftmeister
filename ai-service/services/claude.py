@@ -1,6 +1,7 @@
 from langchain.chat_models import init_chat_model
-from langchain_core.output_parsers import JsonOutputParser
-from langchain_core.messages import HumanMessage
+from langchain_core.output_parsers import JsonOutputParser, StrOutputParser
+from langchain_core.prompts import ChatPromptTemplate
+from langchain_core.messages import HumanMessage, SystemMessage
 import config  # ensures load_dotenv() runs before init_chat_model reads env vars
 from schemas.ai_schemas import (
     TranscriptPayload,
@@ -15,28 +16,25 @@ llm = init_chat_model("claude-sonnet-4-6", model_provider="anthropic")
 
 
 async def extract_job_notes(payload: TranscriptPayload) -> VoiceToJobResponse:
-    pass
+    prompt = ChatPromptTemplate.from_template(
+        """You are an assistant for a German tradesperson (Handwerker).
+        The user recorded a voice note about a job. Here is the transcript:
 
+        "{transcript}"
 
-async def extract_job_notes_1(payload: TranscriptPayload) -> VoiceToJobResponse:
-    prompt = f"""
-            You are an assistant for a German tradesperson (Handwerker).
-            The user recorded a voice note about a job. Here is the transcript:
+        Extract the following information and return ONLY valid JSON, no extra text:
+        {{
+        "title": "short job title",
+        "description": "full job description",
+        "tasks": ["task 1", "task 2"],
+        "materials": ["material 1", "material 2"],
+        "priority": "low | medium | high",
+        "suggestedDate": "YYYY-MM-DD or null"
+        }}"""
+    )
 
-            "{payload.transcript}"
-
-            Extract the following information and return ONLY valid JSON, no extra text:
-            {{
-            "title": "short job title",
-            "description": "full job description",
-            "tasks": ["task 1", "task 2"],
-            "materials": ["material 1", "material 2"],
-            "priority": "low | medium | high",
-            "suggestedDate": "YYYY-MM-DD or null"
-            }}
-            """
-    chain = llm | JsonOutputParser()
-    result = await chain.ainvoke(prompt)
+    chain = prompt | llm | JsonOutputParser()
+    result = await chain.ainvoke({"transcript": payload.transcript})
     return VoiceToJobResponse(**result)
 
 
