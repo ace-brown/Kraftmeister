@@ -273,9 +273,9 @@ InvoiceItem   — id, invoiceId, description, quantity, unitPrice, vatRate
 
 ### 8.2 NestJS AI Proxy Module
 
-- [ ] Create `AiModule` in `api-gateway` with `HttpModule` (`@nestjs/axios`).
-- [ ] All AI endpoints go through NestJS (authenticated, validated) and are proxied to FastAPI.
-- [ ] FastAPI is NOT exposed to the internet.
+- [x] Create `AiModule` in `api-gateway` with `HttpModule` (`@nestjs/axios`).
+- [x] All AI endpoints go through NestJS (authenticated, validated) and are proxied to FastAPI.
+- [x] FastAPI is NOT exposed to the internet.
 
 ### 8.3 Feature 1 — Voice to Job Notes
 

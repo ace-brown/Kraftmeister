@@ -231,6 +231,13 @@ src/
 4. Build components in `src/features/<feature>/components/`
 5. Wire into `src/app/(dashboard)/<feature>/` pages
 
+**Docstring / Comment Rules (always follow across all services):**
+- **Every function and method must have a docstring or a short inline comment** — this applies to Python (FastAPI/ai-service), TypeScript (NestJS/api-gateway), and TypeScript/React (frontend).
+- Python: use triple-quoted docstrings (`"""..."""`) on every `def` / `async def`.
+- TypeScript/NestJS: use JSDoc (`/** ... */`) on every public method in services and controllers.
+- TypeScript/React: use a single-line JSDoc comment on every hook, API function, and component with non-obvious behaviour.
+- The comment must explain **what the function does and why**, not just restate the name. One clear sentence is enough.
+
 **Frontend UI Rules (always follow):**
 - **Always use shadcn/ui components** from `src/components/ui/` — `Button`, `Card`, `Input`, `Select`, `Badge`, `Separator`, etc. Never use raw HTML elements when a shadcn component exists.
 - **Always use Typography components** from `src/components/ui/Typography/` for all text — `TypographyH1` for page titles, `TypographyH2` for section headers, `TypographyP` for body text. Never use raw `<h1>`, `<h2>`, `<p>` tags directly.
