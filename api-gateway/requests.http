@@ -124,3 +124,30 @@ Content-Type: application/json
 
 ### Delete user
 DELETE http://localhost:4000/users/PASTE_USER_ID_HERE
+
+##############################################################
+### AI — Suggest invoice line items from a job description
+POST http://localhost:4000/ai/suggest-items
+Content-Type: application/json
+
+{
+  "jobDescription": "Badezimmer renovieren, Fliesen verlegen, Sanitär erneuern",
+  "jobType": "Sanitär"
+}
+
+###
+
+### AI — Analyze a job site photo by URL
+POST http://localhost:4000/ai/analyze-photo
+Content-Type: application/json
+
+{
+  "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/PNG_transparency_demonstration_1.png/280px-PNG_transparency_demonstration_1.png"
+}
+
+###
+
+### AI — Voice to job (multipart/form-data — use a REST client that supports file upload)
+# POST http://localhost:4000/ai/voice-to-job
+# Content-Type: multipart/form-data
+# audio: <path-to-audio-file.mp3>

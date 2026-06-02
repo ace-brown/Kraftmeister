@@ -15,6 +15,7 @@ import { InvoicesModule } from './modules/invoices/invoices.module';
 import { HttpExceptionFilter } from './common/filters/http-exception.filter';
 import { LoggingInterceptor } from './common/interceptors/logging.interceptor';
 import { RequestIdMiddleware } from './common/middleware/request-id.middleware';
+import { AiModule } from './modules/ai/ai.module';
 
 @Module({
   imports: [
@@ -24,7 +25,10 @@ import { RequestIdMiddleware } from './common/middleware/request-id.middleware';
         autoLogging: false,
         transport:
           process.env.NODE_ENV !== 'production'
-            ? { target: 'pino-pretty', options: { colorize: true, singleLine: true } }
+            ? {
+                target: 'pino-pretty',
+                options: { colorize: true, singleLine: true },
+              }
             : undefined,
         level: process.env.LOG_LEVEL ?? 'info',
         genReqId: (req: IncomingMessage) => {
@@ -43,6 +47,7 @@ import { RequestIdMiddleware } from './common/middleware/request-id.middleware';
     CustomersModule,
     QuotesModule,
     InvoicesModule,
+    AiModule,
   ],
   providers: [
     { provide: APP_FILTER, useClass: HttpExceptionFilter },

@@ -19,3 +19,4 @@ langchain-openai
 langchain-core
 python-dotenv
 httpx
+python-multipart
