@@ -151,3 +151,6 @@ Content-Type: application/json
 # POST http://localhost:4000/ai/voice-to-job
 # Content-Type: multipart/form-data
 # audio: <path-to-audio-file.mp3>
+
+### Test Sentry
+GET http://localhost:4000/auth/debug-sentry

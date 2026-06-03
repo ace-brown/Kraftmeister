@@ -13,13 +13,16 @@ import { useCustomers } from "@/features/customers/hooks/useCustomers";
 import { InvoiceStatus } from "@/features/invoices/types";
 
 export default function DashboardPage() {
-  const { data: openJobs, isLoading: jobsLoading } = useJobs({ status: "OPEN" });
+  const { data: openJobs, isLoading: jobsLoading } = useJobs({
+    status: "OPEN",
+  });
   const { data: invoices, isLoading: invoicesLoading } = useInvoices();
   const { data: customers, isLoading: customersLoading } = useCustomers();
 
-  const unpaidInvoices = invoices?.filter(
-    (inv) => inv.status === "DRAFT" || inv.status === "SENT",
-  ) ?? [];
+  const unpaidInvoices =
+    invoices?.filter(
+      (inv) => inv.status === "DRAFT" || inv.status === "SENT",
+    ) ?? [];
   const unpaidTotal = unpaidInvoices.reduce((sum, inv) => sum + inv.total, 0);
   const recentCustomers = customers?.slice(0, 5) ?? [];
 
@@ -31,7 +34,9 @@ export default function DashboardPage() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
         <Card>
           <CardContent className="py-5">
-            <TypographyP className="text-xs text-zinc-400 mb-1">Offene Aufträge</TypographyP>
+            <TypographyP className="text-xs text-zinc-400 mb-1">
+              Offene Aufträge
+            </TypographyP>
             {jobsLoading ? (
               <LoadingSpinner />
             ) : (
@@ -44,7 +49,9 @@ export default function DashboardPage() {
 
         <Card>
           <CardContent className="py-5">
-            <TypographyP className="text-xs text-zinc-400 mb-1">Unbezahlte Rechnungen</TypographyP>
+            <TypographyP className="text-xs text-zinc-400 mb-1">
+              Unbezahlte Rechnungen
+            </TypographyP>
             {invoicesLoading ? (
               <LoadingSpinner />
             ) : (
@@ -62,7 +69,9 @@ export default function DashboardPage() {
 
         <Card>
           <CardContent className="py-5">
-            <TypographyP className="text-xs text-zinc-400 mb-1">Kunden gesamt</TypographyP>
+            <TypographyP className="text-xs text-zinc-400 mb-1">
+              Kunden gesamt
+            </TypographyP>
             {customersLoading ? (
               <LoadingSpinner />
             ) : (
@@ -91,7 +100,9 @@ export default function DashboardPage() {
               <Link key={job.id} href={`/jobs/${job.id}`}>
                 <Card className="hover:border-zinc-600 transition-colors cursor-pointer">
                   <CardContent className="py-3 flex items-center justify-between">
-                    <TypographyP className="text-sm font-medium">{job.title}</TypographyP>
+                    <TypographyP className="text-sm font-medium">
+                      {job.title}
+                    </TypographyP>
                     <TypographyP className="text-xs text-zinc-400">
                       {new Date(job.createdAt).toLocaleDateString("de-DE")}
                     </TypographyP>
