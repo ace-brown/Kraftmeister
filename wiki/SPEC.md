@@ -279,32 +279,32 @@ InvoiceItem   — id, invoiceId, description, quantity, unitPrice, vatRate
 
 ### 8.3 Feature 1 — Voice to Job Notes
 
-- [ ] `POST /ai/voice-to-job` (NestJS) → `POST /process/voice` (FastAPI).
-- [ ] Accept: audio file (MP3/WEBM). Transcribe with OpenAI **Whisper**.
-- [ ] Pass transcript to **Claude Sonnet** to extract structured `{ title, description, tasks, materials, priority, suggestedDate }`.
-- [ ] Use LangChain `ChatAnthropic` + `JsonOutputParser` + Pydantic model.
-- [ ] Frontend: mic button on job form → fills fields on response.
+- [x] `POST /ai/voice-to-job` (NestJS) → `POST /process/voice` (FastAPI).
+- [x] Accept: audio file (MP3/WEBM). Transcribe with OpenAI **Whisper**.
+- [x] Pass transcript to **Claude Sonnet** to extract structured `{ title, description, tasks, materials, priority, suggestedDate }`.
+- [x] Use LangChain `ChatAnthropic` + `JsonOutputParser` + Pydantic model.
+- [x] Frontend: mic button on job form → fills fields on response.
 
 ### 8.4 Feature 2 — AI Invoice Item Suggestions
 
-- [ ] `POST /ai/suggest-items` → `POST /process/suggest-items`.
-- [ ] Input: `{ jobDescription, jobType? }`. Output: line items with description, qty, unitPrice, unit.
-- [ ] **Claude Sonnet** with few-shot prompt trained on German Handwerk line items.
-- [ ] Frontend: "Suggest Items" button on Quote builder → populates line items table.
+- [x] `POST /ai/suggest-items` → `POST /process/suggest-items`.
+- [x] Input: `{ jobDescription, jobType? }`. Output: line items with description, qty, unitPrice, unit.
+- [x] **Claude Sonnet** with few-shot prompt trained on German Handwerk line items.
+- [x] Frontend: "Suggest Items" button on Quote builder → populates line items table.
 
 ### 8.5 Feature 3 — Photo Analysis (Vision)
 
-- [ ] `POST /ai/analyze-photo` → `POST /process/analyze-photo`.
-- [ ] Input: image URL (from MinIO) or base64.
-- [ ] **Claude Sonnet** (vision-capable) returns `{ summary, detectedIssues, suggestedTasks, estimatedComplexity }`.
-- [ ] Frontend: per-photo "Analyze" button on Job detail page.
+- [x] `POST /ai/analyze-photo` → `POST /process/analyze-photo`.
+- [x] Input: image URL (from MinIO) or base64.
+- [x] **Claude Sonnet** (vision-capable) returns `{ summary, detectedIssues, suggestedTasks, estimatedComplexity }`.
+- [x] Frontend: per-photo "Analyze" button on Job detail page.
 
 ### 8.6 AI Engineering Best Practices
 
-- [ ] Log all AI requests: model, tokens, latency, feature — store in `ai_logs` table.
-- [ ] Retry logic in FastAPI with exponential backoff for OpenAI (Whisper) and Anthropic (Claude) rate limits.
-- [ ] All prompts wrapped in typed Pydantic models.
-- [ ] `POST /ai/feedback` — thumbs-up/down on AI results, stored for future fine-tuning signal.
+- [x] Log all AI requests: model, tokens, latency, feature — store in `ai_logs` table.
+- [x] Retry logic in FastAPI with exponential backoff for OpenAI (Whisper) and Anthropic (Claude) rate limits.
+- [x] All prompts wrapped in typed Pydantic models.
+- [x] `POST /ai/feedback` — thumbs-up/down on AI results, stored for future fine-tuning signal.
 
 ---
 
@@ -334,6 +334,7 @@ InvoiceItem   — id, invoiceId, description, quantity, unitPrice, vatRate
 - [ ] Structured JSON logs with `nestjs-pino`. Include: `requestId`, `userId`, `companyId`, `method`, `path`, `statusCode`, `duration`.
 - [ ] Integrate **Sentry** in both NestJS and Next.js.
 - [ ] Log AI usage per company per month (foundation for future billing).
+- [ ] Fix `tokens: 0` placeholder in `AiService` — have FastAPI return real token counts from LangChain response metadata and store them in `AiLog`.
 - [ ] Enable `@nestjs/swagger` — OpenAPI docs at `/api/docs`. Add `@ApiProperty()` to all DTOs.
 
 ---

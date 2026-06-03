@@ -3,6 +3,7 @@ from langchain_core.output_parsers import JsonOutputParser
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.messages import HumanMessage, SystemMessage
 import config  # ensures load_dotenv() runs before init_chat_model reads env vars
+from tenacity import retry, stop_after_attempt, wait_exponential
 from schemas.ai_schemas import (
     TranscriptPayload,
     VoiceToJobResponse,
@@ -15,7 +16,9 @@ from schemas.ai_schemas import (
 llm = init_chat_model("claude-sonnet-4-6", model_provider="anthropic")
 
 
+@retry(stop=stop_after_attempt(3), wait=wait_exponential(multiplier=1, min=2, max=10))
 async def extract_job_notes(payload: TranscriptPayload) -> VoiceToJobResponse:
+    """Sends a Whisper transcript to Claude and extracts structured job note fields (title, tasks, materials, priority)."""
     prompt = ChatPromptTemplate.from_template(
         """You are an assistant for a German tradesperson (Handwerker).
         The user recorded a voice note about a job. Here is the transcript:
@@ -38,7 +41,9 @@ async def extract_job_notes(payload: TranscriptPayload) -> VoiceToJobResponse:
     return VoiceToJobResponse(**result)
 
 
+@retry(stop=stop_after_attempt(3), wait=wait_exponential(multiplier=1, min=2, max=10))
 async def suggest_items(request: SuggestItemsRequest) -> SuggestItemsResponse:
+    """Sends a job description to Claude and returns suggested invoice line items with German units and realistic prices."""
     prompt = f"""
             You are an assistant for a German tradesperson (Handwerker).
             Based on the job description below, suggest realistic invoice line items.
@@ -66,7 +71,9 @@ async def suggest_items(request: SuggestItemsRequest) -> SuggestItemsResponse:
     return SuggestItemsResponse(**result)
 
 
+@retry(stop=stop_after_attempt(3), wait=wait_exponential(multiplier=1, min=2, max=10))
 async def analyze_photo(request: AnalyzePhotoRequest) -> AnalyzePhotoResponse:
+    """Sends a job site photo to Claude vision and returns detected issues, suggested tasks, and complexity rating."""
     message = HumanMessage(
         content=[
             {

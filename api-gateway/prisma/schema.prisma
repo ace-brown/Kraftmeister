@@ -143,3 +143,12 @@ model InvoiceItem {
   vatRate     Float   @default(19)
   invoice Invoice @relation(fields: [invoiceId], references: [id])
 }
+
+model AiLog {
+  id        String   @id @default(cuid())
+  feature   String
+  model     String
+  tokens    Int
+  latency   Int
+  createdAt DateTime @default(now())
+}
