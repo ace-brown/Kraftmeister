@@ -4,7 +4,9 @@ import { RegisterDto } from './dtos/register.dto';
 import { LoginDto } from './dtos/login.dto';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { CurrentUser } from './decorators/current-user.decorator';
+import { Throttle } from '@nestjs/throttler';
 
+@Throttle({ default: { ttl: 60000, limit: 10 } })
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}

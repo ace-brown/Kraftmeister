@@ -1,7 +1,8 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { randomUUID } from 'crypto';
 import { IncomingMessage } from 'http';
-import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
+import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
+import { APP_FILTER, APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import { ConfigModule } from '@nestjs/config';
 import { LoggerModule } from 'nestjs-pino';
 import { JobsModule } from './modules/jobs/jobs.module';
@@ -19,6 +20,12 @@ import { AiModule } from './modules/ai/ai.module';
 
 @Module({
   imports: [
+    ThrottlerModule.forRoot([
+      {
+        ttl: 60000,
+        limit: 100,
+      },
+    ]),
     ConfigModule.forRoot({ isGlobal: true, envFilePath: '.env.dev' }),
     LoggerModule.forRoot({
       pinoHttp: {
@@ -50,6 +57,7 @@ import { AiModule } from './modules/ai/ai.module';
     AiModule,
   ],
   providers: [
+    { provide: APP_GUARD, useClass: ThrottlerGuard },
     { provide: APP_FILTER, useClass: HttpExceptionFilter },
     { provide: APP_INTERCEPTOR, useClass: LoggingInterceptor },
   ],
