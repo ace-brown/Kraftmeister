@@ -33,4 +33,10 @@ export class AiController {
   async analyzePhoto(@Body() payload: { imageUrl: string }) {
     return this.aiService.analyzePhoto(payload.imageUrl);
   }
+
+  /** Stores a thumbs-up/down rating for an AI result, used as a future fine-tuning signal. */
+  @Post('feedback')
+  async saveFeedback(@Body() payload: { feature: string; rating: boolean }) {
+    return this.aiService.saveFeedback(payload.feature, payload.rating);
+  }
 }

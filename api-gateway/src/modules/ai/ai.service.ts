@@ -76,4 +76,14 @@ export class AiService {
     });
     return response.data;
   }
+
+  /** Stores a thumbs-up/down rating for an AI feature response, used as a future fine-tuning signal. */
+  async saveFeedback(feature: string, rating: boolean) {
+    await this.prisma.aiFeedback.create({
+      data: {
+        feature,
+        rating,
+      },
+    });
+  }
 }

@@ -152,3 +152,10 @@ model AiLog {
   latency   Int
   createdAt DateTime @default(now())
 }
+
+model AiFeedback {
+  id        String   @id @default(cuid())
+  feature   String
+  rating    Boolean  @default(true)
+  createdAt DateTime @default(now())
+}
