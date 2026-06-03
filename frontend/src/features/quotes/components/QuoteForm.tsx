@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useFieldArray, useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -25,12 +26,15 @@ import { useCustomers } from "@/features/customers/hooks";
 import { useJobs } from "@/features/jobs/hooks";
 import { createQuoteSchema, CreateQuoteFormValues } from "../schemas/create-quote.schema";
 import { useCreateQuote } from "../hooks";
+import { useSuggestItems } from "@/features/ai/hooks/useSuggestItems";
 
 export function QuoteForm() {
   const router = useRouter();
   const { mutate, isPending } = useCreateQuote();
   const { data: customers } = useCustomers();
   const { data: jobs } = useJobs();
+  const { mutate: suggest, isPending: isSuggesting } = useSuggestItems();
+  const [aiDescription, setAiDescription] = useState("");
 
   const { control, handleSubmit, watch } = useForm<CreateQuoteFormValues>({
     resolver: zodResolver(createQuoteSchema),
@@ -152,6 +156,34 @@ export function QuoteForm() {
           </FieldGroup>
 
           <Separator className="my-6" />
+
+          {/* AI Suggest Items */}
+          <div className="flex gap-2 mb-6">
+            <Input
+              placeholder="Beschreibe die Arbeit für KI-Vorschläge…"
+              value={aiDescription}
+              onChange={(e) => setAiDescription(e.target.value)}
+            />
+            <Button
+              type="button"
+              variant="outline"
+              disabled={!aiDescription.trim() || isSuggesting}
+              onClick={() =>
+                suggest(
+                  { jobDescription: aiDescription },
+                  {
+                    onSuccess: (data) => {
+                      data.items.forEach((item) =>
+                        append({ description: item.description, quantity: item.quantity, unitPrice: item.unitPrice }),
+                      );
+                    },
+                  },
+                )
+              }
+            >
+              {isSuggesting ? "KI lädt…" : "✨ Positionen vorschlagen"}
+            </Button>
+          </div>
 
           {/* Line items */}
           <TypographyH2 className="text-base mb-4">Positionen</TypographyH2>
