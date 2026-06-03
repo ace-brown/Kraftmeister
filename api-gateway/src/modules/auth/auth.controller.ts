@@ -33,11 +33,4 @@ export class AuthController {
   logout(@CurrentUser() user: { userId: string }) {
     return this.authService.logout(user.userId);
   }
-
-  /** Temporary endpoint to verify Sentry error tracking — delete after confirming. */
-  @Public()
-  @Get('debug-sentry')
-  getError() {
-    throw new Error('My first Sentry error!');
-  }
 }

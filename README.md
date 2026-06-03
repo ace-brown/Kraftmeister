@@ -82,6 +82,7 @@ docker compose up
 |---|---|
 | Frontend | http://localhost:3000 |
 | API Gateway | http://localhost:4000 |
+| API Docs (Swagger) | http://localhost:4000/api/docs |
 | AI Service | http://localhost:8000 |
 
 ---
@@ -103,13 +104,11 @@ kraftmeister/
 | Feature | Status |
 |---|---|
 | Docker Compose environment | ✅ Done |
-| Jobs — create + list | ✅ Done |
-| Jobs — detail + edit | 🔧 In progress |
-| Customers CRUD | ⏳ Next |
-| Auth (JWT + multi-tenancy) | ⏳ Planned |
-| Quotes + Invoices | ⏳ Planned |
-| AI Service (voice, suggestions, vision) | ⏳ Planned |
-| PDF generation (German invoice law) | ⏳ Planned |
+| Jobs, Customers, Quotes, Invoices CRUD | ✅ Done |
+| JWT auth + multi-tenancy | ✅ Done |
+| File uploads + PDF generation | ✅ Done |
+| AI Service — voice, suggestions, photo analysis | ✅ Done |
+| Production hardening (helmet, throttler, Sentry, Swagger) | ✅ Done |
 | CI/CD + deployment | ⏳ Planned |
 
 ---
