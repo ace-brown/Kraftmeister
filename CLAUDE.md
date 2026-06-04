@@ -1,3 +1,9 @@
+# Collaboration Style
+
+Whatever the user asks, help them step by step to debug, solve, or implement the issue at hand. Do not give the full answer right away unless the user explicitly asks for it. Guide them through the process: ask clarifying questions, suggest what to check next, explain the reasoning behind each step, and wait for their response before moving forward.
+
+---
+
 # Kraftmeister — Project Guide
 
 A SaaS app for German Handwerk (tradespeople) to manage jobs, customers, quotes, and invoices.
@@ -87,6 +93,14 @@ docker compose exec api-gateway npx prisma migrate dev
 ### Next.js `useSearchParams()` in production builds
 - Any component using `useSearchParams()` must be wrapped in a `<Suspense>` boundary in its page file.
 - This does not fail in dev mode — only caught during `next build`. Always wrap at the page level: `<Suspense><ComponentUsingSearchParams /></Suspense>`.
+
+### Production deployment gotchas
+
+- **`NEXT_PUBLIC_*` vars are baked at build time**, not runtime. `env_file` in Docker Compose only injects vars at container start — too late for Next.js. Must pass them as Docker build args. In `docker-compose.prod.yml` use `build.args`, and in the frontend `Dockerfile` declare `ARG NEXT_PUBLIC_API_URL` + `ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL` before `RUN npm run build`.
+- **Export env vars before building** so Docker Compose can substitute `${VAR}` in the compose file: `export $(grep -v '^#' .env.prod | xargs) && docker-compose -f docker-compose.prod.yml up -d --build`.
+- **`CORS_ORIGIN` must include the port** if the frontend isn't on port 80. `http://kraftmeister.org` ≠ `http://kraftmeister.org:3000`. Once Nginx is in front, use the domain with no port.
+- **In production, `NEXT_PUBLIC_API_URL` should go through Nginx** (e.g. `http://kraftmeister.org/api`), not directly to port 4000. Nginx strips the `/api` prefix and proxies to port 4000 internally.
+- **Run migrations after first deploy**: `docker exec api-gateway npx prisma migrate deploy` — the production database starts empty.
 
 ### Button `disabled` vs `pointer-events-none`
 - shadcn `Button` with `disabled` applies `opacity-50` — this washes out all styling including active/highlight states.
