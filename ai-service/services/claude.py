@@ -1,8 +1,8 @@
 from langchain.chat_models import init_chat_model
 from langchain_core.output_parsers import JsonOutputParser
 from langchain_core.prompts import ChatPromptTemplate
-from langchain_core.messages import HumanMessage, SystemMessage
-import config  # ensures load_dotenv() runs before init_chat_model reads env vars
+from langchain_core.messages import HumanMessage
+import config  # noqa: F401 — ensures load_dotenv() runs before init_chat_model reads env vars
 from tenacity import retry, stop_after_attempt, wait_exponential
 from schemas.ai_schemas import (
     TranscriptPayload,
