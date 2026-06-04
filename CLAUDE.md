@@ -84,6 +84,10 @@ docker compose exec api-gateway npx prisma migrate dev
 - `DialogContent` requires either `<DialogDescription>` inside it or `aria-describedby={undefined}` to suppress the accessibility warning.
 - Always include `<DialogDescription>` inside `<DialogHeader>` — even a short one-liner is fine.
 
+### Next.js `useSearchParams()` in production builds
+- Any component using `useSearchParams()` must be wrapped in a `<Suspense>` boundary in its page file.
+- This does not fail in dev mode — only caught during `next build`. Always wrap at the page level: `<Suspense><ComponentUsingSearchParams /></Suspense>`.
+
 ### Button `disabled` vs `pointer-events-none`
 - shadcn `Button` with `disabled` applies `opacity-50` — this washes out all styling including active/highlight states.
 - For non-interactive display buttons that still need to show colour, use `className="pointer-events-none"` instead of the `disabled` prop.
