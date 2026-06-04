@@ -19,11 +19,12 @@ jobs:
           node-version: 22
           cache: npm
           cache-dependency-path: api-gateway/package-lock.json
-
       - name: Install dependencies
         working-directory: api-gateway
         run: npm ci
-
+      - name: Generate prisma
+        working-directory: api-gateway
+        run: npx prisma generate
       - name: Type-check
         working-directory: api-gateway
         run: npx tsc --noEmit
@@ -68,7 +69,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.12'
+          python-version: "3.12"
 
       - name: Install dependencies
         working-directory: ai-service
