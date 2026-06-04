@@ -4,7 +4,8 @@
 
 > 🇩🇪 German summary below · Deutsche Zusammenfassung unten
 
-**Live Demo:** _Coming soon_
+**Live Demo:** [kraftmeister.org](http://kraftmeister.org)  
+**API Docs:** [kraftmeister.org/api/docs](http://kraftmeister.org/api/docs)
 
 ---
 
@@ -22,8 +23,9 @@ This is a portfolio project built to demonstrate the full-stack + LLM engineerin
 | **PostgreSQL + Prisma 7** | Relational schema, migrations, driver adapter pattern |
 | **Docker + Docker Compose** | Full local dev environment, one command to boot |
 | **JWT authentication** | Access + refresh token flow, Redis token store |
-| **CI/CD** | GitHub Actions pipeline (coming) |
-| **PDF generation** | German-law-compliant invoice PDFs (coming) |
+| **CI/CD** | GitHub Actions — type-check, build, lint on every PR |
+| **Production deployment** | Hetzner VPS · Docker Compose · Nginx · [kraftmeister.org](http://kraftmeister.org) |
+| **PDF generation** | German-law-compliant invoice PDFs |
 
 ---
 
@@ -109,7 +111,7 @@ kraftmeister/
 | File uploads + PDF generation | ✅ Done |
 | AI Service — voice, suggestions, photo analysis | ✅ Done |
 | Production hardening (helmet, throttler, Sentry, Swagger) | ✅ Done |
-| CI/CD + deployment | ⏳ Planned |
+| CI/CD + deployment | ✅ Done — live at [kraftmeister.org](http://kraftmeister.org) |
 
 ---
 
@@ -126,5 +128,7 @@ The German Handwerk sector has 1 million+ businesses, most still running on pape
 **Kraftmeister** ist eine Full-Stack-SaaS-Anwendung für Handwerksbetriebe zur Verwaltung von Aufträgen, Kunden, Angeboten und Rechnungen — ergänzt durch KI-Funktionen für Sprachnotizen, Positionsvorschläge und Fotoanalyse.
 
 Das Projekt dient als Portfolio-Projekt und demonstriert den Tech-Stack, der von deutschen Startups und Scale-ups gesucht wird: Next.js, NestJS, FastAPI, LangChain, OpenAI, Docker und PostgreSQL.
+
+**Live:** [kraftmeister.org](http://kraftmeister.org)
 
 **Lokaler Start:** `docker compose up` — danach läuft die Anwendung unter `http://localhost:3000`.
