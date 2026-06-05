@@ -26,6 +26,24 @@ docker compose up -d --build api-gateway   # rebuild + restart one service
 docker compose exec api-gateway npx prisma migrate dev
 ```
 
+### Stopping stuck containers
+
+**Never run `docker` or `docker compose` with `sudo`** — it creates containers owned by root/dnsmasq that can't be stopped normally.
+
+**Always run `docker compose down` before shutting down or rebooting** — this cleanly removes all containers so Docker starts fresh. Containers that survive a reboot may lose their network connection and can't be reached by hostname.
+
+If a container gets stuck, follow this order:
+```bash
+docker rm -f <container-name>           # step 1: normal force remove
+sudo -u dnsmasq kill -9 <pid>           # step 2: if stuck, get PID via `docker inspect <name> | grep Pid` then kill as dnsmasq (this is specific to this machine)
+# reboot is the last resort
+
+# If a container is running but unreachable by hostname (e.g. redis, postgres), check its network:
+docker inspect <name> | grep -A5 '"Networks"'
+# If Networks is empty, reconnect it:
+docker network connect kraftmeister_default <name>
+```
+
 ---
 
 ## Services & Ports
