@@ -9,6 +9,9 @@ import {
 import { ApiBearerAuth } from '@nestjs/swagger';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { AiService } from './ai.service';
+import { SuggestItemsDto } from './dtos/suggest-items.dto';
+import { AnalyzePhotoDto } from './dtos/analyze-photo.dto';
+import { FeedbackDto } from './dtos/feedback.dto';
 
 @ApiBearerAuth()
 @Controller('ai')
@@ -24,21 +27,19 @@ export class AiController {
 
   /** Accepts a job description and optional job type, returns AI-suggested invoice line items. */
   @Post('suggest-items')
-  async suggestItems(
-    @Body() payload: { jobDescription: string; jobType?: string },
-  ) {
+  async suggestItems(@Body() payload: SuggestItemsDto) {
     return this.aiService.suggestItems(payload.jobDescription, payload.jobType);
   }
 
   /** Accepts an image URL, sends it to Claude vision, and returns detected issues and suggested tasks. */
   @Post('analyze-photo')
-  async analyzePhoto(@Body() payload: { imageUrl: string }) {
+  async analyzePhoto(@Body() payload: AnalyzePhotoDto) {
     return this.aiService.analyzePhoto(payload.imageUrl);
   }
 
   /** Stores a thumbs-up/down rating for an AI result, used as a future fine-tuning signal. */
   @Post('feedback')
-  async saveFeedback(@Body() payload: { feature: string; rating: boolean }) {
+  async saveFeedback(@Body() payload: FeedbackDto) {
     return this.aiService.saveFeedback(payload.feature, payload.rating);
   }
 }
