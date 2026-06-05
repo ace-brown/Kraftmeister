@@ -12,4 +12,4 @@ async def transcribe(audio_bytes: bytes, filename: str) -> TranscriptPayload:
     transcript_payload = await client.audio.transcriptions.create(
         model="whisper-1", file=(filename, audio_bytes)
     )
-    return TranscriptPayload(transcript=transcript_payload.text, language=transcript_payload.language)
+    return TranscriptPayload(transcript=transcript_payload.text, language=getattr(transcript_payload, "language", None))
