@@ -28,6 +28,7 @@ async function bootstrap() {
     .setDescription('REST API for the Kraftmeister Handwerk SaaS app')
     .setVersion('1.0')
     .addBearerAuth()
+    .addServer('/api')
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api/docs', app, document);
