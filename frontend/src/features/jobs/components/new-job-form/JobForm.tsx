@@ -26,6 +26,7 @@ import { jobFormSchema } from "../../schemas/create-job.schema";
 import { useCreateJob } from "../../hooks/useCreateJob";
 import { JOB_STATUSES, JOB_STATUS_LABELS } from "../../types/job.types";
 import { useVoiceToJob } from "@/features/ai/hooks/useVoiceToJob";
+import { AiLoadingOverlay } from "@/components/ui/ai-loading-overlay";
 
 export function JobForm() {
   const router = useRouter();
@@ -87,8 +88,11 @@ export function JobForm() {
     );
   };
 
+  const showOverlay = isTranscribing;
+
   return (
-    <Card>
+    <Card className="relative overflow-hidden">
+      <AiLoadingOverlay visible={showOverlay} />
       <form id="form-create-new-job" onSubmit={handleSubmit(onSubmit)}>
         <CardContent>
           <FieldGroup>
