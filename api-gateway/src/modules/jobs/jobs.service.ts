@@ -58,4 +58,12 @@ export class JobsService {
       where: { id },
     });
   }
+
+  /** Appends a photo URL to the job's photos array. */
+  addPhoto(id: string, url: string) {
+    return this.prisma.job.update({
+      where: { id },
+      data: { photos: { push: url } },
+    });
+  }
 }
