@@ -27,11 +27,13 @@ import { useCreateJob } from "../../hooks/useCreateJob";
 import { JOB_STATUSES, JOB_STATUS_LABELS } from "../../types/job.types";
 import { useVoiceToJob } from "@/features/ai/hooks/useVoiceToJob";
 import { AiLoadingOverlay } from "@/components/ui/ai-loading-overlay";
+import { useCustomers } from "@/features/customers/hooks/useCustomers";
 
 export function JobForm() {
   const router = useRouter();
   const { mutate, isPending } = useCreateJob();
   const { mutate: transcribe, isPending: isTranscribing } = useVoiceToJob();
+  const { data: customers = [] } = useCustomers();
   const [isRecording, setIsRecording] = useState(false);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const chunksRef = useRef<Blob[]>([]);
@@ -45,6 +47,7 @@ export function JobForm() {
       address: "",
       description: "",
       status: "OPEN",
+      customerId: undefined,
     },
   });
 
@@ -83,6 +86,7 @@ export function JobForm() {
         address: data.address,
         description: data.description,
         status: data.status,
+        customerId: data.customerId,
       },
       { onSuccess: () => router.push("/jobs") },
     );
@@ -105,10 +109,16 @@ export function JobForm() {
                 onClick={handleMicClick}
                 disabled={isTranscribing}
               >
-                {isTranscribing ? "KI verarbeitet…" : isRecording ? "⏹ Aufnahme stoppen" : "🎤 Sprachnotiz"}
+                {isTranscribing
+                  ? "KI verarbeitet…"
+                  : isRecording
+                    ? "⏹ Aufnahme stoppen"
+                    : "🎤 Sprachnotiz"}
               </Button>
               <span className="text-xs text-zinc-500">
-                {isRecording ? "Aufnahme läuft…" : "Sprach-Notiz aufnehmen — KI füllt Titel und Beschreibung aus."}
+                {isRecording
+                  ? "Aufnahme läuft…"
+                  : "Sprach-Notiz aufnehmen — KI füllt Titel und Beschreibung aus."}
               </span>
             </div>
 
@@ -139,7 +149,10 @@ export function JobForm() {
               name="description"
               control={control}
               render={({ field, fieldState }) => (
-                <Field data-invalid={fieldState.invalid} className="md:col-span-2">
+                <Field
+                  data-invalid={fieldState.invalid}
+                  className="md:col-span-2"
+                >
                   <FieldLabel htmlFor="create-job-description">
                     Description
                   </FieldLabel>
@@ -201,6 +214,45 @@ export function JobForm() {
                   {fieldState.invalid && (
                     <FieldError errors={[fieldState.error]} />
                   )}
+                </Field>
+              )}
+            />
+
+            {/* ========== Customer Field ========== */}
+            <Controller
+              name="customerId"
+              control={control}
+              render={({ field }) => (
+                <Field>
+                  <FieldLabel htmlFor="create-job-customer">
+                    Customer (optional)
+                  </FieldLabel>
+                  <Select
+                    value={field.value ?? "none"}
+                    onValueChange={(v) =>
+                      field.onChange(v === "none" ? undefined : v)
+                    }
+                  >
+                    <SelectTrigger id="create-job-customer">
+                      <SelectValue placeholder="Select a customer" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="none">No customer</SelectItem>
+                      {customers.filter((c) => !c.deletedAt).length === 0 ? (
+                        <SelectItem value="__empty__" disabled>
+                          No customers yet — create one at Customers page
+                        </SelectItem>
+                      ) : (
+                        customers
+                          .filter((c) => !c.deletedAt)
+                          .map((c) => (
+                            <SelectItem key={c.id} value={c.id}>
+                              {c.name}
+                            </SelectItem>
+                          ))
+                      )}
+                    </SelectContent>
+                  </Select>
                 </Field>
               )}
             />

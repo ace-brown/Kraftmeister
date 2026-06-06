@@ -22,4 +22,9 @@ export class CreateJobDto {
   @IsOptional()
   @IsString()
   address?: string;
+
+  @ApiPropertyOptional({ example: 'clx123abc' })
+  @IsOptional()
+  @IsString()
+  customerId?: string;
 }

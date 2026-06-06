@@ -164,8 +164,6 @@ model Job {
 }
 ```
 
-No `companyId`, `customerId`, or auth yet — intentionally deferred (see SPEC.md Phase 4).
-
 ---
 
 ## API Endpoints (What Exists Today)

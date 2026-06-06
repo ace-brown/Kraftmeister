@@ -38,6 +38,9 @@ export function JobDetailPhotos() {
         <TypographyH2 className="text-xs font-semibold text-zinc-400 uppercase tracking-wide pb-0">
           KI-Fotoanalyse
         </TypographyH2>
+        <TypographyP className="text-xs text-zinc-500">
+          Paste a public photo URL from the job site — Claude will analyse the image and suggest what tasks need doing, what problems it spots, and how complex the job is.
+        </TypographyP>
         <div className="flex gap-2">
           <Input
             placeholder="Bild-URL eingeben…"

@@ -15,10 +15,13 @@ export const JOB_STATUS_LABELS: Record<JobStatus, string> = {
 
 export interface Job {
   id: string;
+  companyId: string;
+  customerId?: string;
   title: string;
   description?: string;
   status: JobStatus;
   address?: string;
+  photos: string[];
   createdAt: string;
 }
 
@@ -63,6 +66,7 @@ export type CreateJobPayload = {
   description?: string;
   status?: JobStatus;
   address?: string;
+  customerId?: string;
 };
 
 export type UpdateJobPayload = {
