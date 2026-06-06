@@ -25,6 +25,8 @@ services:
         condition: service_healthy
       ai-service:
         condition: service_started
+      minio:
+        condition: service_healthy
     env_file: .env.prod
 
   ai-service:
@@ -60,5 +62,24 @@ services:
       start_period: 30s
     restart: always
 
+  minio:
+    image: minio/minio:latest
+    container_name: minio
+    command: server /data --console-address ":9001"
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - minio_data:/data
+    env_file: .env.prod
+    healthcheck:
+      test: ["CMD", "mc", "ready", "local"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+      start_period: 10s
+    restart: always
+
 volumes:
   postgres_data:
+  minio_data:
