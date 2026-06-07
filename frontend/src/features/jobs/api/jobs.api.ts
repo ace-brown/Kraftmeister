@@ -42,6 +42,14 @@ export async function deleteJob(id: string): Promise<void> {
   return apiClient(`/jobs/${id}`, { method: "DELETE" });
 }
 
+/** Removes a photo URL from a job and deletes the file from MinIO. */
+export async function deleteJobPhoto(id: string, url: string): Promise<void> {
+  return apiClient(`/jobs/${id}/photos`, {
+    method: "DELETE",
+    body: JSON.stringify({ url }),
+  });
+}
+
 /** Uploads a photo file for a job — uses raw fetch because apiClient forces JSON content-type. */
 export async function uploadJobPhoto(id: string, file: File): Promise<Job> {
   const token = localStorage.getItem("access_token");

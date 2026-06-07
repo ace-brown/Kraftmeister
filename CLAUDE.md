@@ -34,23 +34,30 @@ docker compose up -d --build api-gateway   # rebuild + restart one service
 docker compose exec api-gateway npx prisma migrate dev
 ```
 
-### Stopping stuck containers
+### Docker engine setup (read this if anything is weird)
 
-**Never run `docker` or `docker compose` with `sudo`** — it creates containers owned by root/dnsmasq that can't be stopped normally.
+This machine runs **only the apt `docker-ce` engine** (data dir `/var/lib/docker`, socket
+`/run/docker.sock`, managed by systemd). The Canonical `docker` **snap** must never be
+installed — its background auto-refresh caused recurring `cannot stop container: permission
+denied` failures. See **`docker-issues.md`** for the full root-cause writeup and fix.
 
-**Always run `docker compose down` before shutting down or rebooting** — this cleanly removes all containers so Docker starts fresh. Containers that survive a reboot may lose their network connection and can't be reached by hostname.
+Quick health check — if `docker info` shows `Docker Root Dir: /var/snap/docker/...` or a
+client/engine version skew, the snap has crept back in; remove it (`sudo snap remove docker`)
+and restart the socket (`sudo systemctl restart docker.socket docker.service`).
 
-If a container gets stuck, follow this order:
-```bash
-docker rm -f <container-name>           # step 1: normal force remove
-sudo -u dnsmasq kill -9 <pid>           # step 2: if stuck, get PID via `docker inspect <name> | grep Pid` then kill as dnsmasq (this is specific to this machine)
-# reboot is the last resort
+### Stopping / shutting down cleanly
 
-# If a container is running but unreachable by hostname (e.g. redis, postgres), check its network:
-docker inspect <name> | grep -A5 '"Networks"'
-# If Networks is empty, reconnect it:
-docker network connect kraftmeister_default <name>
-```
+- **Never run `docker` / `docker compose` with `sudo`** — your user is in the `docker` group, so
+  it's unnecessary and creates root-owned containers that are harder to manage.
+- **Always run `docker compose down` before shutting down or rebooting** — cleanly removes all
+  containers so Docker starts fresh. Containers that survive a reboot may lose their network
+  connection and can't be reached by hostname.
+- If a container is running but unreachable by hostname (e.g. redis, postgres), check its network:
+  ```bash
+  docker inspect <name> | grep -A5 '"Networks"'
+  # If Networks is empty, reconnect it:
+  docker network connect kraftmeister_default <name>
+  ```
 
 ---
 

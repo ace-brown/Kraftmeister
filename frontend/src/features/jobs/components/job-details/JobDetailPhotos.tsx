@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { TypographyH2, TypographyP } from "@/components/ui/Typography";
 import { useAnalyzePhoto } from "@/features/ai/hooks/useAnalyzePhoto";
 import { AnalyzePhotoResponse } from "@/features/ai/types/ai.types";
-import { useJob, useUploadJobPhoto } from "../../hooks";
+import { useDeleteJobPhoto, useJob, useUploadJobPhoto } from "../../hooks";
 
 /** Renders the photos section of a job detail page, including AI photo analysis. */
 export function JobDetailPhotos({ jobId }: { jobId: string }) {
@@ -16,6 +16,7 @@ export function JobDetailPhotos({ jobId }: { jobId: string }) {
   const { mutate: analyze, isPending } = useAnalyzePhoto();
   const { data: job } = useJob(jobId);
   const { mutate: upload } = useUploadJobPhoto(jobId);
+  const { mutate: deletePhoto } = useDeleteJobPhoto(jobId);
 
   const handleAnalyze = () => {
     analyze({ imageUrl }, { onSuccess: (data) => setResult(data) });
@@ -39,9 +40,36 @@ export function JobDetailPhotos({ jobId }: { jobId: string }) {
       </div>
 
       {job?.photos && job.photos.length > 0 && (
-        <div className="grid grid-cols-3 gap-2 mb-4">
+        <div className="grid grid-cols-3 gap-3 mb-4">
           {job.photos.map((url) => (
-            <img key={url} src={url} alt="Job photo" className="rounded-md object-cover aspect-square w-full" />
+            <div key={url} className="flex flex-col gap-1">
+              <img src={url} alt="Job photo" className="rounded-md object-cover aspect-square w-full" />
+              <div className="flex items-center gap-1">
+                <Input
+                  readOnly
+                  value={url}
+                  className="text-xs h-6 px-2 text-zinc-400 bg-zinc-900 border-zinc-700"
+                />
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="sm"
+                  className="h-6 px-2 text-xs text-zinc-400 hover:text-zinc-100"
+                  onClick={() => navigator.clipboard.writeText(url)}
+                >
+                  Copy
+                </Button>
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="sm"
+                  className="h-6 px-2 text-xs text-red-500 hover:text-red-400"
+                  onClick={() => deletePhoto(url)}
+                >
+                  Delete
+                </Button>
+              </div>
+            </div>
           ))}
         </div>
       )}

@@ -18,6 +18,7 @@ import { UpdateJobDto } from './dtos/update-job.dto';
 import { FilterJobsDto } from './dtos/filter-jobs.dto';
 import { MinioService } from '../minio/minio.service';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { DeletePhotoDto } from './dtos/delete-photo.dto';
 
 @ApiBearerAuth()
 @Controller('jobs')
@@ -53,7 +54,15 @@ export class JobsController {
     return this.jobService.delete(id);
   }
 
-  /** Accepts a multipart fi le upload, stores it in MinIO, and appends the URL to the job. */
+  /** Deletes a photo from MinIO and removes its URL from the job. */
+  @Delete(':id/photos')
+  @HttpCode(204)
+  async deletePhoto(@Body() { url }: DeletePhotoDto, @Param('id') id: string) {
+    await this.minioService.deletePhoto(url);
+    return this.jobService.removePhoto(id, url);
+  }
+
+  /** Accepts a multipart file upload, stores it in MinIO, and appends the URL to the job. */
   @UseInterceptors(FileInterceptor('file'))
   @Post(':id/photos')
   async uploadPhoto(@UploadedFile() file, @Param('id') id: string) {

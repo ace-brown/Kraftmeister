@@ -59,6 +59,15 @@ export class JobsService {
     });
   }
 
+  /** Removes a photo URL from the job's photos array. */
+  async removePhoto(id: string, url: string) {
+    const job = await this.findOne(id);
+    return this.prisma.job.update({
+      where: { id },
+      data: { photos: job.photos.filter((p) => p !== url) },
+    });
+  }
+
   /** Appends a photo URL to the job's photos array. */
   addPhoto(id: string, url: string) {
     return this.prisma.job.update({
