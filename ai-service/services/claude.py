@@ -4,6 +4,8 @@ from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.messages import HumanMessage
 import config  # noqa: F401 — ensures load_dotenv() runs before init_chat_model reads env vars
 from tenacity import retry, stop_after_attempt, wait_exponential
+import httpx
+import base64
 from schemas.ai_schemas import (
     TranscriptPayload,
     VoiceToJobResponse,
@@ -71,14 +73,29 @@ async def suggest_items(request: SuggestItemsRequest) -> SuggestItemsResponse:
     return SuggestItemsResponse(**result)
 
 
+async def _fetch_image_as_base64(url: str) -> tuple[str, str]:
+    """Downloads an image from MinIO (replacing localhost with the internal Docker hostname) and returns (base64, media_type)."""
+    internal_url = url.replace("localhost:9000", "minio:9000")
+    async with httpx.AsyncClient() as client:
+        response = await client.get(internal_url)
+        response.raise_for_status()
+    media_type = response.headers.get("content-type", "image/jpeg").split(";")[0]
+    return base64.standard_b64encode(response.content).decode("utf-8"), media_type
+
+
 @retry(stop=stop_after_attempt(3), wait=wait_exponential(multiplier=1, min=2, max=10))
 async def analyze_photo(request: AnalyzePhotoRequest) -> AnalyzePhotoResponse:
-    """Sends a job site photo to Claude vision and returns detected issues, suggested tasks, and complexity rating."""
+    """Downloads the image from MinIO internally, encodes it as base64, and sends it to Claude vision for job site analysis."""
+    image_data, media_type = await _fetch_image_as_base64(request.imageUrl)
     message = HumanMessage(
         content=[
             {
-                "type": "image_url",
-                "image_url": {"url": request.imageUrl},
+                "type": "image",
+                "source": {
+                    "type": "base64",
+                    "media_type": media_type,
+                    "data": image_data,
+                },
             },
             {
                 "type": "text",

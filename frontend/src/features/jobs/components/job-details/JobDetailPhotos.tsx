@@ -4,15 +4,27 @@ import { ChangeEvent, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { TypographyH2, TypographyP } from "@/components/ui/Typography";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { useAnalyzePhoto } from "@/features/ai/hooks/useAnalyzePhoto";
 import { AnalyzePhotoResponse } from "@/features/ai/types/ai.types";
+import { AiLoadingOverlay } from "@/components/ui/ai-loading-overlay";
 import { useDeleteJobPhoto, useJob, useUploadJobPhoto } from "../../hooks";
 
-/** Renders the photos section of a job detail page, including AI photo analysis. */
+/** Renders the photos section of a job detail page, including upload, deletion, and AI analysis. */
 export function JobDetailPhotos({ jobId }: { jobId: string }) {
   const uploadRef = useRef<HTMLInputElement>(null);
   const [imageUrl, setImageUrl] = useState("");
   const [result, setResult] = useState<AnalyzePhotoResponse | null>(null);
+  const [copiedUrl, setCopiedUrl] = useState<string | null>(null);
+  const [pendingDeleteUrl, setPendingDeleteUrl] = useState<string | null>(null);
+
   const { mutate: analyze, isPending } = useAnalyzePhoto();
   const { data: job } = useJob(jobId);
   const { mutate: upload } = useUploadJobPhoto(jobId);
@@ -22,9 +34,22 @@ export function JobDetailPhotos({ jobId }: { jobId: string }) {
     analyze({ imageUrl }, { onSuccess: (data) => setResult(data) });
   };
 
-  const handleUplaod = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleUpload = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) upload(file);
+  };
+
+  const handleCopy = (url: string) => {
+    navigator.clipboard.writeText(url);
+    setCopiedUrl(url);
+    setTimeout(() => setCopiedUrl(null), 2000);
+  };
+
+  const handleConfirmDelete = () => {
+    if (pendingDeleteUrl) {
+      deletePhoto(pendingDeleteUrl);
+      setPendingDeleteUrl(null);
+    }
   };
 
   return (
@@ -36,7 +61,7 @@ export function JobDetailPhotos({ jobId }: { jobId: string }) {
         <Button variant="outline" size="sm" onClick={() => uploadRef.current?.click()}>
           + Upload
         </Button>
-        <input type="file" ref={uploadRef} onChange={handleUplaod} className="hidden" accept="image/*" />
+        <input type="file" ref={uploadRef} onChange={handleUpload} className="hidden" accept="image/*" />
       </div>
 
       {job?.photos && job.photos.length > 0 && (
@@ -55,16 +80,16 @@ export function JobDetailPhotos({ jobId }: { jobId: string }) {
                   variant="ghost"
                   size="sm"
                   className="h-6 px-2 text-xs text-zinc-400 hover:text-zinc-100"
-                  onClick={() => navigator.clipboard.writeText(url)}
+                  onClick={() => handleCopy(url)}
                 >
-                  Copy
+                  {copiedUrl === url ? "Copied!" : "Copy"}
                 </Button>
                 <Button
                   type="button"
                   variant="ghost"
                   size="sm"
                   className="h-6 px-2 text-xs text-red-500 hover:text-red-400"
-                  onClick={() => deletePhoto(url)}
+                  onClick={() => setPendingDeleteUrl(url)}
                 >
                   Delete
                 </Button>
@@ -74,8 +99,25 @@ export function JobDetailPhotos({ jobId }: { jobId: string }) {
         </div>
       )}
 
+      {/* Delete confirmation dialog */}
+      <Dialog open={!!pendingDeleteUrl} onOpenChange={(open) => !open && setPendingDeleteUrl(null)}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Delete photo?</DialogTitle>
+            <DialogDescription>
+              This will permanently remove the photo from MinIO and the job. This cannot be undone.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setPendingDeleteUrl(null)}>Cancel</Button>
+            <Button variant="destructive" onClick={handleConfirmDelete}>Delete</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
       {/* AI Photo Analysis */}
-      <div className="border border-dashed border-zinc-700 rounded-lg p-4 flex flex-col gap-3">
+      <div className="relative overflow-hidden border border-dashed border-zinc-700 rounded-lg p-4 flex flex-col gap-3">
+        <AiLoadingOverlay visible={isPending} icon="📷" />
         <TypographyH2 className="text-xs font-semibold text-zinc-400 uppercase tracking-wide pb-0">
           KI-Fotoanalyse
         </TypographyH2>

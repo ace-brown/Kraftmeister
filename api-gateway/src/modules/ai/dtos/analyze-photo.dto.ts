@@ -3,6 +3,6 @@ import { IsUrl } from 'class-validator';
 
 export class AnalyzePhotoDto {
   @ApiProperty({ example: 'https://example.com/photo.jpg' })
-  @IsUrl()
+  @IsUrl({ require_tld: false })
   imageUrl!: string;
 }
