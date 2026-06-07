@@ -55,7 +55,7 @@ export default function JobDetails({ id }: { id: string }) {
         onStatusChange={handleStatusChange}
       />
       <div className="h-px bg-zinc-800 mb-6" />
-      <JobDetailPhotos />
+      <JobDetailPhotos jobId={job.id} />
 
       <JobEditDialog job={job} open={editOpen} onOpenChange={setEditOpen} />
     </PageContainer>

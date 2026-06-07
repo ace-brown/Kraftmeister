@@ -53,7 +53,7 @@ export class JobsController {
     return this.jobService.delete(id);
   }
 
-  /** Accepts a multipart file upload, stores it in MinIO, and appends the URL to the job. */
+  /** Accepts a multipart fi le upload, stores it in MinIO, and appends the URL to the job. */
   @UseInterceptors(FileInterceptor('file'))
   @Post(':id/photos')
   async uploadPhoto(@UploadedFile() file, @Param('id') id: string) {
