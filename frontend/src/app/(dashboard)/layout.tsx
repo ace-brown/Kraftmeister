@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 
 import { Sidebar } from "@/components/layout/sidebar";
-import { Topbar } from "@/components/layout/topbar";
+import { Topbar } from "@/components/layout/topbar/Topbar";
 import { MobileNav } from "@/components/layout/mobile-nav";
 import { PageContainer } from "@/components/layout/page-container";
 

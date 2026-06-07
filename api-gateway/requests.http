@@ -75,8 +75,8 @@ POST http://localhost:4000/auth/login
 Content-Type: application/json
 
 {
-  "email": "admin2@muster.de",
-  "password": "password123"
+  "email": "admin@muster.de",
+  "password": "demo1234"
 }
 
 ###
@@ -91,11 +91,16 @@ Content-Type: application/json
 
 ###
 
+### Get current user profile (requires accessToken in Authorization header)
+GET http://localhost:4000/auth/me
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjbXByNnI0bGYwMDAxNDFwZTFrbnp0cmtlIiwiY29tcGFueUlkIjoiY21wcjZyNGZmMDAwMDQxcGU0NWd6d3ZxdyIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTc4MDgyMzY3MywiZXhwIjoxNzgwODI0NTczfQ.QPgUVwMVPYVaL4ovRxxjr9Vd-9XdXwlCZO8OtjocQk4
+
+###
+
 ### Logout (requires accessToken in Authorization header)
 POST http://localhost:4000/auth/logout
 Authorization: Bearer PASTE_ACCESS_TOKEN_HERE
 
-##############################################################
 ### Get all users
 GET http://localhost:4000/users
 

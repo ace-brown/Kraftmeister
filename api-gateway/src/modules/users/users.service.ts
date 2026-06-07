@@ -28,6 +28,30 @@ export class UsersService {
     return user;
   }
 
+  /** Fetches the authenticated user's profile with company name, excluding sensitive fields like passwordHash. */
+  async getMe(id: string) {
+    const me = await this.prisma.user.findUnique({
+      where: { id },
+      select: {
+        id: true,
+        companyId: true,
+        email: true,
+        role: true,
+        company: { select: { name: true } },
+      },
+    });
+
+    if (!me) throw new NotFoundException('User not found');
+
+    return {
+      userId: me.id,
+      companyId: me.companyId,
+      email: me.email,
+      role: me.role,
+      companyName: me.company.name,
+    };
+  }
+
   findByEmail(email: string) {
     return this.prisma.user.findUnique({ where: { email } });
   }

@@ -7,6 +7,8 @@ export interface AuthUser {
   userId: string;
   companyId: string;
   role: string;
+  email: string;
+  companyName: string;
 }
 
 export interface LoginPayload {
