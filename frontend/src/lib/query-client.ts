@@ -40,6 +40,10 @@ export const invoiceKeys = {
   detail: (id: string) => [...invoiceKeys.all, "detail", id] as const,
 };
 
+export const settingsKeys = {
+  all: ['settings'] as const,
+};
+
 export const defaultQueryClient = new QueryClient({
   defaultOptions: {
     queries: {

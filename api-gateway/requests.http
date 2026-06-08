@@ -159,3 +159,39 @@ Content-Type: application/json
 
 ### Test Sentry
 GET http://localhost:4000/auth/debug-sentry
+
+##############################################################
+### Settings — Get all settings (company profile + invoice defaults + email)
+GET http://localhost:4000/settings
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjbXE0b3V0OHAwMDAxYWtuc3k2MGtubmZkIiwiY29tcGFueUlkIjoiY21xNG91dDA4MDAwMGFrbnNvaWN1ejVrcCIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTc4MDk0NTQ5OCwiZXhwIjoxNzgwOTQ2Mzk4fQ.cxbgF7P8ttO6Wc4NEifJ-RBQCnsP1SGoaUNCh7BdpvI
+
+###
+
+### Settings — Update company profile
+PATCH http://localhost:4000/settings/company
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjbXE0b3V0OHAwMDAxYWtuc3k2MGtubmZkIiwiY29tcGFueUlkIjoiY21xNG91dDA4MDAwMGFrbnNvaWN1ejVrcCIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTc4MDk0NTQ5OCwiZXhwIjoxNzgwOTQ2Mzk4fQ.cxbgF7P8ttO6Wc4NEifJ-RBQCnsP1SGoaUNCh7BdpvI
+
+{
+  "name": "Muster Handwerk GmbH",
+  "address": "Musterstraße 1, 10115 Berlin",
+  "vatId": "DE123456789",
+  "defaultVatRate": 19,
+  "paymentTermsDays": 14,
+  "bankName": "Sparkasse Berlin",
+  "bankIban": "DE89 3704 0044 0532 0130 00",
+  "bankBic": "COBADEFFXXX"
+}
+
+###
+
+### Settings — Update account (email and/or password)
+PATCH http://localhost:4000/settings/account
+Content-Type: application/json
+Authorization: Bearer PASTE_ACCESS_TOKEN_HERE
+
+{
+  "email": "newemail@muster.de",
+  "currentPassword": "demo1234",
+  "newPassword": "newsecurepass123"
+}

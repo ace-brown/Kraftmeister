@@ -20,6 +20,7 @@ import { RequestIdMiddleware } from './common/middleware/request-id.middleware';
 import { AiModule } from './modules/ai/ai.module';
 import { JwtAuthGuard } from './modules/auth/guards/jwt-auth.guard';
 import { MinioModule } from './modules/minio/minio.module';
+import { SettingsModule } from './modules/settings/settings.module';
 
 @Module({
   imports: [
@@ -60,6 +61,7 @@ import { MinioModule } from './modules/minio/minio.module';
     InvoicesModule,
     AiModule,
     MinioModule,
+    SettingsModule,
   ],
   providers: [
     { provide: APP_GUARD, useClass: ThrottlerGuard },

@@ -8,6 +8,7 @@ import { UpdateAccountDto } from './dtos/update-account.dto';
 export class SettingsService {
   constructor(private prisma: PrismaService) {}
 
+  /** Returns the company profile merged with the user's email, used to pre-fill the settings page. */
   async getSettings(userId: string, companyId: string) {
     const company = await this.prisma.company.findUnique({
       where: { id: companyId },
@@ -21,6 +22,7 @@ export class SettingsService {
     return { ...company, email: user?.email };
   }
 
+  /** Updates any combination of the company's profile and invoice default fields. */
   updateCompany(companyId: string, CompanyDto: UpdateCompanyDto) {
     return this.prisma.company.update({
       where: { id: companyId },
