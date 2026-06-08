@@ -7,6 +7,7 @@ import { UpdateCustomerDto } from './dtos/update-customer.dto';
 export class CustomersService {
   constructor(private prisma: PrismaService) {}
 
+  /** Returns all non-deleted customers, with optional case-insensitive search across name, email, and phone. */
   findAll(search?: string) {
     const where: any = { deletedAt: null };
 
@@ -24,6 +25,7 @@ export class CustomersService {
     });
   }
 
+  /** Returns a single customer by ID, throwing 404 if not found. */
   async findOne(id: string) {
     const customer = await this.prisma.customer.findUnique({
       where: { id },
@@ -34,6 +36,7 @@ export class CustomersService {
     return customer;
   }
 
+  /** Creates a new customer, resolving the companyId from the first company (to be replaced with JWT companyId in Phase 4.3). */
   async create(data: CreateCustomerDto) {
     // TODO Phase 4.3: replace with companyId from JWT
     const company = await this.prisma.company.findFirstOrThrow();
@@ -42,6 +45,7 @@ export class CustomersService {
     });
   }
 
+  /** Partially updates a customer's fields. */
   update(data: UpdateCustomerDto, id: string) {
     return this.prisma.customer.update({
       where: { id },
@@ -49,7 +53,7 @@ export class CustomersService {
     });
   }
 
-  // Soft delete
+  /** Soft-deletes a customer by setting deletedAt, preserving historical data on jobs and invoices. */
   delete(id: string) {
     return this.prisma.customer.update({
       where: { id },

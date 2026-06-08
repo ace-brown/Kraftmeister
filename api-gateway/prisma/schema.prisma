@@ -41,12 +41,19 @@ model Company {
   name      String
   address   String?
   vatId     String?
+  logoUrl         String?
+  defaultVatRate  Float?
+  paymentTermsDays Int?
+  bankName        String?
+  bankIban        String?
+  bankBic         String?
   createdAt DateTime @default(now())
   users     User[]
   customers Customer[]
   jobs      Job[]
   quotes    Quote[]
   invoices  Invoice[]
+
 }
 
 model User {

@@ -7,6 +7,7 @@ import { UpdateQuoteDto } from './dtos/update-quote.dto';
 export class QuotesService {
   constructor(private prisma: PrismaService) {}
 
+  /** Computes subtotal, VAT amount, and total from line items at a single VAT rate. */
   private calcTotals(
     items: { quantity: number; unitPrice: number }[],
     vatRate: number,
@@ -21,6 +22,7 @@ export class QuotesService {
     };
   }
 
+  /** Returns all quotes for the company with computed totals. */
   async findAll() {
     const company = await this.prisma.company.findFirstOrThrow();
     const quotes = await this.prisma.quote.findMany({
@@ -34,6 +36,7 @@ export class QuotesService {
     return quotes.map((q) => ({ ...q, ...this.calcTotals(q.items, q.vatRate) }));
   }
 
+  /** Returns a single quote with items, customer, job, and linked invoice, throwing 404 if not found. */
   async findOne(id: string) {
     const quote = await this.prisma.quote.findUnique({
       where: { id },
@@ -48,6 +51,7 @@ export class QuotesService {
     return { ...quote, ...this.calcTotals(quote.items, quote.vatRate) };
   }
 
+  /** Creates a new quote with line items and calculates the total at the specified VAT rate (defaults to 19%). */
   async create(dto: CreateQuoteDto) {
     const company = await this.prisma.company.findFirstOrThrow();
     const vatRate = dto.vatRate ?? 19;
@@ -70,6 +74,7 @@ export class QuotesService {
     return { ...quote, ...this.calcTotals(quote.items, quote.vatRate) };
   }
 
+  /** Updates a quote's status, VAT rate, or items in a transaction; replaces all items if a new items array is provided. */
   async update(id: string, dto: UpdateQuoteDto) {
     const existing = await this.findOne(id);
     const vatRate = dto.vatRate ?? existing.vatRate;
@@ -98,6 +103,7 @@ export class QuotesService {
     });
   }
 
+  /** Converts a quote to an invoice by copying its line items and auto-generating a sequential invoice number. */
   async convertToInvoice(id: string) {
     const quote = await this.findOne(id);
     const company = await this.prisma.company.findFirstOrThrow();

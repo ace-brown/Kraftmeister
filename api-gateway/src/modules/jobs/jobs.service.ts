@@ -8,6 +8,7 @@ import { FilterJobsDto } from './dtos/filter-jobs.dto';
 export class JobsService {
   constructor(private prisma: PrismaService) {}
 
+  /** Returns all jobs matching the given filters, ordered by creation date descending. */
   findAll(filters: FilterJobsDto) {
     const where: any = {};
 
@@ -30,6 +31,7 @@ export class JobsService {
     });
   }
 
+  /** Returns a single job by ID, throwing 404 if not found. */
   async findOne(id: string) {
     const job = await this.prisma.job.findUnique({
       where: { id },
@@ -40,12 +42,14 @@ export class JobsService {
     return job;
   }
 
+  /** Creates a new job, resolving companyId from the first company (to be replaced with JWT companyId in Phase 4.3). */
   async create(data: CreateJobDto) {
     // TODO Phase 4.3: replace with companyId from JWT
     const company = await this.prisma.company.findFirstOrThrow();
     return this.prisma.job.create({ data: { ...data, companyId: company.id } });
   }
 
+  /** Partially updates a job's fields. */
   update(data: UpdateJobDto, id: string) {
     return this.prisma.job.update({
       where: { id },
@@ -53,6 +57,7 @@ export class JobsService {
     });
   }
 
+  /** Permanently deletes a job by ID. */
   delete(id: string) {
     return this.prisma.job.delete({
       where: { id },

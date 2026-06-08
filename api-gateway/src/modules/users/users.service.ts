@@ -7,6 +7,7 @@ import { UpdateUserDto } from './dtos/update-user.dto';
 export class UsersService {
   constructor(private prisma: PrismaService) {}
 
+  /** Creates a new user — caller is responsible for hashing the password before passing it. */
   create(dto: CreateUserDto) {
     return this.prisma.user.create({
       data: {
@@ -18,10 +19,12 @@ export class UsersService {
     });
   }
 
+  /** Returns all users in the system. */
   findAll() {
     return this.prisma.user.findMany();
   }
 
+  /** Returns a single user by ID, throwing 404 if not found. */
   async findById(id: string) {
     const user = await this.prisma.user.findUnique({ where: { id } });
     if (!user) throw new NotFoundException('User not found');
@@ -52,10 +55,12 @@ export class UsersService {
     };
   }
 
+  /** Looks up a user by email address, returning null if not found. Used by auth for login validation. */
   findByEmail(email: string) {
     return this.prisma.user.findUnique({ where: { email } });
   }
 
+  /** Partially updates a user's email, password hash, or role. */
   async update(id: string, dto: UpdateUserDto) {
     await this.findById(id);
     return this.prisma.user.update({
@@ -68,6 +73,7 @@ export class UsersService {
     });
   }
 
+  /** Permanently deletes a user by ID. */
   async remove(id: string) {
     await this.findById(id);
     return this.prisma.user.delete({ where: { id } });

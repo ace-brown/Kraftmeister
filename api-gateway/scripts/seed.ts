@@ -23,6 +23,11 @@ async function main() {
       name: 'Muster Handwerk GmbH',
       address: 'Musterstraße 1, 10115 Berlin',
       vatId: 'DE123456789',
+      defaultVatRate: 19,
+      paymentTermsDays: 14,
+      bankName: 'Sparkasse Berlin',
+      bankIban: 'DE89 3704 0044 0532 0130 00',
+      bankBic: 'COBADEFFXXX',
     },
   });
 

@@ -10,6 +10,7 @@ export class PrismaService extends PrismaClient implements OnModuleInit {
     });
   }
 
+  /** Establishes the database connection when the NestJS module initialises. */
   async onModuleInit() {
     await this.$connect();
   }

@@ -7,6 +7,7 @@ import { UpdateInvoiceStatusDto } from './dtos/update-invoice-status.dto';
 export class InvoicesService {
   constructor(private prisma: PrismaService) {}
 
+  /** Computes subtotal, VAT amount, and total from a list of line items, each with its own VAT rate. */
   private calcTotals(
     items: { quantity: number; unitPrice: number; vatRate: number }[],
   ) {
@@ -23,6 +24,7 @@ export class InvoicesService {
     };
   }
 
+  /** Generates a sequential invoice number in the format KM-YYYY-NNNN, scoped to the company and current year. */
   private async generateInvoiceNumber(companyId: string): Promise<string> {
     const year = new Date().getFullYear();
     const count = await this.prisma.invoice.count({
@@ -31,6 +33,7 @@ export class InvoicesService {
     return `KM-${year}-${String(count + 1).padStart(4, '0')}`;
   }
 
+  /** Returns all invoices for the company with computed totals. */
   async findAll() {
     const company = await this.prisma.company.findFirstOrThrow();
     const invoices = await this.prisma.invoice.findMany({
@@ -44,6 +47,7 @@ export class InvoicesService {
     return invoices.map((inv) => ({ ...inv, ...this.calcTotals(inv.items) }));
   }
 
+  /** Returns a single invoice with items, customer, and linked quote, throwing 404 if not found. */
   async findOne(id: string) {
     const invoice = await this.prisma.invoice.findUnique({
       where: { id },
@@ -57,6 +61,7 @@ export class InvoicesService {
     return { ...invoice, ...this.calcTotals(invoice.items) };
   }
 
+  /** Creates a new invoice with auto-generated invoice number and line items. */
   async create(dto: CreateInvoiceDto) {
     const company = await this.prisma.company.findFirstOrThrow();
     const invoiceNumber = await this.generateInvoiceNumber(company.id);
@@ -83,6 +88,7 @@ export class InvoicesService {
     return { ...invoice, ...this.calcTotals(invoice.items) };
   }
 
+  /** Updates the status of an invoice and returns the updated record with computed totals. */
   async updateStatus(id: string, dto: UpdateInvoiceStatusDto) {
     await this.findOne(id);
     const invoice = await this.prisma.invoice.update({

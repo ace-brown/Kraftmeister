@@ -18,8 +18,7 @@ export function UserMenu() {
 
   if (!user) return null;
 
-  const initials = user.email.charAt(0).toUpperCase();
-
+  const initials = user.companyName.charAt(0).toUpperCase();
   return (
     <Sheet>
       <SheetTrigger asChild>

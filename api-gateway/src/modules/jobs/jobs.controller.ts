@@ -28,26 +28,31 @@ export class JobsController {
     private readonly minioService: MinioService,
   ) {}
 
+  /** Returns all jobs, optionally filtered by status and/or creation date. */
   @Get()
   findAllJobs(@Query() filters: FilterJobsDto) {
     return this.jobService.findAll(filters);
   }
 
+  /** Returns a single job by ID, or 404 if not found. */
   @Get(':id')
   findJobById(@Param('id') id: string) {
     return this.jobService.findOne(id);
   }
 
+  /** Creates a new job under the current company. */
   @Post()
   createJob(@Body() jobDto: CreateJobDto) {
     return this.jobService.create(jobDto);
   }
 
+  /** Partially updates a job's fields. */
   @Patch(':id')
   updateJob(@Body() jobDto: UpdateJobDto, @Param('id') id: string) {
     return this.jobService.update(jobDto, id);
   }
 
+  /** Permanently deletes a job by ID. */
   @Delete(':id')
   @HttpCode(204)
   deleteJob(@Param('id') id: string) {
