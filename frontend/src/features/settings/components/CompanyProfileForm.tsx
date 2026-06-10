@@ -16,8 +16,8 @@ const schema = z.object({
   name: z.string().min(1, 'Company name is required'),
   address: z.string().optional(),
   vatId: z.string().optional(),
-  defaultVatRate: z.coerce.number().min(0).max(100).optional(),
-  paymentTermsDays: z.coerce.number().min(0).optional(),
+  defaultVatRate: z.number().min(0).max(100).optional(),
+  paymentTermsDays: z.number().min(0).optional(),
   bankName: z.string().optional(),
   bankIban: z.string().optional(),
   bankBic: z.string().optional(),
@@ -128,7 +128,16 @@ export function CompanyProfileForm({ settings }: Props) {
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
                   <FieldLabel htmlFor="default-vat">Default VAT rate (%)</FieldLabel>
-                  <Input {...field} id="default-vat" type="number" min={0} max={100} placeholder="19" />
+                  <Input
+                    id="default-vat"
+                    type="number"
+                    min={0}
+                    max={100}
+                    placeholder="19"
+                    value={field.value ?? ''}
+                    onChange={(e) => field.onChange(e.target.value === '' ? undefined : e.target.valueAsNumber)}
+                    onBlur={field.onBlur}
+                  />
                   {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
                 </Field>
               )}
@@ -140,7 +149,15 @@ export function CompanyProfileForm({ settings }: Props) {
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
                   <FieldLabel htmlFor="payment-terms">Payment terms (days)</FieldLabel>
-                  <Input {...field} id="payment-terms" type="number" min={0} placeholder="14" />
+                  <Input
+                    id="payment-terms"
+                    type="number"
+                    min={0}
+                    placeholder="14"
+                    value={field.value ?? ''}
+                    onChange={(e) => field.onChange(e.target.value === '' ? undefined : e.target.valueAsNumber)}
+                    onBlur={field.onBlur}
+                  />
                   {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
                 </Field>
               )}
