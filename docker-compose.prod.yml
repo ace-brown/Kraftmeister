@@ -18,6 +18,7 @@ services:
     restart: always
     ports:
       - "4000:4000"
+    command: sh -c "npx prisma migrate deploy && node dist/src/main"
     depends_on:
       postgres:
         condition: service_healthy
