@@ -12,6 +12,7 @@ import { AiService } from './ai.service';
 import { SuggestItemsDto } from './dtos/suggest-items.dto';
 import { AnalyzePhotoDto } from './dtos/analyze-photo.dto';
 import { FeedbackDto } from './dtos/feedback.dto';
+import { AgentDto } from './dtos/agent.dto';
 
 @ApiBearerAuth()
 @Controller('ai')
@@ -41,5 +42,11 @@ export class AiController {
   @Post('feedback')
   async saveFeedback(@Body() payload: FeedbackDto) {
     return this.aiService.saveFeedback(payload.feature, payload.rating);
+  }
+
+  /** Accepts a natural-language question and returns an AI-generated answer by proxying to the ReAct agent. */
+  @Post('agent')
+  async agent(@Body() payload: AgentDto) {
+    return this.aiService.agent(payload.message);
   }
 }

@@ -1,3 +1,12 @@
 ##############################################################
 ### health check
 GET http://localhost:8000/health
+
+##############################################################
+### agent — ask a question about jobs, customers, or invoices
+POST http://localhost:8000/agent
+Content-Type: application/json
+
+{
+  "message": "How many open jobs do I have?"
+}
