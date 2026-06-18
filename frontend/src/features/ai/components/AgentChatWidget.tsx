@@ -1,14 +1,14 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { Bot, Sparkles, X } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
-import { TypographyP } from '@/components/ui/Typography';
-import { useAskAgent } from '../hooks/useAskAgent';
-import { AgentChatMessage } from '../types/ai.types';
-import { AgentChatMessages } from './agent-chat/AgentChatMessages';
-import { AgentChatInput } from './agent-chat/AgentChatInput';
+import { useState } from "react";
+import { Bot, Sparkles, X } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { TypographyP } from "@/components/ui/Typography";
+import { useAskAgent } from "../hooks/useAskAgent";
+import { AgentChatMessage } from "../types/ai.types";
+import { AgentChatMessages } from "./agent-chat/AgentChatMessages";
+import { AgentChatInput } from "./agent-chat/AgentChatInput";
 
 /** Floating AI chat bubble fixed to the bottom-right corner, available on every dashboard page. */
 export function AgentChatWidget() {
@@ -17,10 +17,13 @@ export function AgentChatWidget() {
   const { mutate, isPending } = useAskAgent();
 
   function handleSend(message: string) {
-    setMessages((prev) => [...prev, { role: 'user', content: message }]);
+    setMessages((prev) => [...prev, { role: "user", content: message }]);
     mutate(message, {
       onSuccess: (data) => {
-        setMessages((prev) => [...prev, { role: 'agent', content: data.answer }]);
+        setMessages((prev) => [
+          ...prev,
+          { role: "agent", content: data.answer },
+        ]);
       },
     });
   }
@@ -36,8 +39,12 @@ export function AgentChatWidget() {
                 <Bot className="h-4 w-4 text-white" />
               </div>
               <div>
-                <TypographyP className="text-sm font-semibold leading-none">KI-Assistent</TypographyP>
-                <TypographyP className="text-xs text-zinc-400 mt-0.5">Frag mich alles über dein Geschäft</TypographyP>
+                <TypographyP className="text-sm font-semibold leading-none">
+                  KI-Assistent
+                </TypographyP>
+                <TypographyP className="text-xs text-zinc-400 mt-0.5">
+                  Frag mich alles über dein Geschäft
+                </TypographyP>
               </div>
             </div>
             <Button
