@@ -1,13 +1,22 @@
+"use client";
+
+import { useEffect, useRef } from "react";
 import ReactMarkdown from "react-markdown";
 import { AgentChatMessagesProps } from "../../types/ai.types";
 import { TypographyP } from "@/components/ui/Typography";
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
 
-/** Renders the message history list, with user messages on the right and agent answers on the left. */
+/** Renders the message history list, with user messages on the right and agent answers on the left. Auto-scrolls to the latest message. */
 export function AgentChatMessages({
   messages,
   isPending,
 }: AgentChatMessagesProps) {
+  const bottomRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages, isPending]);
+
   if (!messages.length && !isPending) {
     return (
       <TypographyP className="text-zinc-400 text-sm text-center py-8">
@@ -17,7 +26,7 @@ export function AgentChatMessages({
   }
 
   return (
-    <div className="flex flex-col gap-3 min-h-50 max-h-100 overflow-y-auto pr-1">
+    <div className="flex flex-col gap-3 pr-1">
       {messages.map((msg, i) => (
         <div
           key={i}
@@ -43,6 +52,7 @@ export function AgentChatMessages({
           <LoadingSpinner />
         </div>
       )}
+      <div ref={bottomRef} />
     </div>
   );
 }

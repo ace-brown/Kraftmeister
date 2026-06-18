@@ -31,9 +31,9 @@ export function AgentChatWidget() {
   return (
     <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-3">
       {isOpen && (
-        <Card className="w-100 shadow-2xl border-zinc-700 bg-zinc-950">
+        <Card className="w-100 shadow-2xl border-zinc-700 bg-zinc-950 flex flex-col max-h-[calc(100vh-8rem)]">
           {/* Panel header */}
-          <div className="flex items-center justify-between px-4 pt-4 pb-3 border-b border-zinc-800">
+          <div className="shrink-0 flex items-center justify-between px-4 pt-4 pb-3 border-b border-zinc-800">
             <div className="flex items-center gap-2">
               <div className="flex h-8 w-8 items-center justify-center rounded-full bg-indigo-600">
                 <Bot className="h-4 w-4 text-white" />
@@ -57,9 +57,13 @@ export function AgentChatWidget() {
             </Button>
           </div>
 
-          <CardContent className="p-4 flex flex-col gap-4">
-            <AgentChatMessages messages={messages} isPending={isPending} />
-            <AgentChatInput onSend={handleSend} isPending={isPending} />
+          <CardContent className="p-4 flex flex-col flex-1 overflow-hidden gap-4">
+            <div className="flex-1 min-h-0 overflow-y-auto">
+              <AgentChatMessages messages={messages} isPending={isPending} />
+            </div>
+            <div className="shrink-0">
+              <AgentChatInput onSend={handleSend} isPending={isPending} />
+            </div>
           </CardContent>
         </Card>
       )}
