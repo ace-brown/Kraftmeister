@@ -4,6 +4,7 @@ import { Sidebar } from "@/components/layout/sidebar";
 import { Topbar } from "@/components/layout/topbar/Topbar";
 import { MobileNav } from "@/components/layout/mobile-nav";
 import { PageContainer } from "@/components/layout/page-container";
+import { AgentChatWidget } from "@/features/ai/components/AgentChatWidget";
 
 interface Props {
   children: ReactNode;
@@ -21,6 +22,8 @@ export default function DashboardLayout({ children }: Props) {
 
         <MobileNav />
       </div>
+
+      <AgentChatWidget />
     </div>
   );
 }

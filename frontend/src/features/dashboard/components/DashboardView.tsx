@@ -2,7 +2,6 @@
 
 import { PageContainer } from '@/components/layout/page-container';
 import { PageHeader } from '@/components/ui/page-header';
-import { AgentChat } from '@/features/ai/components/AgentChat';
 import { useJobs } from '@/features/jobs/hooks/useJobs';
 import { useInvoices } from '@/features/invoices/hooks/useInvoices';
 import { useCustomers } from '@/features/customers/hooks/useCustomers';
@@ -45,9 +44,6 @@ export function DashboardView() {
         </div>
       </div>
 
-      <div className="mt-6">
-        <AgentChat />
-      </div>
     </PageContainer>
   );
 }
