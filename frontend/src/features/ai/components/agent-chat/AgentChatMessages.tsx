@@ -1,3 +1,4 @@
+import ReactMarkdown from "react-markdown";
 import { AgentChatMessagesProps } from "../../types/ai.types";
 import { TypographyP } from "@/components/ui/Typography";
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
@@ -23,18 +24,21 @@ export function AgentChatMessages({
           className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}
         >
           <div
-            className={`rounded-lg px-4 py-2 max-w-[80%] text-sm whitespace-pre-wrap ${
+            className={`rounded-lg px-4 py-2 text-sm ${
               msg.role === "user"
-                ? "bg-zinc-700 text-white"
-                : "bg-zinc-900 text-zinc-100 border border-zinc-800"
+                ? "max-w-[80%] bg-zinc-700 text-white whitespace-pre-wrap"
+                : "w-full bg-zinc-900 text-zinc-100 border border-zinc-800 prose prose-invert prose-sm max-w-none"
             }`}
           >
-            {msg.content}
+            {msg.role === "user" ? (
+              msg.content
+            ) : (
+              <ReactMarkdown>{msg.content}</ReactMarkdown>
+            )}
           </div>
         </div>
       ))}
       {isPending && (
-        // <div className="w-full rounded-lg px-4 py-3 bg-zinc-900 border border-zinc-800 flex items-center">
         <div className="max-w-[80%] px-4 py-3 flex items-center justify-center">
           <LoadingSpinner />
         </div>
