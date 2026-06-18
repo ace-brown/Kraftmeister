@@ -8,5 +8,5 @@ router = APIRouter()
 @router.post("/", response_model=AgentResponse)
 async def agent_chat(payload: AgentRequest):
     """Receives a natural-language question, runs it through the ReAct agent, and returns the answer."""
-    answer = await run_agent(payload.message)
+    answer = await run_agent(payload.message, payload.token)
     return AgentResponse(answer=answer)

@@ -88,10 +88,10 @@ export class AiService {
   }
 
   /** Forwards a natural-language question to the ReAct agent in the AI service and returns the answer. */
-  async agent(message: string) {
+  async agent(message: string, token: string) {
     const start = Date.now();
     const response: AxiosResponse = await firstValueFrom(
-      this.httpService.post('http://ai-service:8000/agent', { message }),
+      this.httpService.post('http://ai-service:8000/agent', { message, token }),
     );
 
     await this.prisma.aiLog.create({

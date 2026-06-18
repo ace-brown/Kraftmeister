@@ -88,9 +88,11 @@ class AgentRequest(BaseModel):
     """
     Sent by the frontend to the ReAct agent endpoint.
     message is the natural-language question from the user (e.g. "How many open jobs do I have?").
+    token is the user's JWT, forwarded by NestJS so the agent tools can authenticate back to the API.
     """
 
     message: str
+    token: str = ""
 
 
 class AgentResponse(BaseModel):

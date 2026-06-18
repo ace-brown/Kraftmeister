@@ -3,6 +3,7 @@ import {
   Body,
   Controller,
   Post,
+  Req,
   UploadedFile,
   UseInterceptors,
 } from '@nestjs/common';
@@ -46,7 +47,8 @@ export class AiController {
 
   /** Accepts a natural-language question and returns an AI-generated answer by proxying to the ReAct agent. */
   @Post('agent')
-  async agent(@Body() payload: AgentDto) {
-    return this.aiService.agent(payload.message);
+  async agent(@Body() payload: AgentDto, @Req() req: Request) {
+    const token = req.headers['authorization'] ?? '';
+    return this.aiService.agent(payload.message, token);
   }
 }
