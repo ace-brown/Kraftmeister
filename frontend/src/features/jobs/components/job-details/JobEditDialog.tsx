@@ -58,9 +58,9 @@ export function JobEditDialog({ job, open, onOpenChange }: JobEditDialogProps) {
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Edit Job</DialogTitle>
+          <DialogTitle>Auftrag bearbeiten</DialogTitle>
           <DialogDescription>
-            Update the details for this job.
+            Auftragsdetails aktualisieren.
           </DialogDescription>
         </DialogHeader>
 
@@ -71,7 +71,7 @@ export function JobEditDialog({ job, open, onOpenChange }: JobEditDialogProps) {
               control={control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor="edit-job-title">Title</FieldLabel>
+                  <FieldLabel htmlFor="edit-job-title">Titel</FieldLabel>
                   <Input {...field} id="edit-job-title" autoComplete="off" />
                   {fieldState.invalid && (
                     <FieldError errors={[fieldState.error]} />
@@ -86,7 +86,7 @@ export function JobEditDialog({ job, open, onOpenChange }: JobEditDialogProps) {
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid} className="md:col-span-2">
                   <FieldLabel htmlFor="edit-job-description">
-                    Description
+                    Beschreibung
                   </FieldLabel>
                   <Textarea {...field} id="edit-job-description" />
                   {fieldState.invalid && (
@@ -101,7 +101,7 @@ export function JobEditDialog({ job, open, onOpenChange }: JobEditDialogProps) {
               control={control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor="edit-job-address">Address</FieldLabel>
+                  <FieldLabel htmlFor="edit-job-address">Adresse</FieldLabel>
                   <Input {...field} id="edit-job-address" autoComplete="off" />
                   {fieldState.invalid && (
                     <FieldError errors={[fieldState.error]} />
@@ -118,7 +118,7 @@ export function JobEditDialog({ job, open, onOpenChange }: JobEditDialogProps) {
                   <FieldLabel htmlFor="edit-job-status">Status</FieldLabel>
                   <Select value={field.value} onValueChange={field.onChange}>
                     <SelectTrigger id="edit-job-status">
-                      <SelectValue placeholder="Select status" />
+                      <SelectValue placeholder="Status wählen" />
                     </SelectTrigger>
                     <SelectContent>
                       {JOB_STATUSES.map((s) => (
@@ -139,7 +139,7 @@ export function JobEditDialog({ job, open, onOpenChange }: JobEditDialogProps) {
 
         <DialogFooter showCloseButton>
           <Button type="submit" form="form-edit-job" disabled={isPending}>
-            {isPending ? "Saving..." : "Save"}
+            {isPending ? "Speichern..." : "Speichern"}
           </Button>
         </DialogFooter>
       </DialogContent>

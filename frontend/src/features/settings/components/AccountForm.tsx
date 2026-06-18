@@ -18,7 +18,7 @@ const schema = z
   })
   .refine(
     (data) => !data.newPassword || !!data.currentPassword,
-    { message: 'Current password is required to set a new password', path: ['currentPassword'] },
+    { message: 'Aktuelles Passwort erforderlich, um ein neues festzulegen', path: ['currentPassword'] },
   );
 
 type FormValues = z.infer<typeof schema>;
@@ -50,7 +50,7 @@ export function AccountForm({ settings }: Props) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Account</CardTitle>
+        <CardTitle>Konto</CardTitle>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -60,7 +60,7 @@ export function AccountForm({ settings }: Props) {
               control={control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor="account-email">Email</FieldLabel>
+                  <FieldLabel htmlFor="account-email">E-Mail</FieldLabel>
                   <Input {...field} id="account-email" type="email" autoComplete="off" />
                   {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
                 </Field>
@@ -72,7 +72,7 @@ export function AccountForm({ settings }: Props) {
               control={control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor="current-password">Current password</FieldLabel>
+                  <FieldLabel htmlFor="current-password">Aktuelles Passwort</FieldLabel>
                   <Input {...field} id="current-password" type="password" autoComplete="current-password" />
                   {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
                 </Field>
@@ -84,7 +84,7 @@ export function AccountForm({ settings }: Props) {
               control={control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor="new-password">New password</FieldLabel>
+                  <FieldLabel htmlFor="new-password">Neues Passwort</FieldLabel>
                   <Input {...field} id="new-password" type="password" autoComplete="new-password" />
                   {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
                 </Field>
@@ -94,9 +94,9 @@ export function AccountForm({ settings }: Props) {
 
           <div className="mt-6 flex items-center gap-3">
             <Button type="submit" disabled={isPending}>
-              {isPending ? 'Saving…' : 'Save changes'}
+              {isPending ? 'Speichern…' : 'Änderungen speichern'}
             </Button>
-            {isSuccess && <p className="text-sm text-green-500">Saved successfully</p>}
+            {isSuccess && <p className="text-sm text-green-500">Erfolgreich gespeichert</p>}
           </div>
         </form>
       </CardContent>

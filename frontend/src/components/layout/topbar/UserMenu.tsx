@@ -33,7 +33,7 @@ export function UserMenu() {
 
       <SheetContent side="right" className="w-72 [&>button]:cursor-pointer">
         <SheetHeader>
-          <SheetTitle>Account</SheetTitle>
+          <SheetTitle>Konto</SheetTitle>
         </SheetHeader>
 
         <div className="mt-6 space-y-4">
@@ -58,7 +58,7 @@ export function UserMenu() {
             className="w-full justify-start text-red-400 hover:text-red-300 hover:bg-transparent cursor-pointer"
             onClick={logout}
           >
-            Sign out
+            Abmelden
           </Button>
         </div>
       </SheetContent>

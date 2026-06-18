@@ -13,7 +13,7 @@ import { useUpdateCompany } from '../hooks/useUpdateCompany';
 import { Settings } from '../types/settings.types';
 
 const schema = z.object({
-  name: z.string().min(1, 'Company name is required'),
+  name: z.string().min(1, 'Firmenname ist erforderlich'),
   address: z.string().optional(),
   vatId: z.string().optional(),
   defaultVatRate: z.number().min(0).max(100).optional(),
@@ -76,7 +76,7 @@ export function CompanyProfileForm({ settings }: Props) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Company Profile</CardTitle>
+        <CardTitle>Unternehmensprofil</CardTitle>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -86,7 +86,7 @@ export function CompanyProfileForm({ settings }: Props) {
               control={control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor="company-name">Company name *</FieldLabel>
+                  <FieldLabel htmlFor="company-name">Firmenname *</FieldLabel>
                   <Input {...field} id="company-name" autoComplete="off" />
                   {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
                 </Field>
@@ -98,7 +98,7 @@ export function CompanyProfileForm({ settings }: Props) {
               control={control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor="company-address">Address</FieldLabel>
+                  <FieldLabel htmlFor="company-address">Adresse</FieldLabel>
                   <Input {...field} id="company-address" autoComplete="off" />
                   {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
                 </Field>
@@ -110,7 +110,7 @@ export function CompanyProfileForm({ settings }: Props) {
               control={control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor="company-vatId">VAT ID</FieldLabel>
+                  <FieldLabel htmlFor="company-vatId">Steuernummer / USt-IdNr.</FieldLabel>
                   <Input {...field} id="company-vatId" autoComplete="off" placeholder="DE123456789" />
                   {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
                 </Field>
@@ -119,7 +119,7 @@ export function CompanyProfileForm({ settings }: Props) {
           </FieldGroup>
 
           <Separator className="my-6" />
-          <p className="text-sm font-medium text-zinc-400 mb-4">Invoice Defaults</p>
+          <p className="text-sm font-medium text-zinc-400 mb-4">Rechnungsstandards</p>
 
           <FieldGroup>
             <Controller
@@ -127,7 +127,7 @@ export function CompanyProfileForm({ settings }: Props) {
               control={control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor="default-vat">Default VAT rate (%)</FieldLabel>
+                  <FieldLabel htmlFor="default-vat">Standard-MwSt.-Satz (%)</FieldLabel>
                   <Input
                     id="default-vat"
                     type="number"
@@ -148,7 +148,7 @@ export function CompanyProfileForm({ settings }: Props) {
               control={control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor="payment-terms">Payment terms (days)</FieldLabel>
+                  <FieldLabel htmlFor="payment-terms">Zahlungsziel (Tage)</FieldLabel>
                   <Input
                     id="payment-terms"
                     type="number"
@@ -168,7 +168,7 @@ export function CompanyProfileForm({ settings }: Props) {
               control={control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor="bank-name">Bank name</FieldLabel>
+                  <FieldLabel htmlFor="bank-name">Bankname</FieldLabel>
                   <Input {...field} id="bank-name" autoComplete="off" />
                   {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
                 </Field>
@@ -202,9 +202,9 @@ export function CompanyProfileForm({ settings }: Props) {
 
           <div className="mt-6 flex items-center gap-3">
             <Button type="submit" disabled={isPending}>
-              {isPending ? 'Saving…' : 'Save changes'}
+              {isPending ? 'Speichern…' : 'Änderungen speichern'}
             </Button>
-            {isSuccess && <p className="text-sm text-green-500">Saved successfully</p>}
+            {isSuccess && <p className="text-sm text-green-500">Erfolgreich gespeichert</p>}
           </div>
         </form>
       </CardContent>

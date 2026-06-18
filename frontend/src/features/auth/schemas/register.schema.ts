@@ -1,9 +1,11 @@
-import { z } from 'zod';
+import { z } from "zod";
 
 export const registerSchema = z.object({
-  companyName: z.string().min(1, 'Company name is required'),
-  email: z.string().email('Invalid email'),
-  password: z.string().min(8, 'Password must be at least 8 characters'),
+  companyName: z.string().min(1, "Firmenname ist erforderlich"),
+  email: z.email({ error: "Ungültige E-Mail-Adresse" }),
+  password: z
+    .string()
+    .min(8, { error: "Passwort muss mindestens 8 Zeichen lang sein" }),
 });
 
 export type RegisterFormValues = z.infer<typeof registerSchema>;

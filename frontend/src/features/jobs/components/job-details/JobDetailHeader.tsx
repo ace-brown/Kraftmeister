@@ -24,7 +24,7 @@ export function JobDetailHeader({ job }: Props) {
           {job.address}
         </TypographyP>
       )}
-      <p className="text-xs text-zinc-500 mb-6">Created: {formattedDate}</p>
+      <p className="text-xs text-zinc-500 mb-6">Erstellt: {formattedDate}</p>
     </>
   );
 }

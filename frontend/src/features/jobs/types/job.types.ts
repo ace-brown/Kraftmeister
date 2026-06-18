@@ -7,10 +7,10 @@ export const JOB_STATUSES = [
 export type JobStatus = (typeof JOB_STATUSES)[number];
 
 export const JOB_STATUS_LABELS: Record<JobStatus, string> = {
-  OPEN: "Open",
-  IN_PROGRESS: "In Progress",
-  DONE: "Done",
-  CANCELLED: "Cancelled",
+  OPEN: "Offen",
+  IN_PROGRESS: "In Bearbeitung",
+  DONE: "Erledigt",
+  CANCELLED: "Abgebrochen",
 };
 
 export interface Job {

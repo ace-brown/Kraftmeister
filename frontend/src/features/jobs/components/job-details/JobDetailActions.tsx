@@ -9,14 +9,14 @@ export function JobDetailActions({ onEdit }: JobDetailActionsProps) {
         href="/jobs"
         className="text-sm text-zinc-400 hover:text-white transition-colors"
       >
-        ← Back to Jobs
+        ← Zurück zu Aufträgen
       </Link>
       <div className="flex gap-2">
         <Button variant="outline" size="sm" onClick={onEdit}>
-          Edit
+          Bearbeiten
         </Button>
         <Button size="sm" disabled>
-          + Quote
+          + Angebot
         </Button>
       </div>
     </div>

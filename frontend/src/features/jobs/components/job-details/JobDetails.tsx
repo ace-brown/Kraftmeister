@@ -25,7 +25,7 @@ export default function JobDetails({ id }: { id: string }) {
     return (
       <PageContainer>
         <TypographyP className="text-zinc-400 text-sm">
-          Loading job...
+          Auftrag wird geladen...
         </TypographyP>
       </PageContainer>
     );
@@ -35,7 +35,7 @@ export default function JobDetails({ id }: { id: string }) {
     return (
       <PageContainer>
         <TypographyP className="text-red-400 text-sm">
-          Job not found.
+          Auftrag nicht gefunden.
         </TypographyP>
       </PageContainer>
     );

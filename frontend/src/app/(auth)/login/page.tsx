@@ -26,7 +26,7 @@ export default function LoginPage() {
     try {
       await login(values);
     } catch {
-      setError('root', { message: 'Invalid email or password' });
+      setError('root', { message: 'Ungültige E-Mail-Adresse oder Passwort' });
     }
   }
 
@@ -34,19 +34,19 @@ export default function LoginPage() {
     <div className="flex min-h-screen items-center justify-center bg-zinc-950 p-4">
       <Card className="w-full max-w-sm">
         <CardHeader className="space-y-1 pb-4">
-          <TypographyH2>Sign in</TypographyH2>
-          <TypographyP className="text-zinc-400">Enter your credentials to continue</TypographyP>
+          <TypographyH2>Anmelden</TypographyH2>
+          <TypographyP className="text-zinc-400">Anmeldedaten eingeben, um fortzufahren</TypographyP>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             <div className="space-y-1">
-              <Label htmlFor="email">Email</Label>
+              <Label htmlFor="email">E-Mail</Label>
               <Input id="email" type="email" placeholder="admin@muster.de" {...register('email')} />
               {errors.email && <p className="text-sm text-red-500">{errors.email.message}</p>}
             </div>
 
             <div className="space-y-1">
-              <Label htmlFor="password">Password</Label>
+              <Label htmlFor="password">Passwort</Label>
               <Input id="password" type="password" placeholder="••••••••" {...register('password')} />
               {errors.password && <p className="text-sm text-red-500">{errors.password.message}</p>}
             </div>
@@ -54,13 +54,13 @@ export default function LoginPage() {
             {errors.root && <p className="text-sm text-red-500">{errors.root.message}</p>}
 
             <Button type="submit" className="w-full" disabled={isSubmitting}>
-              {isSubmitting ? 'Signing in…' : 'Sign in'}
+              {isSubmitting ? 'Anmelden…' : 'Anmelden'}
             </Button>
 
             <TypographyP className="text-center text-sm text-zinc-400">
-              No account?{' '}
+              Noch kein Konto?{' '}
               <Link href="/register" className="text-white underline underline-offset-4">
-                Register your company
+                Unternehmen registrieren
               </Link>
             </TypographyP>
           </form>

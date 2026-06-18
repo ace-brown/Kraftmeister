@@ -30,10 +30,10 @@ export function JobsFilterBar({ filters, onChange }: JobsFilterBarProps) {
         }
       >
         <SelectTrigger className="w-40">
-          <SelectValue placeholder="All statuses" />
+          <SelectValue placeholder="Alle Status" />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="ALL">All statuses</SelectItem>
+          <SelectItem value="ALL">Alle Status</SelectItem>
           {JOB_STATUSES.map((s) => (
             <SelectItem key={s} value={s}>
               {JOB_STATUS_LABELS[s]}
@@ -53,7 +53,7 @@ export function JobsFilterBar({ filters, onChange }: JobsFilterBarProps) {
 
       {hasActiveFilters && (
         <Button variant="ghost" size="sm" onClick={() => onChange({})}>
-          Clear
+          Zurücksetzen
         </Button>
       )}
     </div>

@@ -8,7 +8,7 @@ export function JobDetailDescription({ description }: Props) {
   return (
     <section className="mb-6">
       <TypographyH2 className="text-sm font-semibold text-zinc-300 uppercase tracking-wide mb-2 pb-0">
-        Description
+        Beschreibung
       </TypographyH2>
       <TypographyP>{description}</TypographyP>
     </section>

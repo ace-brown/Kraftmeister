@@ -56,10 +56,10 @@ export function JobDetailPhotos({ jobId }: { jobId: string }) {
     <section>
       <div className="flex items-center justify-between mb-3">
         <TypographyH2 className="text-sm font-semibold text-zinc-300 uppercase tracking-wide pb-0">
-          Photos
+          Fotos
         </TypographyH2>
         <Button variant="outline" size="sm" onClick={() => uploadRef.current?.click()}>
-          + Upload
+          + Hochladen
         </Button>
         <input type="file" ref={uploadRef} onChange={handleUpload} className="hidden" accept="image/*" />
       </div>
@@ -82,7 +82,7 @@ export function JobDetailPhotos({ jobId }: { jobId: string }) {
                   className="h-6 px-2 text-xs text-zinc-400 hover:text-zinc-100"
                   onClick={() => handleCopy(url)}
                 >
-                  {copiedUrl === url ? "Copied!" : "Copy"}
+                  {copiedUrl === url ? "Kopiert!" : "Kopieren"}
                 </Button>
                 <Button
                   type="button"
@@ -91,7 +91,7 @@ export function JobDetailPhotos({ jobId }: { jobId: string }) {
                   className="h-6 px-2 text-xs text-red-500 hover:text-red-400"
                   onClick={() => setPendingDeleteUrl(url)}
                 >
-                  Delete
+                  Löschen
                 </Button>
               </div>
             </div>
@@ -103,14 +103,14 @@ export function JobDetailPhotos({ jobId }: { jobId: string }) {
       <Dialog open={!!pendingDeleteUrl} onOpenChange={(open) => !open && setPendingDeleteUrl(null)}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Delete photo?</DialogTitle>
+            <DialogTitle>Foto löschen?</DialogTitle>
             <DialogDescription>
-              This will permanently remove the photo from MinIO and the job. This cannot be undone.
+              Das Foto wird dauerhaft aus MinIO und dem Auftrag entfernt. Diese Aktion kann nicht rückgängig gemacht werden.
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
-            <Button variant="outline" onClick={() => setPendingDeleteUrl(null)}>Cancel</Button>
-            <Button variant="destructive" onClick={handleConfirmDelete}>Delete</Button>
+            <Button variant="outline" onClick={() => setPendingDeleteUrl(null)}>Abbrechen</Button>
+            <Button variant="destructive" onClick={handleConfirmDelete}>Löschen</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
@@ -122,9 +122,8 @@ export function JobDetailPhotos({ jobId }: { jobId: string }) {
           KI-Fotoanalyse
         </TypographyH2>
         <TypographyP className="text-xs text-zinc-500">
-          Paste a public photo URL from the job site — Claude will analyse the
-          image and suggest what tasks need doing, what problems it spots, and
-          how complex the job is.
+          Öffentliche Foto-URL der Baustelle einfügen — Claude analysiert das Bild und schlägt vor,
+          welche Aufgaben erledigt werden müssen, welche Probleme erkannt wurden und wie komplex der Auftrag ist.
         </TypographyP>
         <div className="flex gap-2">
           <Input

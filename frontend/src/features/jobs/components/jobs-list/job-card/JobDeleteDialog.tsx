@@ -20,22 +20,21 @@ export function JobDeleteDialog({
     <Dialog open={open} onOpenChange={(o) => !o && onCancel()}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Delete job?</DialogTitle>
+          <DialogTitle>Auftrag löschen?</DialogTitle>
           <DialogDescription>
-            &ldquo;{job.title}&rdquo; will be permanently deleted. This cannot
-            be undone.
+            &ldquo;{job.title}&rdquo; wird dauerhaft gelöscht. Diese Aktion kann nicht rückgängig gemacht werden.
           </DialogDescription>
         </DialogHeader>
         <DialogFooter>
           <Button variant="outline" onClick={onCancel} disabled={isPending}>
-            Cancel
+            Abbrechen
           </Button>
           <Button
             variant="destructive"
             onClick={onConfirm}
             disabled={isPending}
           >
-            {isPending ? "Deleting..." : "Delete"}
+            {isPending ? "Wird gelöscht..." : "Löschen"}
           </Button>
         </DialogFooter>
       </DialogContent>

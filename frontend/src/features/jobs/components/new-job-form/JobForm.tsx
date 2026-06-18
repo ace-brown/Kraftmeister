@@ -128,12 +128,12 @@ export function JobForm() {
               control={control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor="create-job-title">Title</FieldLabel>
+                  <FieldLabel htmlFor="create-job-title">Titel</FieldLabel>
                   <Input
                     {...field}
                     id="create-job-title"
                     required
-                    placeholder="e.g. Kitchen sink repair"
+                    placeholder="z.B. Küchenspüle reparieren"
                     aria-invalid={fieldState.invalid}
                     autoComplete="off"
                   />
@@ -154,12 +154,12 @@ export function JobForm() {
                   className="md:col-span-2"
                 >
                   <FieldLabel htmlFor="create-job-description">
-                    Description
+                    Beschreibung
                   </FieldLabel>
                   <Textarea
                     {...field}
                     id="create-job-description"
-                    placeholder="Job details..."
+                    placeholder="Auftragsdetails..."
                     aria-invalid={fieldState.invalid}
                   />
                   {fieldState.invalid && (
@@ -174,11 +174,11 @@ export function JobForm() {
               control={control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor="create-job-address">Address</FieldLabel>
+                  <FieldLabel htmlFor="create-job-address">Adresse</FieldLabel>
                   <Input
                     {...field}
                     id="create-job-address"
-                    placeholder="e.g. Stuttgart"
+                    placeholder="z.B. Stuttgart"
                     aria-invalid={fieldState.invalid}
                     autoComplete="off"
                   />
@@ -201,7 +201,7 @@ export function JobForm() {
                     aria-invalid={fieldState.invalid}
                   >
                     <SelectTrigger id="create-job-status">
-                      <SelectValue placeholder="Select status" />
+                      <SelectValue placeholder="Status wählen" />
                     </SelectTrigger>
                     <SelectContent>
                       {JOB_STATUSES.map((s) => (
@@ -225,7 +225,7 @@ export function JobForm() {
               render={({ field }) => (
                 <Field>
                   <FieldLabel htmlFor="create-job-customer">
-                    Customer (optional)
+                    Kunde (optional)
                   </FieldLabel>
                   <Select
                     value={field.value ?? "none"}
@@ -234,13 +234,13 @@ export function JobForm() {
                     }
                   >
                     <SelectTrigger id="create-job-customer">
-                      <SelectValue placeholder="Select a customer" />
+                      <SelectValue placeholder="Kunde auswählen" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="none">No customer</SelectItem>
+                      <SelectItem value="none">Kein Kunde</SelectItem>
                       {customers.filter((c) => !c.deletedAt).length === 0 ? (
                         <SelectItem value="__empty__" disabled>
-                          No customers yet — create one at Customers page
+                          Noch keine Kunden — lege einen auf der Kundenseite an
                         </SelectItem>
                       ) : (
                         customers
@@ -262,10 +262,10 @@ export function JobForm() {
       <CardFooter>
         <Field orientation="horizontal">
           <Button type="button" variant="outline" onClick={() => reset()}>
-            Reset
+            Zurücksetzen
           </Button>
           <Button type="submit" form="form-create-new-job">
-            Submit
+            Absenden
           </Button>
         </Field>
       </CardFooter>

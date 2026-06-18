@@ -2,10 +2,10 @@ export const INVOICE_STATUSES = ["DRAFT", "SENT", "PAID", "CANCELLED"] as const;
 export type InvoiceStatus = (typeof INVOICE_STATUSES)[number];
 
 export const INVOICE_STATUS_LABELS: Record<InvoiceStatus, string> = {
-  DRAFT: "Draft",
-  SENT: "Sent",
-  PAID: "Paid",
-  CANCELLED: "Cancelled",
+  DRAFT: "Entwurf",
+  SENT: "Versendet",
+  PAID: "Bezahlt",
+  CANCELLED: "Storniert",
 };
 
 export interface InvoiceItem {

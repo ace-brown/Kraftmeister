@@ -18,27 +18,27 @@ const navItems = [
     icon: LayoutDashboard,
   },
   {
-    label: "Jobs",
+    label: "Aufträge",
     href: "/jobs",
     icon: Briefcase,
   },
   {
-    label: "Customers",
+    label: "Kunden",
     href: "/customers",
     icon: Users,
   },
   {
-    label: "Quotes",
+    label: "Angebote",
     href: "/quotes",
     icon: FileText,
   },
   {
-    label: "Invoices",
+    label: "Rechnungen",
     href: "/invoices",
     icon: Receipt,
   },
   {
-    label: "Settings",
+    label: "Einstellungen",
     href: "/settings",
     icon: Settings,
   },

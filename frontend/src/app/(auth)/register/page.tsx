@@ -26,7 +26,7 @@ export default function RegisterPage() {
     try {
       await registerCompany(values);
     } catch (err: unknown) {
-      const message = err instanceof Error ? err.message : 'Registration failed';
+      const message = err instanceof Error ? err.message : 'Registrierung fehlgeschlagen';
       setError('root', { message });
     }
   }
@@ -35,25 +35,25 @@ export default function RegisterPage() {
     <div className="flex min-h-screen items-center justify-center bg-zinc-950 p-4">
       <Card className="w-full max-w-sm">
         <CardHeader className="space-y-1 pb-4">
-          <TypographyH2>Register your company</TypographyH2>
-          <TypographyP className="text-zinc-400">Create your Kraftmeister account</TypographyP>
+          <TypographyH2>Unternehmen registrieren</TypographyH2>
+          <TypographyP className="text-zinc-400">Kraftmeister-Konto erstellen</TypographyP>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             <div className="space-y-1">
-              <Label htmlFor="companyName">Company name</Label>
+              <Label htmlFor="companyName">Firmenname</Label>
               <Input id="companyName" placeholder="Muster GmbH" {...register('companyName')} />
               {errors.companyName && <p className="text-sm text-red-500">{errors.companyName.message}</p>}
             </div>
 
             <div className="space-y-1">
-              <Label htmlFor="email">Email</Label>
+              <Label htmlFor="email">E-Mail</Label>
               <Input id="email" type="email" placeholder="admin@muster.de" {...register('email')} />
               {errors.email && <p className="text-sm text-red-500">{errors.email.message}</p>}
             </div>
 
             <div className="space-y-1">
-              <Label htmlFor="password">Password</Label>
+              <Label htmlFor="password">Passwort</Label>
               <Input id="password" type="password" placeholder="••••••••" {...register('password')} />
               {errors.password && <p className="text-sm text-red-500">{errors.password.message}</p>}
             </div>
@@ -61,13 +61,13 @@ export default function RegisterPage() {
             {errors.root && <p className="text-sm text-red-500">{errors.root.message}</p>}
 
             <Button type="submit" className="w-full" disabled={isSubmitting}>
-              {isSubmitting ? 'Creating account…' : 'Create account'}
+              {isSubmitting ? 'Konto wird erstellt…' : 'Konto erstellen'}
             </Button>
 
             <TypographyP className="text-center text-sm text-zinc-400">
-              Already have an account?{' '}
+              Bereits ein Konto?{' '}
               <Link href="/login" className="text-white underline underline-offset-4">
-                Sign in
+                Anmelden
               </Link>
             </TypographyP>
           </form>
