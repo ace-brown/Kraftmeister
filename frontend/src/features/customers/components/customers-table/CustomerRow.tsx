@@ -14,7 +14,7 @@ export function CustomerRow({ customer }: CustomerRowProps) {
           <Link href={`/customers/${customer.id}`}>
             <Button variant="outline" size="sm">Ansehen</Button>
           </Link>
-          <Link href={`/customers/${customer.id}/edit`}>
+          <Link href={`/customers/${customer.id}`}>
             <Button variant="outline" size="sm">Bearbeiten</Button>
           </Link>
         </div>
