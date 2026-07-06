@@ -21,6 +21,7 @@ services:
     container_name: api-gateway
     ports:
       - "4000:4000"
+      - "5555:5555"
     depends_on:
       postgres:
         condition: service_healthy

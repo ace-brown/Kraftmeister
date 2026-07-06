@@ -8,8 +8,8 @@ export class CustomersService {
   constructor(private prisma: PrismaService) {}
 
   /** Returns all non-deleted customers, with optional case-insensitive search across name, email, and phone. */
-  findAll(search?: string) {
-    const where: any = { deletedAt: null };
+  findAll(companyId: string, search?: string) {
+    const where: any = { companyId, deletedAt: null };
 
     if (search) {
       where.OR = [
@@ -26,9 +26,9 @@ export class CustomersService {
   }
 
   /** Returns a single customer by ID, throwing 404 if not found. */
-  async findOne(id: string) {
+  async findOne(id: string, companyId: string) {
     const customer = await this.prisma.customer.findUnique({
-      where: { id },
+      where: { id, companyId },
     });
 
     if (!customer) throw new NotFoundException('Keine Kunde gefunden!');
@@ -36,27 +36,25 @@ export class CustomersService {
     return customer;
   }
 
-  /** Creates a new customer, resolving the companyId from the first company (to be replaced with JWT companyId in Phase 4.3). */
-  async create(data: CreateCustomerDto) {
-    // TODO Phase 4.3: replace with companyId from JWT
-    const company = await this.prisma.company.findFirstOrThrow();
+  /** Creates a new customer. */
+  async create(data: CreateCustomerDto, companyId: string) {
     return this.prisma.customer.create({
-      data: { ...data, companyId: company.id },
+      data: { ...data, companyId },
     });
   }
 
   /** Partially updates a customer's fields. */
-  update(data: UpdateCustomerDto, id: string) {
+  update(data: UpdateCustomerDto, id: string, companyId: string) {
     return this.prisma.customer.update({
-      where: { id },
+      where: { id, companyId },
       data,
     });
   }
 
   /** Soft-deletes a customer by setting deletedAt, preserving historical data on jobs and invoices. */
-  delete(id: string) {
+  delete(id: string, companyId: string) {
     return this.prisma.customer.update({
-      where: { id },
+      where: { id, companyId },
       data: { deletedAt: new Date() },
     });
   }
