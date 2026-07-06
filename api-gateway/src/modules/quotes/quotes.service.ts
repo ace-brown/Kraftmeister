@@ -23,10 +23,9 @@ export class QuotesService {
   }
 
   /** Returns all quotes for the company with computed totals. */
-  async findAll() {
-    const company = await this.prisma.company.findFirstOrThrow();
+  async findAll(companyId: string) {
     const quotes = await this.prisma.quote.findMany({
-      where: { companyId: company.id },
+      where: { companyId },
       include: {
         items: true,
         customer: { select: { id: true, name: true, email: true } },
@@ -36,10 +35,10 @@ export class QuotesService {
     return quotes.map((q) => ({ ...q, ...this.calcTotals(q.items, q.vatRate) }));
   }
 
-  /** Returns a single quote with items, customer, job, and linked invoice, throwing 404 if not found. */
-  async findOne(id: string) {
-    const quote = await this.prisma.quote.findUnique({
-      where: { id },
+  /** Returns a single quote with items, customer, job, and linked invoice, throwing 404 if not found or owned by another company. */
+  async findOne(id: string, companyId: string) {
+    const quote = await this.prisma.quote.findFirst({
+      where: { id, companyId },
       include: {
         items: true,
         customer: true,
@@ -52,14 +51,13 @@ export class QuotesService {
   }
 
   /** Creates a new quote with line items and calculates the total at the specified VAT rate (defaults to 19%). */
-  async create(dto: CreateQuoteDto) {
-    const company = await this.prisma.company.findFirstOrThrow();
+  async create(dto: CreateQuoteDto, companyId: string) {
     const vatRate = dto.vatRate ?? 19;
     const { total } = this.calcTotals(dto.items, vatRate);
 
     const quote = await this.prisma.quote.create({
       data: {
-        companyId: company.id,
+        companyId,
         customerId: dto.customerId,
         jobId: dto.jobId ?? null,
         vatRate,
@@ -75,8 +73,8 @@ export class QuotesService {
   }
 
   /** Updates a quote's status, VAT rate, or items in a transaction; replaces all items if a new items array is provided. */
-  async update(id: string, dto: UpdateQuoteDto) {
-    const existing = await this.findOne(id);
+  async update(id: string, dto: UpdateQuoteDto, companyId: string) {
+    const existing = await this.findOne(id, companyId);
     const vatRate = dto.vatRate ?? existing.vatRate;
 
     return this.prisma.$transaction(async (tx) => {
@@ -104,14 +102,13 @@ export class QuotesService {
   }
 
   /** Converts a quote to an invoice by copying its line items and auto-generating a sequential invoice number. */
-  async convertToInvoice(id: string) {
-    const quote = await this.findOne(id);
-    const company = await this.prisma.company.findFirstOrThrow();
+  async convertToInvoice(id: string, companyId: string) {
+    const quote = await this.findOne(id, companyId);
 
     const year = new Date().getFullYear();
     const count = await this.prisma.invoice.count({
       where: {
-        companyId: company.id,
+        companyId,
         createdAt: { gte: new Date(`${year}-01-01`) },
       },
     });
@@ -119,7 +116,7 @@ export class QuotesService {
 
     const invoice = await this.prisma.invoice.create({
       data: {
-        companyId: company.id,
+        companyId,
         customerId: quote.customerId,
         quoteId: id,
         invoiceNumber,

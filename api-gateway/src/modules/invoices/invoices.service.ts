@@ -34,10 +34,9 @@ export class InvoicesService {
   }
 
   /** Returns all invoices for the company with computed totals. */
-  async findAll() {
-    const company = await this.prisma.company.findFirstOrThrow();
+  async findAll(companyId: string) {
     const invoices = await this.prisma.invoice.findMany({
-      where: { companyId: company.id },
+      where: { companyId },
       include: {
         items: true,
         customer: { select: { id: true, name: true, email: true } },
@@ -47,10 +46,10 @@ export class InvoicesService {
     return invoices.map((inv) => ({ ...inv, ...this.calcTotals(inv.items) }));
   }
 
-  /** Returns a single invoice with items, customer, and linked quote, throwing 404 if not found. */
-  async findOne(id: string) {
-    const invoice = await this.prisma.invoice.findUnique({
-      where: { id },
+  /** Returns a single invoice with items, customer, and linked quote, throwing 404 if not found or owned by another company. */
+  async findOne(id: string, companyId: string) {
+    const invoice = await this.prisma.invoice.findFirst({
+      where: { id, companyId },
       include: {
         items: true,
         customer: true,
@@ -62,13 +61,12 @@ export class InvoicesService {
   }
 
   /** Creates a new invoice with auto-generated invoice number and line items. */
-  async create(dto: CreateInvoiceDto) {
-    const company = await this.prisma.company.findFirstOrThrow();
-    const invoiceNumber = await this.generateInvoiceNumber(company.id);
+  async create(dto: CreateInvoiceDto, companyId: string) {
+    const invoiceNumber = await this.generateInvoiceNumber(companyId);
 
     const invoice = await this.prisma.invoice.create({
       data: {
-        companyId: company.id,
+        companyId,
         customerId: dto.customerId,
         quoteId: dto.quoteId ?? null,
         invoiceNumber,
@@ -88,9 +86,9 @@ export class InvoicesService {
     return { ...invoice, ...this.calcTotals(invoice.items) };
   }
 
-  /** Updates the status of an invoice and returns the updated record with computed totals. */
-  async updateStatus(id: string, dto: UpdateInvoiceStatusDto) {
-    await this.findOne(id);
+  /** Updates the status of an invoice after verifying ownership, and returns the updated record with computed totals. */
+  async updateStatus(id: string, dto: UpdateInvoiceStatusDto, companyId: string) {
+    await this.findOne(id, companyId);
     const invoice = await this.prisma.invoice.update({
       where: { id },
       data: { status: dto.status },

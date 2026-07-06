@@ -8,9 +8,9 @@ import { FilterJobsDto } from './dtos/filter-jobs.dto';
 export class JobsService {
   constructor(private prisma: PrismaService) {}
 
-  /** Returns all jobs matching the given filters, ordered by creation date descending. */
-  findAll(filters: FilterJobsDto) {
-    const where: any = {};
+  /** Returns all jobs for the company matching the given filters, ordered by creation date descending. */
+  findAll(companyId: string, filters: FilterJobsDto) {
+    const where: any = { companyId };
 
     if (filters.status) {
       where.status = filters.status;
@@ -31,10 +31,10 @@ export class JobsService {
     });
   }
 
-  /** Returns a single job by ID, throwing 404 if not found. */
-  async findOne(id: string) {
-    const job = await this.prisma.job.findUnique({
-      where: { id },
+  /** Returns a single job by ID scoped to the company, throwing 404 if not found or owned by another company. */
+  async findOne(id: string, companyId: string) {
+    const job = await this.prisma.job.findFirst({
+      where: { id, companyId },
     });
 
     if (!job) throw new NotFoundException('Job nicht gefunden!');
@@ -42,39 +42,35 @@ export class JobsService {
     return job;
   }
 
-  /** Creates a new job, resolving companyId from the first company (to be replaced with JWT companyId in Phase 4.3). */
-  async create(data: CreateJobDto) {
-    // TODO Phase 4.3: replace with companyId from JWT
-    const company = await this.prisma.company.findFirstOrThrow();
-    return this.prisma.job.create({ data: { ...data, companyId: company.id } });
+  /** Creates a new job under the given company. */
+  async create(data: CreateJobDto, companyId: string) {
+    return this.prisma.job.create({ data: { ...data, companyId } });
   }
 
-  /** Partially updates a job's fields. */
-  update(data: UpdateJobDto, id: string) {
-    return this.prisma.job.update({
-      where: { id },
-      data,
-    });
+  /** Partially updates a job's fields after verifying ownership. */
+  async update(data: UpdateJobDto, id: string, companyId: string) {
+    await this.findOne(id, companyId);
+    return this.prisma.job.update({ where: { id }, data });
   }
 
-  /** Permanently deletes a job by ID. */
-  delete(id: string) {
-    return this.prisma.job.delete({
-      where: { id },
-    });
+  /** Permanently deletes a job by ID after verifying ownership. */
+  async delete(id: string, companyId: string) {
+    await this.findOne(id, companyId);
+    return this.prisma.job.delete({ where: { id } });
   }
 
-  /** Removes a photo URL from the job's photos array. */
-  async removePhoto(id: string, url: string) {
-    const job = await this.findOne(id);
+  /** Removes a photo URL from the job's photos array after verifying ownership. */
+  async removePhoto(id: string, url: string, companyId: string) {
+    const job = await this.findOne(id, companyId);
     return this.prisma.job.update({
       where: { id },
       data: { photos: job.photos.filter((p) => p !== url) },
     });
   }
 
-  /** Appends a photo URL to the job's photos array. */
-  addPhoto(id: string, url: string) {
+  /** Appends a photo URL to the job's photos array after verifying ownership. */
+  async addPhoto(id: string, url: string, companyId: string) {
+    await this.findOne(id, companyId);
     return this.prisma.job.update({
       where: { id },
       data: { photos: { push: url } },
