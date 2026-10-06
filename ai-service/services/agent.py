@@ -18,12 +18,23 @@ async def run_agent(message: str, token: str) -> str:
         Leave status empty to get all jobs regardless of status."""
 
         async with httpx.AsyncClient() as client:
-            response = await client.get(
-                "http://api-gateway:4000/jobs",
-                params={"status": status} if status else {},
-                headers={"Authorization": token},
-            )
-            return response.text
+            try:
+                response = await client.get(
+                    "http://api-gateway:4000/jobs",
+                    params={"status": status} if status else {},
+                    headers={"Authorization": token},
+                )
+                response.raise_for_status()
+                return response.text
+            except httpx.HTTPStatusError:
+                if response.status_code == 401:
+                    print("Bitte neu anmelden")
+                if response.status_code == 404:
+                    print("nicht gefunden")
+                if response.status_code == 500:
+                    print("versuch später")
+            except httpx.RequestError:
+                print("Server not responding")
 
     @tool
     async def get_customers() -> str:
