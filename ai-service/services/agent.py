@@ -8,6 +8,31 @@ from langchain_core.messages import HumanMessage
 llm = init_chat_model("claude-sonnet-4-6", model_provider="anthropic")
 
 
+async def fetch_from_api(url: str, token: str, status: str = "") -> str:
+    async with httpx.AsyncClient() as client:
+        try:
+            res = await client.get(
+                url,
+                params={"status": status} if status else {},
+                headers={"Authorization": token},
+            )
+            res.raise_for_status()
+            return res.text
+        except httpx.HTTPStatusError as e:
+            if res.status_code == 403:
+                return f"Error 403: The user is not allowed to access resources. Tell the user they dont have permission for this. Error: {e}"
+            elif res.status_code == 404:
+                return f"Error 404: tell user requested resource not found. Error: {e}"
+            elif res.status_code == 500:
+                return f"Error 500: tell user an Internal server error occured and they need to retry again later. Error: {e}"
+            elif res.status_code == 502:
+                return f"Error 502: Bad gateway. Tell user to retry later. Error: {e}"
+            else:
+                return f"Error {res.status_code}: An unexpected error from API. Do not retry and do not make guess or make up any data. Tell user that data could not be loaded right now and they should try again later. Error: {e}"
+        except httpx.RequestError:
+            return "Server not responding. Tell user that API could not be reached right now and they should try again later. Do not make up any data"
+
+
 async def run_agent(message: str, token: str) -> str:
     """Runs the LangChain ReAct agent with the user's message, calling NestJS tools as needed, and returns a natural-language answer."""
 
@@ -19,34 +44,40 @@ async def run_agent(message: str, token: str) -> str:
 
         async with httpx.AsyncClient() as client:
             try:
-                response = await client.get(
+                res = await client.get(
                     "http://api-gateway:4000/jobs",
                     params={"status": status} if status else {},
                     headers={"Authorization": token},
                 )
-                response.raise_for_status()
-                return response.text
-            except httpx.HTTPStatusError:
-                if response.status_code == 401:
-                    print("Bitte neu anmelden")
-                if response.status_code == 404:
-                    print("nicht gefunden")
-                if response.status_code == 500:
-                    print("versuch später")
+                res.raise_for_status()
+                return res.text
+            except httpx.HTTPStatusError as e:
+                if res.status_code == 403:
+                    return f"Error 403: The user is not allowed to access jobs. Tell the user they dont have permission for this. Error: {e}"
+                elif res.status_code == 404:
+                    return f"Error 404: tell user requested job not found. Error: {e}"
+                elif res.status_code == 500:
+                    return f"Error 500: tell user an Internal server error occured and they need to retry again later. Error: {e}"
+                elif res.status_code == 502:
+                    return (
+                        f"Error 502: Bad gateway. Tell user to retry later. Error: {e}"
+                    )
+                else:
+                    return f"Error {res.status_code}: An unexpected error from API. Do not retry and do not make guess or make up any data. Tell user that data could not be loaded right now and they should try again later. Error: {e}"
             except httpx.RequestError:
-                print("Server not responding")
+                return "Server not responding. Tell user that API could not be reached right now and they should try again later. Do not make up any data"
 
     @tool
     async def get_customers() -> str:
         """Fetches the list of customers from the Krafmeister API. Use this to answer questions about customers."""
 
         async with httpx.AsyncClient() as client:
-            response = await client.get(
+            res = await client.get(
                 "http://api-gateway:4000/customers",
                 headers={"Authorization": token},
             )
 
-            return response.text
+            return res.text
 
     @tool
     async def get_invoices() -> str:
@@ -55,11 +86,11 @@ async def run_agent(message: str, token: str) -> str:
         """
 
         async with httpx.AsyncClient() as client:
-            response = await client.get(
+            res = await client.get(
                 "http://api-gateway:4000/invoices", headers={"Authorization": token}
             )
 
-            return response.text
+            return res.text
 
     tools = [get_jobs, get_customers, get_invoices]
 

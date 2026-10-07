@@ -6,7 +6,7 @@ GET http://localhost:8000/health
 ### agent — ask a question about jobs, customers, or invoices
 POST http://localhost:4000/ai/agent
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjbXE4N2hlMGMwMDAxNWJvMDZkYmQ4NDE1IiwiY29tcGFueUlkIjoiY21xODdoZHU5MDAwMDVibzBkNjloMTBrMSIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTc4MTcxMTY5NSwiZXhwIjoxNzgxNzEyNTk1fQ.LHgO-riDpfIHtxMZuVcxjyQ6QvHFfG6tFLKc-05NuVs
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjbXVwb2hkMXgwMDAxNTJvam51aHN5MG81IiwiY29tcGFueUlkIjoiY211cG9oY2JiMDAwMDUyb2ptZ2dhcGZ2ZCIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTc5MTI5Nzg5MCwiZXhwIjoxNzkxMjk4NzkwfQ.KjFeslb9SyGF0aQQ5qAWS58bi5QU6YMU5f6CDYM3wmQ
 
 {
   "message": "How many open jobs do I have?"
