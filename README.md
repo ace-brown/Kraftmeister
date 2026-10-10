@@ -13,19 +13,19 @@
 
 This is a portfolio project built to demonstrate the full-stack + LLM engineering skills relevant to the **German startup and scale-up market (2024–2025)**:
 
-| Skill | Implementation |
-|---|---|
-| **LLM integration (OpenAI)** | Voice → job notes, AI invoice suggestions, photo analysis |
-| **LangChain + prompt engineering** | Structured output via Pydantic + ChatPromptTemplate |
-| **NestJS / TypeScript backend** | REST API with Prisma ORM, multi-tenant architecture |
-| **FastAPI / Python AI service** | Stateless microservice, proxied through NestJS |
-| **Next.js 16 (App Router)** | Mobile-first frontend, TanStack Query, React Hook Form, Zod |
-| **PostgreSQL + Prisma 7** | Relational schema, migrations, driver adapter pattern |
-| **Docker + Docker Compose** | Full local dev environment, one command to boot |
-| **JWT authentication** | Access + refresh token flow, Redis token store |
-| **CI/CD** | GitHub Actions — type-check, build, lint on every PR |
-| **Production deployment** | Hetzner VPS · Docker Compose · Nginx · [kraftmeister.org](http://kraftmeister.org) |
-| **PDF generation** | German-law-compliant invoice PDFs |
+| Skill                              | Implementation                                                                     |
+| ---------------------------------- | ---------------------------------------------------------------------------------- |
+| **LLM integration (OpenAI)**       | Voice → job notes, AI invoice suggestions, photo analysis                          |
+| **LangChain + prompt engineering** | Structured output via Pydantic + ChatPromptTemplate                                |
+| **NestJS / TypeScript backend**    | REST API with Prisma ORM, multi-tenant architecture                                |
+| **FastAPI / Python AI service**    | Stateless microservice, proxied through NestJS                                     |
+| **Next.js 16 (App Router)**        | Mobile-first frontend, TanStack Query, React Hook Form, Zod                        |
+| **PostgreSQL + Prisma 7**          | Relational schema, migrations, driver adapter pattern                              |
+| **Docker + Docker Compose**        | Full local dev environment, one command to boot                                    |
+| **JWT authentication**             | Access + refresh token flow, Redis token store                                     |
+| **CI/CD**                          | GitHub Actions — type-check, build, lint on every PR                               |
+| **Production deployment**          | Hetzner VPS · Docker Compose · Nginx · [kraftmeister.org](http://kraftmeister.org) |
+| **PDF generation**                 | German-law-compliant invoice PDFs                                                  |
 
 ---
 
@@ -64,6 +64,7 @@ Customer → Job → Quote → Invoice → PDF Download
 ```
 
 With AI shortcuts at every step:
+
 - 🎤 Speak job notes on-site → AI fills the form
 - 🤖 Describe a job → AI suggests German Handwerk line items and pricing
 - 📸 Upload a site photo → AI identifies issues and suggests tasks
@@ -80,12 +81,12 @@ cd Kraftmeister
 docker compose up
 ```
 
-| Service | URL |
-|---|---|
-| Frontend | http://localhost:3000 |
-| API Gateway | http://localhost:4000 |
+| Service            | URL                            |
+| ------------------ | ------------------------------ |
+| Frontend           | http://localhost:3000          |
+| API Gateway        | http://localhost:4000          |
 | API Docs (Swagger) | http://localhost:4000/api/docs |
-| AI Service | http://localhost:8000 |
+| AI Service         | http://localhost:8000          |
 
 ---
 
@@ -103,15 +104,15 @@ kraftmeister/
 
 ## Current Build Status
 
-| Feature | Status |
-|---|---|
-| Docker Compose environment | ✅ Done |
-| Jobs, Customers, Quotes, Invoices CRUD | ✅ Done |
-| JWT auth + multi-tenancy | ✅ Done |
-| File uploads + PDF generation | ✅ Done |
-| AI Service — voice, suggestions, photo analysis | ✅ Done |
-| Production hardening (helmet, throttler, Sentry, Swagger) | ✅ Done |
-| CI/CD + deployment | ✅ Done — live at [kraftmeister.org](http://kraftmeister.org) |
+| Feature                                                   | Status                                                        |
+| --------------------------------------------------------- | ------------------------------------------------------------- |
+| Docker Compose environment                                | ✅ Done                                                       |
+| Jobs, Customers, Quotes, Invoices CRUD                    | ✅ Done                                                       |
+| JWT auth + multi-tenancy                                  | ✅ Done                                                       |
+| File uploads + PDF generation                             | ✅ Done                                                       |
+| AI Service — voice, suggestions, photo analysis           | ✅ Done                                                       |
+| Production hardening (helmet, throttler, Sentry, Swagger) | ✅ Done                                                       |
+| CI/CD + deployment                                        | ✅ Done — live at [kraftmeister.org](http://kraftmeister.org) |
 
 ---
 
@@ -132,3 +133,7 @@ Das Projekt dient als Portfolio-Projekt und demonstriert den Tech-Stack, der von
 **Live:** [kraftmeister.org](http://kraftmeister.org)
 
 **Lokaler Start:** `docker compose up` — danach läuft die Anwendung unter `http://localhost:3000`.
+
+## License
+
+MIT
