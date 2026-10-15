@@ -4,6 +4,7 @@ import { Sidebar } from "@/components/layout/sidebar";
 import { Topbar } from "@/components/layout/topbar/Topbar";
 import { MobileNav } from "@/components/layout/mobile-nav";
 import { PageContainer } from "@/components/layout/page-container";
+import { DevReminderBanner } from "@/components/layout/dev-reminder-banner";
 import { AgentChatWidget } from "@/features/ai/components/AgentChatWidget";
 
 interface Props {
@@ -16,6 +17,7 @@ export default function DashboardLayout({ children }: Props) {
       <Sidebar />
 
       <div className="flex flex-1 flex-col">
+        <DevReminderBanner />
         <Topbar />
 
         <PageContainer>{children}</PageContainer>
