@@ -11,6 +11,8 @@ import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { TypographyH2 } from '@/components/ui/Typography/TypographyH2';
 import { TypographyP } from '@/components/ui/Typography/TypographyP';
+import { Separator } from '@/components/ui/separator';
+import { DemoLoginButton } from '@/features/auth/components/DemoLoginButton';
 
 export default function LoginPage() {
   const { login } = useAuth();
@@ -37,7 +39,15 @@ export default function LoginPage() {
           <TypographyH2>Anmelden</TypographyH2>
           <TypographyP className="text-zinc-400">Anmeldedaten eingeben, um fortzufahren</TypographyP>
         </CardHeader>
-        <CardContent>
+        <CardContent className="space-y-6">
+          <DemoLoginButton />
+
+          <div className="flex items-center gap-3">
+            <Separator className="flex-1" />
+            <span className="text-xs text-zinc-500">oder mit eigenem Konto</span>
+            <Separator className="flex-1" />
+          </div>
+
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             <div className="space-y-1">
               <Label htmlFor="email">E-Mail</Label>

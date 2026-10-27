@@ -21,3 +21,9 @@ export interface RegisterPayload {
   email: string;
   password: string;
 }
+
+/** Public credentials of the seeded demo account, used by the one-click "Demo ansehen" login. */
+export const DEMO_CREDENTIALS: LoginPayload = {
+  email: "admin@muster.de",
+  password: "demo1234",
+};
