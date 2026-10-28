@@ -11,6 +11,7 @@ import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { TypographyH2 } from '@/components/ui/Typography/TypographyH2';
 import { TypographyP } from '@/components/ui/Typography/TypographyP';
+import { LegalLinks } from '@/features/legal/components/LegalLinks';
 
 export default function RegisterPage() {
   const { register: registerCompany } = useAuth();
@@ -32,7 +33,7 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-950 p-4">
+    <div className="flex min-h-screen flex-col items-center justify-center gap-6 bg-zinc-950 p-4">
       <Card className="w-full max-w-sm">
         <CardHeader className="space-y-1 pb-4">
           <TypographyH2>Unternehmen registrieren</TypographyH2>
@@ -73,6 +74,8 @@ export default function RegisterPage() {
           </form>
         </CardContent>
       </Card>
+
+      <LegalLinks />
     </div>
   );
 }

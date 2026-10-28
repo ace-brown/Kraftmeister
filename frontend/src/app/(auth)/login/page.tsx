@@ -13,6 +13,7 @@ import { TypographyH2 } from '@/components/ui/Typography/TypographyH2';
 import { TypographyP } from '@/components/ui/Typography/TypographyP';
 import { Separator } from '@/components/ui/separator';
 import { DemoLoginButton } from '@/features/auth/components/DemoLoginButton';
+import { LegalLinks } from '@/features/legal/components/LegalLinks';
 
 export default function LoginPage() {
   const { login } = useAuth();
@@ -33,7 +34,7 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-950 p-4">
+    <div className="flex min-h-screen flex-col items-center justify-center gap-6 bg-zinc-950 p-4">
       <Card className="w-full max-w-sm">
         <CardHeader className="space-y-1 pb-4">
           <TypographyH2>Anmelden</TypographyH2>
@@ -76,6 +77,8 @@ export default function LoginPage() {
           </form>
         </CardContent>
       </Card>
+
+      <LegalLinks />
     </div>
   );
 }

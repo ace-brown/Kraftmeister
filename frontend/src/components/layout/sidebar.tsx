@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { LegalLinks } from "@/features/legal/components/LegalLinks";
 import {
   LayoutDashboard,
   Briefcase,
@@ -73,6 +74,10 @@ export function Sidebar() {
           );
         })}
       </nav>
+
+      <div className="border-t border-zinc-800 p-4">
+        <LegalLinks />
+      </div>
     </aside>
   );
 }
